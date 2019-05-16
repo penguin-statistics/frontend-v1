@@ -1,0 +1,95 @@
+<div class='body'>
+  <div class="row">
+    <div class="col-8">
+      <form>
+        <div class="form-row">
+          <div class="form-group">
+            <label>作战</label>
+            <div id="stage-buttons">
+              <button *ngFor="let stage of stageList" type="button" class="btn btn-outline-primary"
+                [ngClass]="{'active': selectedStage == stage}" (click)="selectStage(stage)">
+                {{stage.code}}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-row" *ngIf="selectedStage">
+          <div class="form-group">
+            <label>类型</label>
+            <div id="stage-type-buttons">
+              <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': stageType == 'normal'}"
+                (click)="selectStageType('normal')">
+                普通
+              </button>
+              <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': stageType == 'assault'}"
+                (click)="selectStageType('assault')">
+                突袭
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-row" *ngIf="selectedStage && selectedStage.normalDrop">
+          <div class="form-group">
+            <label>常规掉落</label>
+            <div class="materials-container">
+              <div *ngFor="let drop of normalDrops" class="material-container">
+                <div class="hover-pointer">
+                  <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                    (click)="addQuantity(drop.item, normalDrops, 1)"
+                    (contextmenu)="addQuantity(drop.item, normalDrops, -1)"></div>
+                </div>
+                <div class="material-drop-quantity-container">
+                  {{drop.quantity}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row" *ngIf="selectedStage && selectedStage.specialDrop">
+          <div class="form-group">
+            <label>特殊掉落</label>
+            <div class="materials-container">
+              <div *ngFor="let drop of specialDrops" class="material-container">
+                <div class="hover-pointer">
+                  <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                    (click)="addQuantity(drop.item, specialDrops, 1)"
+                    (contextmenu)="addQuantity(drop.item, specialDrops, -1)"></div>
+                </div>
+                <div class="material-drop-quantity-container">
+                  {{drop.quantity}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row" *ngIf="selectedStage && selectedStage.extraDrop">
+          <div class="form-group">
+            <label>额外掉落</label>
+            <div class="materials-container">
+              <div *ngFor="let drop of extraDrops" class="material-container">
+                <div class="hover-pointer">
+                  <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                    (click)="addQuantity(drop.item, extraDrops, 1)"
+                    (contextmenu)="addQuantity(drop.item, extraDrops, -1)"></div>
+                </div>
+                <div class="material-drop-quantity-container">
+                  {{drop.quantity}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-3">
+      <div class="row">
+        本次掉落总计
+      </div>
+      <div class="row" *ngFor="let drop of allDrops">
+        <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"></div>
+        {{drop.item.name}}: {{drop.quantity}}
+      </div>
+    </div>
+  </div>
+</div>

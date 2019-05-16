@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { ReportComponent } from './report/report.component';
-import { ResultComponent } from './result/result.component';
-import { IntroComponent } from './intro/intro.component';
+import { ReportComponent } from './main/report/report.component';
+import { ResultComponent } from './main/result/result.component';
+import { IntroComponent } from './main/intro/intro.component';
 
 @NgModule({
   declarations: [

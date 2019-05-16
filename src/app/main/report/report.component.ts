@@ -1,0 +1,105 @@
+import { Component, OnInit } from '@angular/core';
+import { StageList } from '../../data/stageList';
+import { Stage } from 'src/app/bean/stage';
+import { Item } from 'src/app/bean/item';
+
+@Component({
+  selector: 'app-report',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.scss']
+})
+export class ReportComponent implements OnInit {
+
+  stageList: Stage[] = StageList;
+  selectedStage: Stage = null;
+  isAssault: boolean = false;
+  stageType: string = null;
+  normalDrops: DropDetail[] = new Array();
+  specialDrops: DropDetail[] = new Array();
+  extraDrops: DropDetail[] = new Array();
+  allDrops: DropDetail[] = new Array();
+
+  constructor() { }
+
+  ngOnInit() {
+    this._initilize();
+  }
+
+  private _initilize() {
+  }
+
+  selectStage(stage: Stage) {
+    if (this.selectedStage === stage) {
+      return;
+    }
+    this.selectedStage = stage;
+    this.stageType = 'normal';
+    this.normalDrops = new Array();
+    this.specialDrops = new Array();
+    this.extraDrops = new Array();
+    this.allDrops = new Array();
+    this.selectedStage.normalDrop.forEach(drop => {
+      this.normalDrops.push({
+        item: drop,
+        quantity: 0
+      });
+    });
+    this.normalDrops.sort((a, b) => a.item.id - b.item.id);
+    this.selectedStage.specialDrop.forEach(drop => {
+      this.specialDrops.push({
+        item: drop,
+        quantity: 0
+      });
+    });
+    this.specialDrops.sort((a, b) => a.item.id - b.item.id);
+    this.selectedStage.extraDrop.forEach(drop => {
+      this.extraDrops.push({
+        item: drop,
+        quantity: 0
+      });
+    });
+    this.extraDrops.sort((a, b) => a.item.id - b.item.id);
+  }
+
+  selectStageType(stageType: string) {
+    this.stageType = stageType;
+  }
+
+  addQuantity(item: Item, drops: DropDetail[], quantity: number) {
+    for (let i = 0; i < drops.length; i++) {
+      if (drops[i].item === item) {
+        drops[i].quantity += quantity;
+        if (drops[i].quantity < 0) {
+          drops[i].quantity = 0;
+        }
+      }
+    }
+    this._updateAllDrops();
+    return false;
+  }
+
+  private _updateAllDrops() {
+    this.allDrops = new Array();
+    let dropDict = {};
+    let combinedDrops = this.normalDrops.concat(this.specialDrops).concat(this.extraDrops);
+    combinedDrops.forEach(drop => {
+      if (drop.quantity !== 0) {
+        if (dropDict[drop.item.id] === undefined) {
+          this.allDrops.push({
+            item: drop.item,
+            quantity: drop.quantity
+          });
+          dropDict[drop.item.id] = this.allDrops.length - 1;
+        } else {
+          this.allDrops[dropDict[drop.item.id]].quantity += drop.quantity;
+        }
+      }
+    });
+  }
+
+}
+
+interface DropDetail {
+  item: Item;
+  quantity: number;
+};

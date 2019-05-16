@@ -1,0 +1,32 @@
+@import '../../app.component.scss';
+
+.form-group {
+    width: 100%;
+}
+
+.material-img-container {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 0;
+    padding-top: 100%;
+}
+
+.materials-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.material-container {
+    width: 60px;
+    margin: 0 20px 0 0;
+}
+
+.material-container .hover-pointer :hover {
+    cursor: pointer;
+}
+
+.material-drop-quantity-container {
+    text-align: center;
+}
