@@ -1,32 +1,36 @@
-@import '../../app.component.scss';
+@import "../../app.component.scss";
 
-.form-group {
-    width: 100%;
+.standard-margin-top {
+  margin-top: 0.6rem;
+}
+
+.stage-button-container {
+  margin: 0.5rem 1rem 0 0;
+}
+
+.drop-label {
+  font-size: 1.2rem;
 }
 
 .material-img-container {
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 100%;
-    height: 0;
-    padding-top: 100%;
-}
-
-.materials-container {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
 }
 
 .material-container {
-    width: 60px;
-    margin: 0 20px 0 0;
+  max-width: 50px;
+  min-width: 60px;
+  width: 10%;
+  margin: 0 1rem 0 0;
 }
 
 .material-container .hover-pointer :hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .material-drop-quantity-container {
-    text-align: center;
+  text-align: center;
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'arknights-stats';
+
+  public constructor(private titleService: Title) {
+    this.titleService.setTitle('Penguin Statistics - 明日方舟素材掉落统计');
+  }
+  
 }

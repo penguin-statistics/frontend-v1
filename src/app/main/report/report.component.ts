@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
 import { StageList } from '../../data/stageList';
 import { Stage } from 'src/app/bean/stage';
 import { Item } from 'src/app/bean/item';
@@ -12,14 +13,14 @@ export class ReportComponent implements OnInit {
 
   stageList: Stage[] = StageList;
   selectedStage: Stage = null;
-  isAssault: boolean = false;
   stageType: string = null;
   normalDrops: DropDetail[] = new Array();
   specialDrops: DropDetail[] = new Array();
   extraDrops: DropDetail[] = new Array();
   allDrops: DropDetail[] = new Array();
+  isReporting: boolean = false;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this._initilize();
@@ -34,6 +35,27 @@ export class ReportComponent implements OnInit {
     }
     this.selectedStage = stage;
     this.stageType = 'normal';
+    this.clearDrops();
+  }
+
+  selectStageType(stageType: string) {
+    this.stageType = stageType;
+  }
+
+  addQuantity(item: Item, drops: DropDetail[], quantity: number) {
+    for (let i = 0; i < drops.length; i++) {
+      if (drops[i].item === item) {
+        drops[i].quantity += quantity;
+        if (drops[i].quantity < 0) {
+          drops[i].quantity = 0;
+        }
+      }
+    }
+    this._updateAllDrops();
+    return false;
+  }
+
+  clearDrops() {
     this.normalDrops = new Array();
     this.specialDrops = new Array();
     this.extraDrops = new Array();
@@ -61,21 +83,30 @@ export class ReportComponent implements OnInit {
     this.extraDrops.sort((a, b) => a.item.id - b.item.id);
   }
 
-  selectStageType(stageType: string) {
-    this.stageType = stageType;
-  }
+  submitDrops() {
+    this.isReporting = true;
+    let finalResult = {
+      stageID: this.selectedStage.id,
+      stageType: this.stageType,
+      drops: this.allDrops.map(drop => ({
+        itemID: drop.item.id,
+        quantity: drop.quantity
+      }))
+    };
 
-  addQuantity(item: Item, drops: DropDetail[], quantity: number) {
-    for (let i = 0; i < drops.length; i++) {
-      if (drops[i].item === item) {
-        drops[i].quantity += quantity;
-        if (drops[i].quantity < 0) {
-          drops[i].quantity = 0;
-        }
-      }
-    }
-    this._updateAllDrops();
-    return false;
+    this.http.post("/PenguinStats/Report", finalResult)
+      .subscribe(
+        (val) => {
+          alert("上传成功，谢谢！");
+          this.clearDrops();
+        },
+        error => {
+          alert("上传失败。\n" + error.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+          this.isReporting = false;
+        },
+        () => {
+          this.isReporting = false;
+        });
   }
 
   private _updateAllDrops() {
