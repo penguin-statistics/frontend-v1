@@ -32,6 +32,24 @@
           </div>
         </div>
 
+        <div *ngIf="selectedStage">
+          <div class="row standard-margin-top">
+            <div class="drop-label">家具掉落</div>
+          </div>
+          <div class="row standard-margin-top">
+            <div>
+              <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': furnitureNum === 0}"
+                (click)="selectHasFurniture(0)">
+                无
+              </button>
+              <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': furnitureNum !== 0}"
+                (click)="selectHasFurniture(1)">
+                有
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div *ngIf="selectedStage.normalDrop">
           <div class="row standard-margin-top">
             <div class="drop-label">常规掉落 <small style="margin-left: 1rem;">左键增加，右键减少</small></div>

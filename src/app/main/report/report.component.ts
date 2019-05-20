@@ -11,25 +11,33 @@ import { Item } from 'src/app/bean/item';
 })
 export class ReportComponent implements OnInit {
 
-  stageList: Stage[] = StageList;
-  selectedStage: Stage = null;
+  stageList: any;
+  selectedStage: any = null;
   stageType: string = null;
   normalDrops: DropDetail[] = new Array();
   specialDrops: DropDetail[] = new Array();
   extraDrops: DropDetail[] = new Array();
   allDrops: DropDetail[] = new Array();
   isReporting: boolean = false;
+  furnitureNum: number = 0;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this._initilize();
+    this.http.get("/PenguinStats/api/stage")
+    .subscribe(
+      (val) => {
+        this.stageList = val['stages'];
+      },
+      error => {
+        alert('未能获取作战列表。\n' + error.message + "\n将使用hardcoded version");
+        this.stageList = StageList;
+      },
+      () => {
+      });
   }
 
-  private _initilize() {
-  }
-
-  selectStage(stage: Stage) {
+  selectStage(stage: any) {
     if (this.selectedStage === stage) {
       return;
     }
@@ -42,7 +50,11 @@ export class ReportComponent implements OnInit {
     this.stageType = stageType;
   }
 
-  addQuantity(item: Item, drops: DropDetail[], quantity: number) {
+  selectHasFurniture(furnitureNum: number) {
+    this.furnitureNum = furnitureNum;
+  }
+
+  addQuantity(item: any, drops: DropDetail[], quantity: number) {
     for (let i = 0; i < drops.length; i++) {
       if (drops[i].item === item) {
         drops[i].quantity += quantity;
@@ -60,6 +72,7 @@ export class ReportComponent implements OnInit {
     this.specialDrops = new Array();
     this.extraDrops = new Array();
     this.allDrops = new Array();
+    this.furnitureNum = 0;
     this.selectedStage.normalDrop.forEach(drop => {
       this.normalDrops.push({
         item: drop,
@@ -86,15 +99,16 @@ export class ReportComponent implements OnInit {
   submitDrops() {
     this.isReporting = true;
     let finalResult = {
-      stageID: this.selectedStage.id,
+      stageID: this.selectedStage.stageID,
       stageType: this.stageType,
+      furnitureNum: this.furnitureNum,
       drops: this.allDrops.map(drop => ({
         itemID: drop.item.id,
         quantity: drop.quantity
       }))
     };
 
-    this.http.post("/PenguinStats/Report", finalResult)
+    this.http.post("/PenguinStats/api/report", finalResult)
       .subscribe(
         (val) => {
           alert("上传成功，谢谢！");
@@ -131,6 +145,6 @@ export class ReportComponent implements OnInit {
 }
 
 interface DropDetail {
-  item: Item;
+  item: any;
   quantity: number;
 };
