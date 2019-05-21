@@ -5,6 +5,9 @@
         <div class="drop-label">作战</div>
       </div>
       <div class="row standard-margin-top">
+        <div *ngIf="!stageList || !stageList.length">
+          正在努力加载……
+        </div>
         <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
           <div class="stage-button-container" *ngFor="let stage of stageList">
             <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': selectedStage == stage}"
