@@ -13,6 +13,7 @@ export class ReportComponent implements OnInit {
   chapterList: Chapter[];
   selectedChapter: Chapter;
   selectedStage: any = null;
+  isSubStage: boolean = false;
   stageType: string = null;
   normalDrops: DropDetail[] = new Array();
   specialDrops: DropDetail[] = new Array();
@@ -66,6 +67,7 @@ export class ReportComponent implements OnInit {
     }
     this.selectedStage = stage;
     this.stageType = 'normal';
+    this.isSubStage = this.selectedStage.code.substring(0, 1) === 'S';
     this.clearDrops();
   }
 

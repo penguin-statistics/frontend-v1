@@ -13,6 +13,7 @@ export class StageResultComponent implements OnInit {
   chapterList: Chapter[];
   selectedChapter: Chapter;
   selectedStage: any = null;
+  isSubStage: boolean = false;
   stageType: string = null;
   stageResult: any = null;
 
@@ -59,7 +60,8 @@ export class StageResultComponent implements OnInit {
       return;
     }
     this.selectedStage = stage;
-    if (!this.stageType) {
+    this.isSubStage = this.selectedStage.code.substring(0, 1) === 'S';
+    if (!this.stageType || this.isSubStage) {
       this.stageType = 'normal';
     }
     this._refreshStageResult();

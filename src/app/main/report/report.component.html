@@ -39,7 +39,7 @@
 
       <div *ngIf="selectedStage">
         <div class="row">
-          <div class="col-6 col-sm-4">
+          <div class="col-6 col-sm-4" *ngIf="!isSubStage">
             <div class="row standard-margin-top">
               <div class="drop-label">类型</div>
             </div>
