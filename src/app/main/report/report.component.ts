@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { PenguinService } from 'src/app/service/penguin.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report',
@@ -9,7 +10,9 @@ import { PenguinService } from 'src/app/service/penguin.service';
 })
 export class ReportComponent implements OnInit {
 
-  showStageList = new Array();
+  stageList: any = [];
+  chapterList: Chapter[];
+  selectedChapter: Chapter;
   selectedStage: any = null;
   stageType: string = null;
   normalDrops: DropDetail[] = new Array();
@@ -22,7 +25,40 @@ export class ReportComponent implements OnInit {
   constructor(private http: HttpClient, public penguinService: PenguinService) { }
 
   ngOnInit() {
+    this.penguinService.stageListData.subscribe(res => {
+      if (res) {
+        this.stageList = res;
+        this._generateChapterList();
+      }
+    });
+  }
 
+  private _generateChapterList() {
+    this.chapterList = new Array();
+    let chapterMap: any = {};
+    this.stageList.forEach(stage => {
+      const parsedStageCode = this.penguinService.parseStageCode(stage.code);
+      if (!chapterMap[parsedStageCode.first]) {
+        chapterMap[parsedStageCode.first] = new Array();
+      }
+      chapterMap[parsedStageCode.first].push(stage);
+    });
+    for (let key in chapterMap) {
+      let chapter: Chapter = {
+        name: '第' + key + '章',
+        stages: chapterMap[key]
+      }
+      this.chapterList.push(chapter);
+    }
+  }
+
+  selectChapter(chapter: Chapter) {
+    if (this.selectedChapter === chapter) {
+      return;
+    }
+    this.selectedChapter = chapter;
+    this.selectedStage = null;
+    this.clearDrops();
   }
 
   selectStage(stage: any) {
@@ -61,27 +97,29 @@ export class ReportComponent implements OnInit {
     this.extraDrops = new Array();
     this.allDrops = new Array();
     this.furnitureNum = 0;
-    this.selectedStage.normalDrop.forEach(drop => {
-      this.normalDrops.push({
-        item: drop,
-        quantity: 0
+    if (this.selectedStage) {
+      this.selectedStage.normalDrop.forEach(drop => {
+        this.normalDrops.push({
+          item: drop,
+          quantity: 0
+        });
       });
-    });
-    this.normalDrops.sort((a, b) => a.item.id - b.item.id);
-    this.selectedStage.specialDrop.forEach(drop => {
-      this.specialDrops.push({
-        item: drop,
-        quantity: 0
+      this.normalDrops.sort((a, b) => a.item.id - b.item.id);
+      this.selectedStage.specialDrop.forEach(drop => {
+        this.specialDrops.push({
+          item: drop,
+          quantity: 0
+        });
       });
-    });
-    this.specialDrops.sort((a, b) => a.item.id - b.item.id);
-    this.selectedStage.extraDrop.forEach(drop => {
-      this.extraDrops.push({
-        item: drop,
-        quantity: 0
+      this.specialDrops.sort((a, b) => a.item.id - b.item.id);
+      this.selectedStage.extraDrop.forEach(drop => {
+        this.extraDrops.push({
+          item: drop,
+          quantity: 0
+        });
       });
-    });
-    this.extraDrops.sort((a, b) => a.item.id - b.item.id);
+      this.extraDrops.sort((a, b) => a.item.id - b.item.id);
+    }
   }
 
   submitDrops() {
@@ -136,3 +174,8 @@ interface DropDetail {
   item: any;
   quantity: number;
 };
+
+interface Chapter {
+  name: string;
+  stages: any;
+}

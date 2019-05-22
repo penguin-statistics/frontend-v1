@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 
@@ -9,6 +10,13 @@ import { ReportComponent } from './main/report/report.component';
 import { IntroComponent } from './main/intro/intro.component';
 import { ItemResultComponent } from './main/result/item.result.component';
 import { StageResultComponent } from './main/result/stage.result.component';
+
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +29,12 @@ import { StageResultComponent } from './main/result/stage.result.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NgxDatatableModule,
+    TooltipModule.forRoot(),
+    ButtonsModule.forRoot(),
+    CollapseModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

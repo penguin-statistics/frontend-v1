@@ -9,11 +9,17 @@ import { PenguinService } from 'src/app/service/penguin.service';
 })
 export class ItemResultComponent implements OnInit {
 
+    itemList: any = [];
     itemResult: any = null;
 
     constructor(private http: HttpClient, public penguinService: PenguinService) { }
 
     ngOnInit() {
+        this.penguinService.itemListData.subscribe(res => {
+            if (res) {
+                this.itemList = res;
+            }
+        });
     }
 
     selectItem(item) {
@@ -38,11 +44,11 @@ export class ItemResultComponent implements OnInit {
 
     private _sortItemResult() {
         if (!this.itemResult) {
-          return;
+            return;
         }
         this.itemResult.drops.sort((a, b) => {
             return b.quantity / b.times - a.quantity / a.times;
         });
-      }
+    }
 
 }

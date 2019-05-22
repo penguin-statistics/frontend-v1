@@ -11,8 +11,12 @@ export class AppComponent {
 
   public constructor(private titleService: Title,  private penguinService: PenguinService) {
     this.titleService.setTitle('Penguin Statistics - 明日方舟素材掉落统计');
-    this.penguinService._updateStageList();
-    this.penguinService._updateItemList();
+    this.penguinService.updateStageList().subscribe();
+    this.penguinService.updateItemList().subscribe();
+  }
+
+  collapseNav() {
+    this.penguinService.isCollapsed = true;
   }
   
 }

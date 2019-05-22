@@ -5,16 +5,16 @@
                 <div class="drop-label">素材</div>
             </div>
             <div class="row standard-margin-top">
-                <div *ngIf="!penguinService.itemList || !penguinService.itemList.length">
+                <div *ngIf="!itemList || !itemList.length">
                     正在努力加载……
                 </div>
                 <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                     <div class="materials-container d-flex justify-content-start flex-wrap">
-                        <div *ngFor="let item of penguinService.itemList" class="material-container">
+                        <div *ngFor="let item of itemList" class="material-container">
                             <div class="hover-pointer">
                                 <div class="material-img-container"
                                     [ngStyle]="{ 'background-image': 'url(' + item.img + ')'}"
-                                    (click)="selectItem(item)" *ngIf="item.img"></div>
+                                    (click)="selectItem(item)" *ngIf="item.img"  [tooltip]="item.name" placement="top" [delay]="500"></div>
                                 <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
                                     *ngIf="!item.img">{{item.name}}</button>
                             </div>

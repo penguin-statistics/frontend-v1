@@ -20,7 +20,7 @@ stageList.push(
             MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
         ]),
     new Stage(1, '4-2', [
-        MaterialFactory.createMaterial(MaterialCategory.SUGAR, Rarity.BLUE)
+        // MaterialFactory.createMaterial(MaterialCategory.SUGAR, Rarity.BLUE)
     ], [
             MaterialFactory.createMaterial(MaterialCategory.SUGAR, Rarity.PURPLE)
         ], [
@@ -48,7 +48,7 @@ stageList.push(
     new Stage(3, '4-4', [
         MaterialFactory.createMaterial(MaterialCategory.ALCOHOL, Rarity.BLUE)
     ], [
-            MaterialFactory.createMaterial(MaterialCategory.ALCOHOL, Rarity.PURPLE)
+            // MaterialFactory.createMaterial(MaterialCategory.ALCOHOL, Rarity.PURPLE)
         ], [
             MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.WHITE),
             MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.WHITE),
@@ -63,14 +63,14 @@ stageList.push(
     ], [
             MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.PURPLE)
         ], [
-            MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.WHITE),
-            MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.WHITE),
-            MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.GREEN),
-            MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.GREEN),
-            MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
+            // MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.WHITE),
+            // MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.WHITE),
+            // MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.GREEN),
+            // MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.GREEN),
+            // MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
         ]),
     new Stage(5, '4-6', [
         MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.BLUE)
@@ -86,36 +86,36 @@ stageList.push(
             MaterialFactory.createMaterial(MaterialCategory.ALCOHOL, Rarity.BLUE)
         ]),
     new Stage(6, '4-7', [
-        MaterialFactory.createMaterial(MaterialCategory.MANGANESE, Rarity.BLUE)
+        // MaterialFactory.createMaterial(MaterialCategory.MANGANESE, Rarity.BLUE)
     ], [
             MaterialFactory.createMaterial(MaterialCategory.MANGANESE, Rarity.PURPLE)
         ], [
-            MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.WHITE),
-            MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.WHITE),
-            MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.GREEN),
-            MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.GREEN),
-            MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.ALCOHOL, Rarity.BLUE)
+            // MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.WHITE),
+            // MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.WHITE),
+            // MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.GREEN),
+            // MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.GREEN),
+            // MaterialFactory.createMaterial(MaterialCategory.ROCK, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.DEVICE, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.ALCOHOL, Rarity.BLUE)
         ]),
     new Stage(7, '4-8', [
         MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.BLUE)
     ], [
-            MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.PURPLE)
+            // MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.PURPLE)
         ], [
-            MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.WHITE),
-            MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.WHITE),
-            MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.GREEN),
-            MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.GREEN),
-            MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.BLUE),
-            MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
+            // MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.WHITE),
+            // MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.WHITE),
+            // MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.GREEN),
+            // MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.GREEN),
+            // MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.GRINDSTONE, Rarity.BLUE),
+            // MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
         ]),
     new Stage(8, '4-9', [
-        MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
+        // MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.BLUE)
     ], [
-            MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.PURPLE)
+            // MaterialFactory.createMaterial(MaterialCategory.RMA, Rarity.PURPLE)
         ], [
             MaterialFactory.createMaterial(MaterialCategory.ESTER, Rarity.WHITE),
             MaterialFactory.createMaterial(MaterialCategory.KETONE, Rarity.WHITE),

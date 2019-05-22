@@ -9,6 +9,9 @@ import { PenguinService } from 'src/app/service/penguin.service';
 })
 export class StageResultComponent implements OnInit {
 
+  stageList: any = [];
+  chapterList: Chapter[];
+  selectedChapter: Chapter;
   selectedStage: any = null;
   stageType: string = null;
   stageResult: any = null;
@@ -16,6 +19,39 @@ export class StageResultComponent implements OnInit {
   constructor(private http: HttpClient, public penguinService: PenguinService) { }
 
   ngOnInit() {
+    this.penguinService.stageListData.subscribe(res => {
+      if (res) {
+        this.stageList = res;
+        this._generateChapterList();
+      }
+    });
+  }
+
+  private _generateChapterList() {
+    this.chapterList = new Array();
+    let chapterMap: any = {};
+    this.stageList.forEach(stage => {
+      const parsedStageCode = this.penguinService.parseStageCode(stage.code);
+      if (!chapterMap[parsedStageCode.first]) {
+        chapterMap[parsedStageCode.first] = new Array();
+      }
+      chapterMap[parsedStageCode.first].push(stage);
+    });
+    for (let key in chapterMap) {
+      let chapter: Chapter = {
+        name: '第' + key + '章',
+        stages: chapterMap[key]
+      }
+      this.chapterList.push(chapter);
+    }
+  }
+
+  selectChapter(chapter: Chapter) {
+    if (this.selectedChapter === chapter) {
+      return;
+    }
+    this.selectedChapter = chapter;
+    this.selectedStage = null;
   }
 
   selectStage(stage: any) {
@@ -71,4 +107,9 @@ export class StageResultComponent implements OnInit {
     });
   }
 
+}
+
+interface Chapter {
+  name: string;
+  stages: any;
 }
