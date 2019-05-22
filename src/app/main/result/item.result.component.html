@@ -14,7 +14,7 @@
                             <div class="hover-pointer">
                                 <div class="material-img-container"
                                     [ngStyle]="{ 'background-image': 'url(' + item.img + ')'}"
-                                    (click)="selectItem(item)" *ngIf="item.img"  [tooltip]="item.name" placement="top" [delay]="500"></div>
+                                    (click)="selectItem(item)" *ngIf="item.img"  [tooltip]="item.name" placement="top" [delay]="300"></div>
                                 <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
                                     *ngIf="!item.img">{{item.name}}</button>
                             </div>

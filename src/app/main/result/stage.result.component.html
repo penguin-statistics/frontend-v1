@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="stageResult">
+            <div *ngIf="selectedStage && stageResult">
                 <div class="row result-label">
                     {{selectedStage.code}} <span *ngIf="stageType==='assault'">突袭</span>&nbsp;总样本数：{{stageResult.times}}
                 </div>
@@ -72,7 +72,7 @@
                                 <td>
                                     <div class="material-container" *ngIf="drop.item.img">
                                         <div class="material-img-container"
-                                            [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"  [tooltip]="drop.item.name" placement="top" [delay]="500"></div>
+                                            [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"  [tooltip]="drop.item.name" placement="top" [delay]="300"></div>
                                     </div>
                                     <span *ngIf="!drop.item.img">家具</span>
                                 </td>
