@@ -1,0 +1,54 @@
+<div class='body'>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="drop-label">素材</div>
+            </div>
+            <div class="row standard-margin-top">
+                <div *ngIf="!penguinService.itemList || !penguinService.itemList.length">
+                    正在努力加载……
+                </div>
+                <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
+                    <div class="materials-container d-flex justify-content-start flex-wrap">
+                        <div *ngFor="let item of penguinService.itemList" class="material-container">
+                            <div class="hover-pointer">
+                                <div class="material-img-container"
+                                    [ngStyle]="{ 'background-image': 'url(' + item.img + ')'}"
+                                    (click)="selectItem(item)" *ngIf="item.img"></div>
+                                <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
+                                    *ngIf="!item.img">{{item.name}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="itemResult">
+                <div class="row result-label">
+                    {{itemResult.item.name}} 统计结果
+                </div>
+                <div class="row standard-margin-top">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">作战</th>
+                                <th scope="col">样本数</th>
+                                <th scope="col">掉落次数</th>
+                                <th scope="col">掉落率</th>
+                                <th scope="col">单个掉落期望理智</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let drop of itemResult.drops">
+                                <td>{{drop.stage.code}}</td>
+                                <td>{{drop.times}}</td>
+                                <td>{{drop.quantity}}</td>
+                                <td>{{(drop.quantity / drop.times * 100) | number:'1.0-2'}}%</td>
+                                <td>{{(drop.times / drop.quantity * drop.stage.apCost) | number:'1.0-2'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

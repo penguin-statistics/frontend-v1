@@ -1,0 +1,69 @@
+<div class='body'>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="drop-label">作战</div>
+            </div>
+            <div class="row standard-margin-top">
+                <div *ngIf="!penguinService.stageList || !penguinService.stageList.length">
+                    正在努力加载……
+                </div>
+                <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
+                    <div class="stage-button-container" *ngFor="let stage of penguinService.stageList">
+                        <button type="button" class="btn btn-outline-primary"
+                            [ngClass]="{'active': selectedStage == stage}" (click)="selectStage(stage)">
+                            {{stage.code}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row standard-margin-top">
+                <div class="drop-label">类型</div>
+            </div>
+            <div class="row standard-margin-top">
+                <div id="stage-type-buttons">
+                    <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': stageType == 'normal'}"
+                        (click)="selectStageType('normal')">
+                        普通
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': stageType == 'assault'}"
+                        (click)="selectStageType('assault')">
+                        突袭
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="stageResult">
+                <div class="row result-label">
+                    {{selectedStage.code}} <span *ngIf="stageType==='assault'">突袭</span>&nbsp;总样本数：{{stageResult.times}}
+                </div>
+                <div class="row standard-margin-top">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">素材</th>
+                                <th scope="col">掉落次数</th>
+                                <th scope="col">掉落率</th>
+                                <th scope="col">单个掉落期望理智</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let drop of stageResult.drops">
+                                <td>
+                                    <div class="material-container" *ngIf="drop.item.img">
+                                        <div class="material-img-container"
+                                            [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"></div>
+                                    </div>
+                                    <span *ngIf="!drop.item.img">家具</span>
+                                </td>
+                                <td>{{drop.quantity}}</td>
+                                <td>{{(drop.quantity / stageResult.times * 100) | number:'1.0-2'}}%</td>
+                                <td>{{(stageResult.times / drop.quantity * stageResult.stage.apCost) | number:'1.0-2'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
