@@ -14,6 +14,7 @@ import { StageResultComponent } from './main/result/stage.result.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     BrowserAnimationsModule,
     TooltipModule.forRoot(),
     ButtonsModule.forRoot(),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

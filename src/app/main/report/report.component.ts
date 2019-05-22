@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { PenguinService } from 'src/app/service/penguin.service';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report',
