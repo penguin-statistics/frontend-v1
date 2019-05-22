@@ -9,6 +9,7 @@ import { PenguinService } from 'src/app/service/penguin.service';
 })
 export class ReportComponent implements OnInit {
 
+  showStageList = new Array();
   selectedStage: any = null;
   stageType: string = null;
   normalDrops: DropDetail[] = new Array();
@@ -18,9 +19,10 @@ export class ReportComponent implements OnInit {
   isReporting: boolean = false;
   furnitureNum: number = 0;
 
-  constructor(private http: HttpClient, private penguinService: PenguinService) { }
+  constructor(private http: HttpClient, public penguinService: PenguinService) { }
 
   ngOnInit() {
+
   }
 
   selectStage(stage: any) {

@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ReportComponent } from './main/report/report.component';
-import { ResultComponent } from './main/result/result.component';
 import { IntroComponent } from './main/intro/intro.component';
+import { StageResultComponent } from './main/result/stage.result.component';
+import { ItemResultComponent } from './main/result/item.result.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,12 @@ const routes: Routes = [
     path: 'report', component: ReportComponent
   },
   {
-    path: 'result', component: ResultComponent
+    path: 'result', component: null,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'stage' },
+      { path: 'stage', component: StageResultComponent },
+      { path: 'item', component: ItemResultComponent }
+    ]
   }
 ];
 

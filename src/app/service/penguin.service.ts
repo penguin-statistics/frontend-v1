@@ -1,15 +1,17 @@
 import { HttpClient } from "@angular/common/http";
 import { StageList } from '../data/stageList';
 import { Injectable } from '@angular/core';
+import { MaterialList } from '../data/materialList';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PenguinService {
 
-    stageList: any;
+    stageList: any = [];
+    itemList: any = [];
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
 
     _updateStageList() {
         this.http.get("/PenguinStats/api/stage")
@@ -22,6 +24,22 @@ export class PenguinService {
                     alert('未能获取作战列表。\n' + error.message + "\n将使用hardcoded version");
                     this.stageList = StageList;
                     this._sortStageList();
+                },
+                () => {
+                });
+    }
+
+    _updateItemList() {
+        this.http.get("/PenguinStats/api/item")
+            .subscribe(
+                (val) => {
+                    this.itemList = val['items'];
+                    this._addFurniture()
+                },
+                error => {
+                    alert('未能获取素材列表。\n' + error.message + "\n将使用hardcoded version");
+                    this.itemList = MaterialList;
+                    this._addFurniture()
                 },
                 () => {
                 });
@@ -58,6 +76,16 @@ export class PenguinService {
             first: new Number(splitResult[0]).valueOf(),
             second: new Number(splitResult[1]).valueOf()
         };
+    }
+
+    private _addFurniture() {
+        this.itemList.push({
+            img: null,
+            itemType: "furniture",
+            name: "家具",
+            id: -1,
+            rarity: -1
+        });
     }
 
 };

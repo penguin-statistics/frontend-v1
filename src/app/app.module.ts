@@ -6,14 +6,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { ReportComponent } from './main/report/report.component';
-import { ResultComponent } from './main/result/result.component';
 import { IntroComponent } from './main/intro/intro.component';
+import { ItemResultComponent } from './main/result/item.result.component';
+import { StageResultComponent } from './main/result/stage.result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ReportComponent,
-    ResultComponent,
+    StageResultComponent,
+    ItemResultComponent,
     IntroComponent
   ],
   imports: [

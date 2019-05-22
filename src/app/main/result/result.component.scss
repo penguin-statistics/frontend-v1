@@ -11,3 +11,27 @@
 .drop-label {
   font-size: 1.2rem;
 }
+
+.material-img-container {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+}
+
+.material-container {
+  max-width: 50px;
+  min-width: 60px;
+  width: 10%;
+  margin: 1rem 1rem 0 0;
+}
+
+.material-container .hover-pointer :hover {
+  cursor: pointer;
+}
+
+.result-label {
+  font-size: 1.5rem;
+  padding-top: 2rem;
+}
