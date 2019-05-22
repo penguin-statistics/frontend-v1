@@ -15,9 +15,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +28,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NgxDatatableModule,
     TooltipModule.forRoot(),
     ButtonsModule.forRoot(),
     CollapseModule.forRoot()
