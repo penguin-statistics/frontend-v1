@@ -13,10 +13,13 @@
                         <div *ngFor="let item of itemList" class="material-container">
                             <div class="hover-pointer">
                                 <div class="material-img-container"
+                                    [ngClass]="{'material-glowing': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem === item}"
                                     [ngStyle]="{ 'background-image': 'url(' + item.img + ')'}"
-                                    (click)="selectItem(item)" *ngIf="item.img"  [tooltip]="item.name" placement="top" [delay]="300"></div>
+                                    (click)="selectItem(item)" *ngIf="item.img" [tooltip]="item.name" placement="top"
+                                    [delay]="300"></div>
                                 <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
-                                    *ngIf="!item.img">{{item.name}}</button>
+                                    *ngIf="!item.img"
+                                    [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem === item}">{{item.name}}</button>
                             </div>
                         </div>
                     </div>
