@@ -25,7 +25,12 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="itemResult">
+            <div *ngIf="isLoading">
+                <div class="row result-label">
+                    企鹅读取中……
+                </div>
+            </div>
+            <div *ngIf="!isLoading && itemResult">
                 <div class="row result-label">
                     {{selectedService.selections.result_by_item.selectedItem.name}} 统计结果
                 </div>
