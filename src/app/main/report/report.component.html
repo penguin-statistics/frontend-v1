@@ -151,8 +151,13 @@
       <div class="d-lg-none">
         <hr />
       </div>
-      <div class="row standard-margin-top">
-        <h3>本次掉落总计</h3>
+      <div class="row standard-margin-top d-flex align-items-end">
+        <div>
+          <h3>本次掉落总计</h3>
+        </div>
+        <div style="margin-left: 1rem;">
+          <h5>{{selectedStage.code}}<span *ngIf="stageType==='assault'">(突袭)</span></h5>
+        </div>
       </div>
       <div class="row standard-margin-top" *ngIf="!allDrops.length">
         <div style="font-size: 1rem;">无素材掉落</div>
@@ -167,9 +172,13 @@
         </div>
       </div>
       <div class="row standard-margin-top">
-        <alert type="danger">
-          这是<strong>单次</strong>数据提交，请博士注意核对数目，谢谢！
-        </alert>
+        <div class="col-12">
+          <alert type="danger">
+            这是<strong>单次</strong>数据提交，请博士注意核对数目！
+          </alert>
+        </div>
+      </div>
+      <div class="row standard-margin-top">
         <div class="col-lg-2"></div>
         <div class="col-lg-8 d-flex justify-content-around">
           <button type="button" class="btn btn-outline-danger" (click)="clearDrops()">清空</button>
