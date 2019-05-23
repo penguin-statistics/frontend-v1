@@ -30,7 +30,7 @@ export class ItemResultComponent implements OnInit {
     }
 
     private _refreshItemResult() {
-        if (this.selectedService.selections.result_by_item.selectedItem && this.selectedService.selections.result_by_item.selectedItem.id) {
+        if (this.selectedService.selections.result_by_item.selectedItem != null && this.selectedService.selections.result_by_item.selectedItem.id != null) {
             this.http.get("/PenguinStats/api/result/item/" + this.selectedService.selections.result_by_item.selectedItem.id)
                 .subscribe(
                     (val) => {

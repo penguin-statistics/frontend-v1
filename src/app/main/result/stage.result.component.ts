@@ -76,7 +76,7 @@ export class StageResultComponent implements OnInit {
   }
 
   private _refreshStageResult() {
-    if (this.selectedService.selections.result_by_stage.selectedStage && this.selectedService.selections.result_by_stage.selectedStage.stageID && this.selectedService.selections.result_by_stage.stageType) {
+    if (this.selectedService.selections.result_by_stage.selectedStage != null && this.selectedService.selections.result_by_stage.selectedStage.stageID != null && this.selectedService.selections.result_by_stage.stageType != null) {
       this.stageResult = null;
       this.http.get("/PenguinStats/api/result/stage/" + this.selectedService.selections.result_by_stage.selectedStage.stageID + "/" + this.selectedService.selections.result_by_stage.stageType)
         .subscribe(
