@@ -15,6 +15,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { SelectedService } from './service/selected.service';
+import { PenguinService } from './service/penguin.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     CollapseModule.forRoot(),
     AlertModule.forRoot()
   ],
-  providers: [],
+  providers: [PenguinService, SelectedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

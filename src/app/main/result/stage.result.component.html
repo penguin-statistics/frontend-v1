@@ -11,51 +11,51 @@
                 <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                     <div class="stage-button-container" *ngFor="let chapter of chapterList">
                         <button type="button" class="btn btn-outline-primary"
-                            [ngClass]="{'active': selectedChapter == chapter}" (click)="selectChapter(chapter)">
+                        [ngClass]="{'active': selectedService.selections.result_by_stage.selectedChapter && selectedService.selections.result_by_stage.selectedChapter.name === chapter.name}" (click)="selectChapter(chapter)">
                             {{chapter.name}}
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div *ngIf="selectedChapter">
+            <div *ngIf="selectedService.selections.result_by_stage.selectedChapter">
                 <div class="row standard-margin-top">
                     <div class="drop-label">作战</div>
                 </div>
                 <div class="row standard-margin-top">
-                    <div *ngIf="!selectedChapter.stages || !selectedChapter.stages.length">
+                    <div *ngIf="!selectedService.selections.result_by_stage.selectedChapter.stages || !selectedService.selections.result_by_stage.selectedChapter.stages.length">
                         加载作战失败...
                     </div>
                     <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-                        <div class="stage-button-container" *ngFor="let stage of selectedChapter.stages">
+                        <div class="stage-button-container" *ngFor="let stage of selectedService.selections.result_by_stage.selectedChapter.stages">
                             <button type="button" class="btn btn-outline-primary"
-                                [ngClass]="{'active': selectedStage == stage}" (click)="selectStage(stage)">
+                                [ngClass]="{'active': selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage.code === stage.code}" (click)="selectStage(stage)">
                                 {{stage.code}}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div *ngIf="selectedStage && !isSubStage">
+            <div *ngIf="selectedService.selections.result_by_stage.selectedStage && !selectedService.selections.result_by_stage.isSubStage">
                 <div class="row standard-margin-top">
                     <div class="drop-label">类型</div>
                 </div>
                 <div class="row standard-margin-top">
                     <div id="stage-type-buttons">
                         <button type="button" class="btn btn-outline-primary"
-                            [ngClass]="{'active': stageType == 'normal'}" (click)="selectStageType('normal')">
+                            [ngClass]="{'active': selectedService.selections.result_by_stage.stageType === 'normal'}" (click)="selectStageType('normal')">
                             普通
                         </button>
                         <button type="button" class="btn btn-outline-primary"
-                            [ngClass]="{'active': stageType == 'assault'}" (click)="selectStageType('assault')">
+                            [ngClass]="{'active': selectedService.selections.result_by_stage.stageType === 'assault'}" (click)="selectStageType('assault')">
                             突袭
                         </button>
                     </div>
                 </div>
             </div>
-            <div *ngIf="selectedStage && stageResult">
+            <div *ngIf="selectedService.selections.result_by_stage.selectedStage && stageResult">
                 <div class="row result-label">
-                    {{selectedStage.code}} <span *ngIf="stageType==='assault'">突袭</span>&nbsp;总样本数：{{stageResult.times}}
+                    {{selectedService.selections.result_by_stage.selectedStage.code}} <span *ngIf="selectedService.selections.result_by_stage.stageType === 'assault'">突袭</span>&nbsp;总样本数：{{stageResult.times}}
                 </div>
                 <div class="row standard-margin-top">
                     <table class="table table-striped">

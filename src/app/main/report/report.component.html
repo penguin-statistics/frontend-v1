@@ -10,7 +10,8 @@
         </div>
         <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
           <div class="stage-button-container" *ngFor="let chapter of chapterList">
-            <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': selectedChapter == chapter}"
+            <button type="button" class="btn btn-outline-primary"
+              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter.name === chapter.name}"
               (click)="selectChapter(chapter)">
               {{chapter.name}}
             </button>
@@ -18,17 +19,20 @@
         </div>
       </div>
 
-      <div *ngIf="selectedChapter">
+      <div *ngIf="selectedService.selections.report.selectedChapter">
         <div class="row standard-margin-top">
           <div class="drop-label">作战</div>
         </div>
         <div class="row standard-margin-top">
-          <div *ngIf="!selectedChapter.stages || !selectedChapter.stages.length">
+          <div
+            *ngIf="!selectedService.selections.report.selectedChapter.stages || !selectedService.selections.report.selectedChapter.stages.length">
             加载作战失败...
           </div>
           <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-            <div class="stage-button-container" *ngFor="let stage of selectedChapter.stages">
-              <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': selectedStage == stage}"
+            <div class="stage-button-container"
+              *ngFor="let stage of selectedService.selections.report.selectedChapter.stages">
+              <button type="button" class="btn btn-outline-primary"
+                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage.code === stage.code}"
                 (click)="selectStage(stage)">
                 {{stage.code}}
               </button>
@@ -37,19 +41,21 @@
         </div>
       </div>
 
-      <div *ngIf="selectedStage">
+      <div *ngIf="selectedService.selections.report.selectedStage">
         <div class="row">
-          <div class="col-6 col-sm-4" *ngIf="!isSubStage">
+          <div class="col-6 col-sm-4" *ngIf="!selectedService.selections.report.isSubStage">
             <div class="row standard-margin-top">
               <div class="drop-label">类型</div>
             </div>
             <div class="row standard-margin-top">
               <div id="stage-type-buttons">
-                <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': stageType == 'normal'}"
+                <button type="button" class="btn btn-outline-primary"
+                  [ngClass]="{'active': selectedService.selections.report.stageType === 'normal'}"
                   (click)="selectStageType('normal')">
                   普通
                 </button>
-                <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': stageType == 'assault'}"
+                <button type="button" class="btn btn-outline-primary"
+                  [ngClass]="{'active': selectedService.selections.report.stageType === 'assault'}"
                   (click)="selectStageType('assault')">
                   突袭
                 </button>
@@ -57,7 +63,7 @@
             </div>
           </div>
           <div class="col-6 col-sm-4">
-            <div *ngIf="selectedStage">
+            <div *ngIf="selectedService.selections.report.selectedStage">
               <div class="row standard-margin-top">
                 <div class="drop-label">家具掉落</div>
               </div>
@@ -78,7 +84,8 @@
         </div>
 
         <div class="row">
-          <div class="col-6" *ngIf="selectedStage.normalDrop && selectedStage.normalDrop.length !== 0">
+          <div class="col-6"
+            *ngIf="selectedService.selections.report.selectedStage.normalDrop && selectedService.selections.report.selectedStage.normalDrop.length !== 0">
             <div class="row standard-margin-top">
               <div class="drop-label">常规掉落</div>
             </div>
@@ -99,7 +106,8 @@
             </div>
           </div>
 
-          <div class="col-6" *ngIf="selectedStage.specialDrop && selectedStage.specialDrop.length !== 0">
+          <div class="col-6"
+            *ngIf="selectedService.selections.report.selectedStage.specialDrop && selectedService.selections.report.selectedStage.specialDrop.length !== 0">
             <div class="row standard-margin-top">
               <div class="drop-label">特殊掉落</div>
             </div>
@@ -121,7 +129,8 @@
           </div>
         </div>
 
-        <div *ngIf="selectedStage.extraDrop && selectedStage.extraDrop.length !== 0">
+        <div
+          *ngIf="selectedService.selections.report.selectedStage.extraDrop && selectedService.selections.report.selectedStage.extraDrop.length !== 0">
           <div class="row standard-margin-top">
             <div class="drop-label">额外掉落</div>
           </div>
@@ -147,7 +156,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-sm-12" *ngIf="selectedStage && allDrops">
+    <div class="col-lg-4 col-sm-12" *ngIf="selectedService.selections.report.selectedStage && allDrops">
       <div class="d-lg-none">
         <hr />
       </div>
@@ -156,7 +165,8 @@
           <h3>本次掉落总计</h3>
         </div>
         <div style="margin-left: 1rem;">
-          <h5>{{selectedStage.code}}<span *ngIf="stageType==='assault'">(突袭)</span></h5>
+          <h5>{{selectedService.selections.report.selectedStage.code}}<span
+              *ngIf="selectedService.selections.report.stageType === 'assault'">(突袭)</span></h5>
         </div>
       </div>
       <div class="row standard-margin-top" *ngIf="!allDrops.length">

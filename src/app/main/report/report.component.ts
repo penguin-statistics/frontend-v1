@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { PenguinService } from 'src/app/service/penguin.service';
+import { SelectedService } from 'src/app/service/selected.service';
 
 @Component({
   selector: 'app-report',
@@ -11,10 +12,7 @@ export class ReportComponent implements OnInit {
 
   stageList: any = [];
   chapterList: Chapter[];
-  selectedChapter: Chapter;
-  selectedStage: any = null;
-  isSubStage: boolean = false;
-  stageType: string = null;
+
   normalDrops: DropDetail[] = new Array();
   specialDrops: DropDetail[] = new Array();
   extraDrops: DropDetail[] = new Array();
@@ -22,15 +20,23 @@ export class ReportComponent implements OnInit {
   isReporting: boolean = false;
   furnitureNum: number = 0;
 
-  constructor(private http: HttpClient, public penguinService: PenguinService) { }
+  constructor(private http: HttpClient, public penguinService: PenguinService, public selectedService: SelectedService) { }
 
   ngOnInit() {
+    this._initSelection();
     this.penguinService.stageListData.subscribe(res => {
       if (res) {
         this.stageList = res;
         this._generateChapterList();
       }
     });
+  }
+
+  private _initSelection() {
+    this.selectedService.selections.report.selectedChapter = null;
+    this.selectedService.selections.report.selectedStage = null;
+    this.selectedService.selections.report.isSubStage = null;
+    this.selectedService.selections.report.stageType = null;
   }
 
   private _generateChapterList() {
@@ -53,26 +59,26 @@ export class ReportComponent implements OnInit {
   }
 
   selectChapter(chapter: Chapter) {
-    if (this.selectedChapter === chapter) {
+    if (this.selectedService.selections.report.selectedChapter === chapter) {
       return;
     }
-    this.selectedChapter = chapter;
-    this.selectedStage = null;
+    this.selectedService.selections.report.selectedChapter = chapter;
+    this.selectedService.selections.report.selectedStage = null;
     this.clearDrops();
   }
 
   selectStage(stage: any) {
-    if (this.selectedStage === stage) {
+    if (this.selectedService.selections.report.selectedStage === stage) {
       return;
     }
-    this.selectedStage = stage;
-    this.stageType = 'normal';
-    this.isSubStage = this.selectedStage.code.substring(0, 1) === 'S';
+    this.selectedService.selections.report.selectedStage = stage;
+    this.selectedService.selections.report.stageType = 'normal';
+    this.selectedService.selections.report.isSubStage = this.selectedService.selections.report.selectedStage.code.substring(0, 1) === 'S';
     this.clearDrops();
   }
 
   selectStageType(stageType: string) {
-    this.stageType = stageType;
+    this.selectedService.selections.report.stageType = stageType;
   }
 
   selectHasFurniture(furnitureNum: number) {
@@ -98,22 +104,22 @@ export class ReportComponent implements OnInit {
     this.extraDrops = new Array();
     this.allDrops = new Array();
     this.furnitureNum = 0;
-    if (this.selectedStage) {
-      this.selectedStage.normalDrop.forEach(drop => {
+    if (this.selectedService.selections.report.selectedStage) {
+      this.selectedService.selections.report.selectedStage.normalDrop.forEach(drop => {
         this.normalDrops.push({
           item: drop,
           quantity: 0
         });
       });
       this.normalDrops.sort((a, b) => a.item.id - b.item.id);
-      this.selectedStage.specialDrop.forEach(drop => {
+      this.selectedService.selections.report.selectedStage.specialDrop.forEach(drop => {
         this.specialDrops.push({
           item: drop,
           quantity: 0
         });
       });
       this.specialDrops.sort((a, b) => a.item.id - b.item.id);
-      this.selectedStage.extraDrop.forEach(drop => {
+      this.selectedService.selections.report.selectedStage.extraDrop.forEach(drop => {
         this.extraDrops.push({
           item: drop,
           quantity: 0
@@ -126,8 +132,8 @@ export class ReportComponent implements OnInit {
   submitDrops() {
     this.isReporting = true;
     let finalResult = {
-      stageID: this.selectedStage.stageID,
-      stageType: this.stageType,
+      stageID: this.selectedService.selections.report.selectedStage.stageID,
+      stageType: this.selectedService.selections.report.stageType,
       furnitureNum: this.furnitureNum,
       drops: this.allDrops.map(drop => ({
         itemID: drop.item.id,
