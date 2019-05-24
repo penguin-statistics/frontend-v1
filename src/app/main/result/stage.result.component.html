@@ -6,7 +6,7 @@
             </div>
             <div class="row standard-margin-top">
                 <div *ngIf="!chapterList || !chapterList.length">
-                    正在努力加载……
+                    企鹅读取中……
                 </div>
                 <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                     <div class="stage-button-container" *ngFor="let chapter of chapterList">
@@ -75,6 +75,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">素材</th>
+                                <th scope="col">名称</th>
                                 <th scope="col">掉落次数</th>
                                 <th scope="col">掉落率</th>
                                 <th scope="col">单个掉落期望理智</th>
@@ -83,13 +84,12 @@
                         <tbody>
                             <tr *ngFor="let drop of stageResult.drops">
                                 <td>
-                                    <div class="material-container" *ngIf="drop.item.img">
-                                        <div class="material-img-container"
-                                            [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
-                                            [tooltip]="drop.item.name" placement="top" [delay]="300"></div>
+                                    <div class="material-container" style="margin: 0;" *ngIf="drop.item.img">
+                                        <div class="material-img-container hover-pointer"
+                                            [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}" (click)="redirectToItemResult(drop.item)"></div>
                                     </div>
-                                    <span *ngIf="!drop.item.img">家具</span>
                                 </td>
+                                <td>{{drop.item.name}}</td>
                                 <td>{{drop.quantity}}</td>
                                 <td>{{(drop.quantity / stageResult.times * 100) | number:'1.0-2'}}%</td>
                                 <td>{{(stageResult.times / drop.quantity * stageResult.stage.apCost) | number:'1.0-2'}}

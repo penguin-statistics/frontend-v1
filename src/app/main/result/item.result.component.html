@@ -6,20 +6,20 @@
             </div>
             <div class="row standard-margin-top">
                 <div *ngIf="!itemList || !itemList.length">
-                    正在努力加载……
+                    企鹅读取中……
                 </div>
                 <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                     <div class="materials-container d-flex justify-content-start flex-wrap">
                         <div *ngFor="let item of itemList" class="material-container">
                             <div class="hover-pointer">
                                 <div class="material-img-container"
-                                    [ngClass]="{'material-glowing': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem === item}"
+                                    [ngClass]="{'material-glowing': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.id === item.id}"
                                     [ngStyle]="{ 'background-image': 'url(' + item.img + ')'}"
                                     (click)="selectItem(item)" *ngIf="item.img" [tooltip]="item.name" placement="top"
                                     [delay]="300"></div>
                                 <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
                                     *ngIf="!item.img"
-                                    [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem === item}">{{item.name}}</button>
+                                    [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.id === item.id}">{{item.name}}</button>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let drop of itemResult.drops">
-                                <td>{{drop.stage.code}}</td>
+                                <td><button class="url-button" (click)="redirectToStageResult(drop.stage)">{{drop.stage.code}}<span *ngIf="drop.stage.stageType === 'assault'">突袭</span></button></td>
                                 <td>{{drop.times}}</td>
                                 <td>{{drop.quantity}}</td>
                                 <td>{{(drop.quantity / drop.times * 100) | number:'1.0-2'}}%</td>

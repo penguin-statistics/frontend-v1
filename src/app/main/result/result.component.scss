@@ -39,3 +39,12 @@
 .material-glowing {
   box-shadow: 0px 0px 4px 4px rgba(255, 0, 39, 0.5);
 }
+
+.url-button {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -132,7 +132,7 @@ export class ReportComponent implements OnInit {
   submitDrops() {
     this.isReporting = true;
     let finalResult = {
-      stageID: this.selectedService.selections.report.selectedStage.stageID,
+      stageID: this.selectedService.selections.report.selectedStage.id,
       stageType: this.selectedService.selections.report.stageType,
       furnitureNum: this.furnitureNum,
       drops: this.allDrops.map(drop => ({
