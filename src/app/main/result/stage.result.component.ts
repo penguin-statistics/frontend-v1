@@ -35,7 +35,6 @@ export class StageResultComponent implements OnInit {
       }
     });
     this.isLoading = true;
-    console.log(this.selectedService.selections.result_by_stage);
     if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter || !this.selectedService.selections.result_by_stage.stageType) {
       this.isLoading = false;
     } else {

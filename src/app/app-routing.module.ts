@@ -9,7 +9,7 @@ import { LogComponent } from './main/log/log.component';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'intro', pathMatch: 'full'
+    path: '', component: IntroComponent
   },
   {
     path: 'intro', component: IntroComponent
