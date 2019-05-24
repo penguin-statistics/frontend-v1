@@ -84,12 +84,12 @@
                         <tbody>
                             <tr *ngFor="let drop of stageResult.drops">
                                 <td>
-                                    <div class="material-container" style="margin: 0;" *ngIf="drop.item.img">
+                                    <div class="material-container-for-stage-result" style="margin: 0;" *ngIf="drop.item.img">
                                         <div class="material-img-container hover-pointer"
                                             [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}" (click)="redirectToItemResult(drop.item)"></div>
                                     </div>
                                 </td>
-                                <td>{{drop.item.name}}</td>
+                                <td><button class="url-button" (click)="redirectToItemResult(drop.item)">{{drop.item.name}}</button></td>
                                 <td>{{drop.quantity}}</td>
                                 <td>{{(drop.quantity / stageResult.times * 100) | number:'1.0-2'}}%</td>
                                 <td>{{(stageResult.times / drop.quantity * stageResult.stage.apCost) | number:'1.0-2'}}
