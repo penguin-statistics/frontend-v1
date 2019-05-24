@@ -5,6 +5,7 @@ import { ReportComponent } from './main/report/report.component';
 import { IntroComponent } from './main/intro/intro.component';
 import { StageResultComponent } from './main/result/stage.result.component';
 import { ItemResultComponent } from './main/result/item.result.component';
+import { LogComponent } from './main/log/log.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,9 @@ const routes: Routes = [
       { path: 'stage', component: StageResultComponent },
       { path: 'item', component: ItemResultComponent }
     ]
+  },
+  {
+    path: 'log', component: LogComponent
   }
 ];
 

@@ -10,6 +10,7 @@ import { ReportComponent } from './main/report/report.component';
 import { IntroComponent } from './main/intro/intro.component';
 import { ItemResultComponent } from './main/result/item.result.component';
 import { StageResultComponent } from './main/result/stage.result.component';
+import { LogComponent } from './main/log/log.component';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -24,7 +25,8 @@ import { PenguinService } from './service/penguin.service';
     ReportComponent,
     StageResultComponent,
     ItemResultComponent,
-    IntroComponent
+    IntroComponent,
+    LogComponent
   ],
   imports: [
     BrowserModule,
