@@ -24,6 +24,7 @@ export class ItemResultComponent implements OnInit {
     displayedColumns: string[] = ['code', 'times', 'quantity', 'rate', 'expectation'];
     dataSource: any;
     showTable: boolean = false;
+    private _lastSortEvent: any = null;
 
     @ViewChild(MatSort) sort: MatSort;
 
@@ -47,6 +48,9 @@ export class ItemResultComponent implements OnInit {
                 this._generateRows();
                 this.dataSource = [...this.rows];
                 this.dataSource.sort = this.sort;
+                if (this._lastSortEvent) {
+                    this.sortItemData(this._lastSortEvent);
+                }
                 this.isLoading = false;
             }
         });
@@ -140,6 +144,7 @@ export class ItemResultComponent implements OnInit {
     };
 
     sortItemData($event) {
+        this._lastSortEvent = $event;
         switch ($event.active) {
             case 'code': {
                 this.rows.sort((a, b) => {

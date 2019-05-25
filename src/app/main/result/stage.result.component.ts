@@ -23,6 +23,7 @@ export class StageResultComponent implements OnInit {
   displayedColumns: string[] = ['material', 'name', 'quantity', 'rate', 'expectation'];
   dataSource: any;
   showTable: boolean = false;
+  private _lastSortEvent: any = null;
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -41,6 +42,9 @@ export class StageResultComponent implements OnInit {
         this._generateRows();
         this.dataSource = [...this.rows];
         this.dataSource.sort = this.sort;
+        if (this._lastSortEvent) {
+          this.sortStageData(this._lastSortEvent);
+        }
         this.isLoading = false;
       }
     });
@@ -137,6 +141,7 @@ export class StageResultComponent implements OnInit {
   }
 
   sortStageData($event) {
+    this._lastSortEvent = $event;
     switch ($event.active) {
       case 'material':
       case 'name': {
