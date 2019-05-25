@@ -19,7 +19,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
 
-import { MatTableModule, MatSortModule } from '@angular/material';
+import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,9 @@ import { MatTableModule, MatSortModule } from '@angular/material';
     CollapseModule.forRoot(),
     AlertModule.forRoot(),
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   providers: [PenguinService, SelectedService],
   bootstrap: [AppComponent]

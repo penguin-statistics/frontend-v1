@@ -22,6 +22,7 @@ export class StageResultComponent implements OnInit {
   isLoading: boolean = true;
   displayedColumns: string[] = ['material', 'name', 'quantity', 'rate', 'expectation'];
   dataSource: any;
+  showTable: boolean = false;
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -35,7 +36,7 @@ export class StageResultComponent implements OnInit {
       }
     });
     this.penguinService.stageResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res) {
+      if (res && (this.penguinService.isTest || this.selectedService.selections.result_by_stage.selectedStage && res.stage.id === this.selectedService.selections.result_by_stage.selectedStage.id && res.stageType === this.selectedService.selections.result_by_stage.stageType)) {
         this.stageResult = res;
         this._generateRows();
         this.dataSource = [...this.rows];
@@ -44,11 +45,11 @@ export class StageResultComponent implements OnInit {
       }
     });
     this.isLoading = true;
+    this.showTable = false;
     if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter || !this.selectedService.selections.result_by_stage.stageType) {
       this.isLoading = false;
     } else {
-      this.isLoading = true;
-      this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.id, this.selectedService.selections.result_by_stage.stageType).subscribe();
+      this._refreshStageResult();
     }
   }
 
@@ -82,6 +83,9 @@ export class StageResultComponent implements OnInit {
     }
     this.selectedService.selections.result_by_stage.selectedChapter = chapter;
     this.selectedService.selections.result_by_stage.selectedStage = null;
+    this.selectedService.selections.result_by_stage.stageType = null;
+    this.selectedService.selections.result_by_stage.isSubStage = null;
+    this.showTable = false;
   }
 
   selectStage(stage: any) {
@@ -93,8 +97,7 @@ export class StageResultComponent implements OnInit {
     if (!this.selectedService.selections.result_by_stage.stageType || this.selectedService.selections.result_by_stage.isSubStage) {
       this.selectedService.selections.result_by_stage.stageType = 'normal';
     }
-    this.isLoading = true;
-    this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.id, this.selectedService.selections.result_by_stage.stageType).subscribe();
+    this._refreshStageResult();
   }
 
   selectStageType(stageType: string) {
@@ -102,7 +105,15 @@ export class StageResultComponent implements OnInit {
       return;
     }
     this.selectedService.selections.result_by_stage.stageType = stageType;
+    this._refreshStageResult();
+  }
+
+  private _refreshStageResult() {
     this.isLoading = true;
+    this.showTable = true;
+    this.rows = new Array();
+    this.dataSource = [...this.rows];
+    this.stageResult = new Array();
     this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.id, this.selectedService.selections.result_by_stage.stageType).subscribe();
   }
 

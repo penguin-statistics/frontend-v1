@@ -25,58 +25,54 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isLoading">
-                <div class="row result-label">
-                    企鹅读取中……
-                </div>
+            <div class="row result-label" *ngIf="selectedService.selections.result_by_item.selectedItem">
+                {{selectedService.selections.result_by_item.selectedItem.name}} 统计结果
             </div>
-            <div *ngIf="!isLoading && itemResult">
-                <div class="row result-label">
-                    {{selectedService.selections.result_by_item.selectedItem.name}} 统计结果
-                </div>
-                <div class="row result-tip d-sm-none">
-                    （左右滑动查看完整数据）
-                </div>
-                <div style="margin-top: 1rem;">
-                    <div class="col-12 table-responsive">
-                        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
-                            (matSortChange)="sortItemData($event)">
-                            <ng-container matColumnDef="code">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>作战</th>
-                                <td mat-cell *matCellDef="let row">
-                                    <button class="url-button"
-                                        (click)="redirectToStageResult(row.stage)">{{row.code}}<span
-                                            *ngIf="row.stage.stageType === 'assault'">突袭</span></button>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="times">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>样本数</th>
-                                <td mat-cell *matCellDef="let row">
-                                    {{row.times}}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="quantity">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>掉落次数</th>
-                                <td mat-cell *matCellDef="let row">
-                                    {{row.quantity}}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="rate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>掉落率</th>
-                                <td mat-cell *matCellDef="let row">
-                                    {{row.rate}}%
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="expectation">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>单个掉落期望理智</th>
-                                <td mat-cell *matCellDef="let row">
-                                    {{row.expectation}}
-                                </td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                    </div>
+            <div class="row result-tip d-sm-none" *ngIf="!isLoading && itemResult">
+                （左右滑动查看完整数据）
+            </div>
+            <div style="margin-top: 1rem;" *ngIf="showTable">
+                <div class="col-12" [ngClass]="{'table-responsive': !isLoading}">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
+                        (matSortChange)="sortItemData($event)">
+                        <ng-container matColumnDef="code">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>作战</th>
+                            <td mat-cell *matCellDef="let row">
+                                <button class="url-button" (click)="redirectToStageResult(row.stage)">{{row.code}}<span
+                                        *ngIf="row.stage.stageType === 'assault'">突袭</span></button>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="times">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>样本数</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.times}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="quantity">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>掉落次数</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.quantity}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="rate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>掉落率</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.rate}}%
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="expectation">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>单个掉落期望理智</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.expectation}}
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card>
                 </div>
             </div>
         </div>

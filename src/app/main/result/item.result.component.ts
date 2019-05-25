@@ -23,6 +23,7 @@ export class ItemResultComponent implements OnInit {
     isLoading: boolean = true;
     displayedColumns: string[] = ['code', 'times', 'quantity', 'rate', 'expectation'];
     dataSource: any;
+    showTable: boolean = false;
 
     @ViewChild(MatSort) sort: MatSort;
 
@@ -41,7 +42,7 @@ export class ItemResultComponent implements OnInit {
             }
         });
         this.penguinService.itemResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res) {
+            if (res && (this.penguinService.isTest || res.item.id === this.selectedService.selections.result_by_item.selectedItem.id)) {
                 this.itemResult = res;
                 this._generateRows();
                 this.dataSource = [...this.rows];
@@ -49,9 +50,12 @@ export class ItemResultComponent implements OnInit {
                 this.isLoading = false;
             }
         });
-        this.isLoading = this.selectedService.selections.result_by_item.selectedItem;
-        if (this.selectedService.selections.result_by_item.selectedItem) {
-            this.penguinService.getItemResult(this.selectedService.selections.result_by_item.selectedItem.id).subscribe();
+        this.isLoading = true;
+        this.showTable = false;
+        if (!this.selectedService.selections.result_by_item.selectedItem) {
+            this.isLoading = false;
+        } else {
+            this._refreshItemResult();
         }
     }
 
@@ -61,9 +65,11 @@ export class ItemResultComponent implements OnInit {
     }
 
     selectItem(item) {
-        this.isLoading = true;
+        if (this.selectedService.selections.result_by_item.selectedItem === item) {
+            return;
+        }
         this.selectedService.selections.result_by_item.selectedItem = item;
-        this.penguinService.getItemResult(item.id).subscribe();
+        this._refreshItemResult();
     }
 
     private _generateChapterList() {
@@ -83,6 +89,15 @@ export class ItemResultComponent implements OnInit {
             }
             this.chapterList.push(chapter);
         }
+    }
+
+    private _refreshItemResult() {
+        this.isLoading = true;
+        this.showTable = true;
+        this.rows = new Array();
+        this.dataSource = [...this.rows];
+        this.itemResult = new Array();
+        this.penguinService.getItemResult(this.selectedService.selections.result_by_item.selectedItem.id).subscribe();
     }
 
     redirectToStageResult(stage) {
