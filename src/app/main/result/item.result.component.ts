@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSort } from '@angular/material';
 
 @Component({
     selector: 'app-result',
@@ -15,10 +16,15 @@ export class ItemResultComponent implements OnInit {
     destroy$: Subject<boolean> = new Subject<boolean>();
 
     stageList: any = [];
+    rows: any;
     chapterList: Chapter[];
     itemList: any = [];
     itemResult: any = null;
     isLoading: boolean = true;
+    displayedColumns: string[] = ['code', 'times', 'quantity', 'rate', 'expectation'];
+    dataSource: any;
+
+    @ViewChild(MatSort) sort: MatSort;
 
     constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router) { }
 
@@ -37,6 +43,9 @@ export class ItemResultComponent implements OnInit {
         this.penguinService.itemResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res) {
                 this.itemResult = res;
+                this._generateRows();
+                this.dataSource = [...this.rows];
+                this.dataSource.sort = this.sort;
                 this.isLoading = false;
             }
         });
@@ -89,6 +98,60 @@ export class ItemResultComponent implements OnInit {
         this.selectedService.selections.result_by_stage.isSubStage = parsedStageCode.isSubStage;
         this.selectedService.selections.result_by_stage.stageType = stage.stageType;
         this.router.navigateByUrl('/result/stage');
+    }
+
+    private _generateRows() {
+        this.rows = new Array();
+        this.itemResult.drops.forEach(drop => {
+            const rate = drop.quantity / drop.times * 100;
+            const expectation = drop.times / drop.quantity * drop.stage.apCost;
+            this.rows.push({
+                code: drop.stage.code,
+                times: drop.times,
+                quantity: drop.quantity,
+                rate: +rate.toFixed(2),
+                expectation: +expectation.toFixed(2),
+                stage: drop.stage
+            });
+        });
+    }
+
+    stageComparator = (a: any, b: any) => {
+        const t = a.code.localeCompare(b.code);
+        if (t !== 0) {
+            return t;
+        }
+        return a.stage.stageType === 'normal' ? -1 : 1;
+    };
+
+    sortItemData($event) {
+        switch ($event.active) {
+            case 'code': {
+                this.rows.sort((a, b) => {
+                    const parsedA = this.penguinService.parseStageCode(a.code);
+                    const parsedB = this.penguinService.parseStageCode(b.code);
+                    let result = -1;
+                    if (parsedA.isSubStage === parsedB.isSubStage) {
+                        result = parsedA.first === parsedB.first ? parsedA.second - parsedB.second : parsedA.first - parsedB.first;
+                    } else {
+                        if (parsedA.isSubStage) {
+                            result = parsedA.first === parsedB.first ? 1 : parsedA.first - parsedB.first;
+                        } else {
+                            result = parsedA.first === parsedB.first ? -1 : parsedA.first - parsedB.first;
+                        }
+                    }
+                    return $event.direction === 'asc' ? result : -result;
+                });
+                break;
+            }
+            default: {
+                this.rows.sort((a, b) => {
+                    return $event.direction === 'asc' ? a[$event.active] - b[$event.active] : b[$event.active] - a[$event.active];
+                });
+                break;
+            }
+        }
+        this.dataSource = [...this.rows];
     }
 
 }

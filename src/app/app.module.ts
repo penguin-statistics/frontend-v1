@@ -19,6 +19,8 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
 
+import { MatTableModule, MatSortModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,9 @@ import { PenguinService } from './service/penguin.service';
     TooltipModule.forRoot(),
     ButtonsModule.forRoot(),
     CollapseModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    MatTableModule,
+    MatSortModule
   ],
   providers: [PenguinService, SelectedService],
   bootstrap: [AppComponent]

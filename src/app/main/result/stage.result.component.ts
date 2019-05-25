@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-result',
@@ -17,7 +18,12 @@ export class StageResultComponent implements OnInit {
   stageList: any = [];
   chapterList: Chapter[];
   stageResult: any = null;
+  rows: any;
   isLoading: boolean = true;
+  displayedColumns: string[] = ['material', 'name', 'quantity', 'rate', 'expectation'];
+  dataSource: any;
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router) { }
 
@@ -31,6 +37,9 @@ export class StageResultComponent implements OnInit {
     this.penguinService.stageResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res) {
         this.stageResult = res;
+        this._generateRows();
+        this.dataSource = [...this.rows];
+        this.dataSource.sort = this.sort;
         this.isLoading = false;
       }
     });
@@ -100,6 +109,40 @@ export class StageResultComponent implements OnInit {
   redirectToItemResult(item) {
     this.selectedService.selections.result_by_item.selectedItem = item;
     this.router.navigateByUrl('/result/item');
+  }
+
+  private _generateRows() {
+    this.rows = new Array();
+    this.stageResult.drops.forEach(drop => {
+      const rate = drop.quantity / this.stageResult.times * 100;
+      const expectation = this.stageResult.times / drop.quantity * this.stageResult.stage.apCost;
+      this.rows.push({
+        item: drop.item,
+        quantity: drop.quantity,
+        rate: +rate.toFixed(2),
+        expectation: +expectation.toFixed(2)
+      });
+    });
+  }
+
+  sortStageData($event) {
+    switch ($event.active) {
+      case 'material':
+      case 'name': {
+        this.rows.sort((a, b) => {
+          let result = a.item.id === -1 ? 1 : b.item.id === -1 ? -1 : a.item.id - b.item.id;
+          return $event.direction === 'asc' ? result : -result;
+        });
+        break;
+      }
+      default: {
+        this.rows.sort((a, b) => {
+          return $event.direction === 'asc' ? a[$event.active] - b[$event.active] : b[$event.active] - a[$event.active];
+        });
+        break;
+      }
+    }
+    this.dataSource = [...this.rows];
   }
 
 }

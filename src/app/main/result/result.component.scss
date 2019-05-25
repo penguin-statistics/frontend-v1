@@ -54,4 +54,50 @@
   max-width: 60px;
   width: 100%;
   margin: 0;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+table {
+  width: 100%;
+}
+
+@media (min-width: 310px) {
+  .result-tip {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+
+    .mat-table {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 1rem;
+      display: table;
+      border-collapse: collapse;
+      margin: 0px;
+    }
+
+    .mat-row,
+    .mat-header-row {
+      display: table-row;
+    }
+
+    .mat-cell,
+    .mat-header-cell {
+      word-wrap: initial;
+      display: table-cell;
+      padding: 0px 5px;
+      line-break: unset;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+  }
 }
