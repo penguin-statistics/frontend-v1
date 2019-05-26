@@ -21,7 +21,7 @@ export class ItemResultComponent implements OnInit {
     itemList: any = [];
     itemResult: any = null;
     isLoading: boolean = true;
-    displayedColumns: string[] = ['code', 'times', 'quantity', 'rate', 'expectation'];
+    displayedColumns: string[] = ['code', 'apCost', 'times', 'quantity', 'rate', 'expectation'];
     dataSource: any;
     showTable: boolean = false;
     private _lastSortEvent: any = null;
@@ -130,7 +130,8 @@ export class ItemResultComponent implements OnInit {
                 quantity: drop.quantity,
                 rate: +rate.toFixed(2),
                 expectation: +expectation.toFixed(2),
-                stage: drop.stage
+                stage: drop.stage,
+                apCost: drop.stage.apCost
             });
         });
     }
