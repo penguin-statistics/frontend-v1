@@ -63,7 +63,7 @@ export class PenguinService {
     updateItemList(): Observable<any> {
         return this.http.get(this._api.itemList).pipe(map((res) => {
             if (res) {
-                this.itemListDataSource.next(this._addFurniture(res['items']));
+                this.itemListDataSource.next(res['items']);
             }
             return res['items'];
         })).pipe(catchError(
@@ -72,7 +72,7 @@ export class PenguinService {
                     alert('未能获取素材列表。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
                     return throwError(err);
                 } else {
-                    this.itemListDataSource.next(this._addFurniture(MaterialList));
+                    this.itemListDataSource.next(MaterialList);
                     return new Array();
                 }
             }
@@ -190,17 +190,6 @@ export class PenguinService {
             first: new Number(splitResult[0]).valueOf(),
             second: new Number(splitResult[1]).valueOf()
         };
-    }
-
-    private _addFurniture(itemList) {
-        itemList.push({
-            img: null,
-            itemType: "furniture",
-            name: "家具",
-            id: -1,
-            rarity: -1
-        });
-        return itemList;
     }
 
 };
