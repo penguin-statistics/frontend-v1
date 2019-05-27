@@ -20,7 +20,7 @@ export class StageResultComponent implements OnInit {
   stageResult: any = null;
   rows: any;
   isLoading: boolean = true;
-  displayedColumns: string[] = ['material', 'name', 'quantity', 'rate', 'expectation'];
+  displayedColumns: string[] = ['material', 'name', 'times', 'quantity', 'rate', 'expectation'];
   dataSource: any;
   showTable: boolean = false;
   private _lastSortEvent: any = null;
@@ -129,10 +129,11 @@ export class StageResultComponent implements OnInit {
   private _generateRows() {
     this.rows = new Array();
     this.stageResult.drops.forEach(drop => {
-      const rate = drop.quantity / this.stageResult.times * 100;
-      const expectation = this.stageResult.times / drop.quantity * this.stageResult.stage.apCost;
+      const rate = drop.quantity / drop.times * 100;
+      const expectation = drop.times / drop.quantity * this.stageResult.stage.apCost;
       this.rows.push({
         item: drop.item,
+        times: drop.times,
         quantity: drop.quantity,
         rate: +rate.toFixed(2),
         expectation: +expectation.toFixed(2)
