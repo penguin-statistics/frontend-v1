@@ -30,7 +30,16 @@ export class ReportComponent implements OnInit {
   ngOnInit() {
     this.penguinService.chapterListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res) {
-        this.chapterList = res;
+        this.chapterList = res.filter(chapter => {
+          const timestamp = Number(new Date());
+          if (chapter.openTime && chapter.openTime > timestamp) {
+            return false;
+          }
+          if (chapter.closeTime && chapter.closeTime < timestamp) {
+            return false;
+          }
+          return true;
+        });
       }
     });
     this.penguinService.stageListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -168,6 +177,11 @@ export class ReportComponent implements OnInit {
         }
       }
     });
+  }
+
+  changeValue(drop, value) {
+    drop.quantity = Number(value);
+    this._updateAllDrops();
   }
 
 }

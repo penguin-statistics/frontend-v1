@@ -41,7 +41,8 @@
 
       <div *ngIf="selectedService.selections.report.selectedStage">
         <div class="row">
-          <div class="col-6 col-sm-4" *ngIf="penguinService.showStageType && selectedService.selections.report.selectedStage.category !== 'sub'">
+          <div class="col-6 col-sm-4"
+            *ngIf="penguinService.showStageType && selectedService.selections.report.selectedStage.category !== 'sub'">
             <div class="row standard-margin-top">
               <div class="drop-label">类型</div>
             </div>
@@ -101,8 +102,12 @@
                         (contextmenu)="addQuantity(drop.item, normalDrops, -1)" [tooltip]="drop.item.name"
                         placement="top" [delay]="300"></div>
                     </div>
-                    <div class="material-drop-quantity-container">
+                    <div class="material-drop-quantity-container" *ngIf="drop.item.itemType !== 'event'">
                       {{drop.quantity}}
+                    </div>
+                    <div *ngIf="drop.item.itemType === 'event'">
+                      <input type="number" class="form-control form-control-sm" [value]="drop.quantity"
+                        (input)="changeValue(drop, $event.target.value)">
                     </div>
                   </div>
                 </div>
@@ -123,8 +128,12 @@
                         (contextmenu)="addQuantity(drop.item, specialDrops, -1)" [tooltip]="drop.item.name"
                         placement="top" [delay]="300"></div>
                     </div>
-                    <div class="material-drop-quantity-container">
+                    <div class="material-drop-quantity-container" *ngIf="drop.item.itemType !== 'event'">
                       {{drop.quantity}}
+                    </div>
+                    <div *ngIf="drop.item.itemType === 'event'">
+                      <input type="number" class="form-control form-control-sm" [value]="drop.quantity"
+                        (input)="changeValue(drop, $event.target.value)">
                     </div>
                   </div>
                 </div>
@@ -145,8 +154,12 @@
                       (contextmenu)="addQuantity(drop.item, extraDrops, -1)" [tooltip]="drop.item.name" placement="top"
                       [delay]="300"></div>
                   </div>
-                  <div class="material-drop-quantity-container">
+                  <div class="material-drop-quantity-container" *ngIf="drop.item.itemType !== 'event'">
                     {{drop.quantity}}
+                  </div>
+                  <div *ngIf="drop.item.itemType === 'event'">
+                    <input type="number" class="form-control form-control-sm" [value]="drop.quantity"
+                      (input)="changeValue(drop, $event.target.value)">
                   </div>
                 </div>
               </div>

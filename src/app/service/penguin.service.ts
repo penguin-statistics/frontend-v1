@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, isDevMode } from '@angular/core';
-import { MaterialList } from '../data/materialList';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -64,7 +63,7 @@ export class PenguinService {
                     return throwError(err);
                 } else {
                     setTimeout(() => {
-                        const fakeData = { "chapters": [{ "name": "序章", "stages": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], "id": 0, "type": "main" }, { "name": "第一章", "stages": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31], "id": 1, "type": "main" }, { "name": "第二章", "stages": [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 74], "id": 2, "type": "main" }, { "name": "第三章", "stages": [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 0, 10], "id": 3, "type": "main" }, { "name": "第四章", "stages": [1, 2, 3, 4, 5, 6, 7, 8, 9, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73], "id": 4, "type": "main" }] };
+                        const fakeData = { "chapters": [{ "name": "序章", "stages": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], "id": 0, "type": "main" }, { "name": "第一章", "stages": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31], "id": 1, "type": "main" }, { "name": "第二章", "stages": [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 74], "id": 2, "type": "main" }, { "name": "第三章", "stages": [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 0, 10], "id": 3, "type": "main" }, { "name": "第四章", "stages": [1, 2, 3, 4, 5, 6, 7, 8, 9, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73], "id": 4, "type": "main" }, { "name": "限时活动：骑兵与猎人", "closeTime": 1659069016000, "stages": [75], "id": 5, "type": "main", "openTime": 0 }] };
                         this.chapterListDataSource.next(fakeData['chapters']);
                     }, 500);
                     return new Array();
@@ -108,7 +107,7 @@ export class PenguinService {
                     return throwError(err);
                 } else {
                     setTimeout(() => {
-                        const fakeData = { "specialDrop": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_23.png", "itemType": "material", "name": "酮阵列", "timePoint": 0, "id": 23, "materialCategory": "ketone", "rarity": 3 }], "extraDrop": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_8.png", "itemType": "material", "name": "酯原料", "timePoint": 0, "id": 8, "materialCategory": "ester", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_9.png", "itemType": "material", "name": "聚酸酯", "timePoint": 0, "id": 9, "materialCategory": "ester", "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_10.png", "itemType": "material", "name": "聚酸酯组", "timePoint": 0, "id": 10, "materialCategory": "ester", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_20.png", "itemType": "material", "name": "双酮", "timePoint": 0, "id": 20, "materialCategory": "ketone", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_21.png", "itemType": "material", "name": "酮凝集", "timePoint": 0, "id": 21, "materialCategory": "ketone", "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_22.png", "itemType": "material", "name": "酮凝集组", "timePoint": 0, "id": 22, "materialCategory": "ketone", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_28.png", "itemType": "material", "name": "研磨石", "timePoint": 0, "id": 28, "materialCategory": "grindstone", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_30.png", "itemType": "material", "name": "RMA70-12", "timePoint": 0, "id": 30, "materialCategory": "RMA", "rarity": 2 }], "code": "4-5", "normalDrop": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_22.png", "itemType": "material", "name": "酮凝集组", "timePoint": 0, "id": 22, "materialCategory": "ketone", "rarity": 2 }], "id": 4, "category": "main", "apCost": 18 };
+                        const fakeData = { "specialDrop": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_23.png", "itemType": "material", "name": "酮阵列", "timePoint": 0, "id": 23, "materialCategory": "ketone", "rarity": 3 }], "extraDrop": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_8.png", "itemType": "material", "name": "酯原料", "timePoint": 0, "id": 8, "materialCategory": "ester", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_9.png", "itemType": "material", "name": "聚酸酯", "timePoint": 0, "id": 9, "materialCategory": "ester", "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_10.png", "itemType": "material", "name": "聚酸酯组", "timePoint": 0, "id": 10, "materialCategory": "ester", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_20.png", "itemType": "material", "name": "双酮", "timePoint": 0, "id": 20, "materialCategory": "ketone", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_21.png", "itemType": "material", "name": "酮凝集", "timePoint": 0, "id": 21, "materialCategory": "ketone", "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_22.png", "itemType": "material", "name": "酮凝集组", "timePoint": 0, "id": 22, "materialCategory": "ketone", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_28.png", "itemType": "event", "name": "研磨石", "timePoint": 0, "id": 28, "materialCategory": "grindstone", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_30.png", "itemType": "material", "name": "RMA70-12", "timePoint": 0, "id": 30, "materialCategory": "RMA", "rarity": 2 }], "code": "4-5", "normalDrop": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_22.png", "itemType": "material", "name": "酮凝集组", "timePoint": 0, "id": 22, "materialCategory": "ketone", "rarity": 2 }], "id": 4, "category": "main", "apCost": 18 };
                         this.stageDataSource.next(fakeData);
                     }, 500);
                     return new Array();
@@ -120,7 +119,7 @@ export class PenguinService {
     updateItemList(): Observable<any> {
         return this.http.get(this._api.item).pipe(map((res) => {
             if (res) {
-                this.itemListDataSource.next(res['items']);
+                this.itemListDataSource.next(this._sortItemList(res['items']));
             }
             return res['items'];
         })).pipe(catchError(
@@ -130,7 +129,8 @@ export class PenguinService {
                     return throwError(err);
                 } else {
                     setTimeout(() => {
-                        this.itemListDataSource.next(MaterialList);
+                        const fakeData = {"items":[{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_0.png","itemType":"material","name":"源岩","timePoint":0,"id":0,"materialCategory":"rock","rarity":0},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_1.png","itemType":"material","name":"固源岩","timePoint":0,"id":1,"materialCategory":"rock","rarity":1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_2.png","itemType":"material","name":"固源岩组","timePoint":0,"id":2,"materialCategory":"rock","rarity":2},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_12.png","itemType":"material","name":"代糖","timePoint":0,"id":12,"materialCategory":"sugar","rarity":0},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_13.png","itemType":"material","name":"糖","timePoint":0,"id":13,"materialCategory":"sugar","rarity":1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_14.png","itemType":"material","name":"糖组","timePoint":0,"id":14,"materialCategory":"sugar","rarity":2},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_15.png","itemType":"material","name":"糖聚块","timePoint":0,"id":15,"materialCategory":"sugar","rarity":3},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_16.png","itemType":"material","name":"异铁碎片","timePoint":0,"id":16,"materialCategory":"iron","rarity":0},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_32.png","itemType":"gold","name":"赤金","timePoint":1,"id":32,"rarity":3},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_33.png","itemType":"exp","name":"基础作战记录","timePoint":1,"id":33,"rarity":1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_34.png","itemType":"exp","name":"初级作战记录","timePoint":1,"id":34,"rarity":2},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_35.png","itemType":"exp","name":"中级作战记录","timePoint":1,"id":35,"rarity":3},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_36.png","itemType":"exp","name":"高级作战记录","timePoint":1,"id":36,"rarity":4},{"itemType":"furniture","name":"家具","timePoint":0,"id":-1,"rarity":-1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_37.png","itemType":"event","name":"猎人金币","timePoint":0,"id":37,"rarity":4}]};
+                        this.itemListDataSource.next(this._sortItemList(fakeData['items']));
                     }, 500);
                     return new Array();
                 }
@@ -202,6 +202,15 @@ export class PenguinService {
                 }
             });
             return stageList;
+        }
+    }
+
+    private _sortItemList(itemList) {
+        if (itemList) {
+            itemList.sort((a, b) => {
+                return a.name === '家具' ? 1 : b.name === '家具' ? -1 : a.id - b.id;
+            });
+            return itemList;
         }
     }
 

@@ -32,7 +32,13 @@ export class StageResultComponent implements OnInit {
   ngOnInit() {
     this.penguinService.chapterListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res) {
-        this.chapterList = res;
+        this.chapterList = res.filter(chapter => {
+          const timestamp = Number(new Date());
+          if (chapter.openTime && chapter.openTime > timestamp) {
+            return false;
+          }
+          return true;
+        });
       }
     });
     this.penguinService.stageListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
