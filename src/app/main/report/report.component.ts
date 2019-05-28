@@ -55,6 +55,7 @@ export class ReportComponent implements OnInit {
     });
 
     if (this.selectedService.selections.report.selectedChapter != null) {
+      this.stageList = null;
       this.penguinService.getStagesInChapter(this.selectedService.selections.report.selectedChapter.id).subscribe();
     }
   }
