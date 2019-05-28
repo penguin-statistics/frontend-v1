@@ -11,7 +11,7 @@
                 <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                     <div class="stage-button-container" *ngFor="let chapter of chapterList">
                         <button type="button" class="btn btn-outline-primary"
-                            [ngClass]="{'active': selectedService.selections.result_by_stage.selectedChapter && selectedService.selections.result_by_stage.selectedChapter.name === chapter.name}"
+                            [ngClass]="{'active': selectedService.selections.result_by_stage.selectedChapter && selectedService.selections.result_by_stage.selectedChapter === chapter}"
                             (click)="selectChapter(chapter)">
                             {{chapter.name}}
                         </button>
@@ -24,15 +24,13 @@
                     <div class="drop-label">作战</div>
                 </div>
                 <div class="row standard-margin-top">
-                    <div
-                        *ngIf="!selectedService.selections.result_by_stage.selectedChapter.stages || !selectedService.selections.result_by_stage.selectedChapter.stages.length">
-                        加载作战失败...
+                    <div *ngIf="!stageList || !stageList.length">
+                        企鹅读取中……
                     </div>
                     <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-                        <div class="stage-button-container"
-                            *ngFor="let stage of selectedService.selections.result_by_stage.selectedChapter.stages">
+                        <div class="stage-button-container" *ngFor="let stage of stageList">
                             <button type="button" class="btn btn-outline-primary"
-                                [ngClass]="{'active': selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage.code === stage.code}"
+                                [ngClass]="{'active': selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage === stage}"
                                 (click)="selectStage(stage)">
                                 {{stage.code}}
                             </button>
@@ -41,7 +39,7 @@
                 </div>
             </div>
             <div
-                *ngIf="selectedService.selections.result_by_stage.selectedStage && !selectedService.selections.result_by_stage.isSubStage">
+                *ngIf="penguinService.showStageType && selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage.category !== 'sub'">
                 <div class="row standard-margin-top">
                     <div class="drop-label">类型</div>
                 </div>

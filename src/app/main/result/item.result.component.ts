@@ -114,7 +114,6 @@ export class ItemResultComponent implements OnInit {
             }
         }
         this.selectedService.selections.result_by_stage.selectedStage = stage;
-        this.selectedService.selections.result_by_stage.isSubStage = parsedStageCode.isSubStage;
         this.selectedService.selections.result_by_stage.stageType = stage.stageType;
         this.router.navigateByUrl('/result/stage');
     }
@@ -152,14 +151,23 @@ export class ItemResultComponent implements OnInit {
                     const parsedA = this.penguinService.parseStageCode(a.code);
                     const parsedB = this.penguinService.parseStageCode(b.code);
                     let result = -1;
-                    if (parsedA.isSubStage === parsedB.isSubStage) {
-                        result = parsedA.first === parsedB.first ? parsedA.second - parsedB.second : parsedA.first - parsedB.first;
-                    } else {
-                        if (parsedA.isSubStage) {
-                            result = parsedA.first === parsedB.first ? 1 : parsedA.first - parsedB.first;
+
+                    if (a.category === b.category) {
+                        if (parsedA.first === parsedB.first) {
+                            if (isNaN(Number(parsedA.second)) || isNaN(Number(parsedB.second))) {
+                                result = parsedA.second.localeCompare(parsedB.second);
+                            } else {
+                                result = Number(parsedA.second) - Number(parsedB.second);
+                            }
                         } else {
-                            result = parsedA.first === parsedB.first ? -1 : parsedA.first - parsedB.first;
+                            if (isNaN(Number(parsedA.first)) || isNaN(Number(parsedB.first))) {
+                                result = parsedA.first.localeCompare(parsedB.first);
+                            } else {
+                                result = Number(parsedA.first) - Number(parsedB.first);
+                            }
                         }
+                    } else {
+                        result = a.category === 'sub' ? 1 : -1;
                     }
                     return $event.direction === 'asc' ? result : -result;
                 });

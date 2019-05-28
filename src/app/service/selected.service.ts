@@ -19,13 +19,11 @@ export class SelectedService {
         this.selections.report = {
             selectedChapter: null,
             selectedStage: null,
-            isSubStage: null,
             stageType: null,
         };
         this.selections.result_by_stage = {
             selectedChapter: null,
             selectedStage: null,
-            isSubStage: null,
             stageType: null,
         };
         this.selections.result_by_item = {
@@ -43,7 +41,6 @@ interface Chapter {
 interface StageSelection {
     selectedChapter: Chapter,
     selectedStage: any,
-    isSubStage: boolean,
     stageType: string
 }
 

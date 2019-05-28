@@ -11,7 +11,7 @@ export class AppComponent {
 
   public constructor(private titleService: Title,  public penguinService: PenguinService, private el: ElementRef, private renderer: Renderer) {
     this.titleService.setTitle('Penguin Statistics - 明日方舟素材掉落统计');
-    this.penguinService.updateStageList().subscribe();
+    this.penguinService.getChapterList().subscribe();
     this.penguinService.updateItemList().subscribe();
     this.penguinService.isCollapsed = true;
   }

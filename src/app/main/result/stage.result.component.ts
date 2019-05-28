@@ -4,7 +4,7 @@ import { SelectedService } from 'src/app/service/selected.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-result',
@@ -15,8 +15,8 @@ export class StageResultComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  stageList: any = [];
   chapterList: Chapter[];
+  stageList: Stage[];
   stageResult: any = null;
   rows: any;
   isLoading: boolean = true;
@@ -30,10 +30,14 @@ export class StageResultComponent implements OnInit {
   constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router) { }
 
   ngOnInit() {
+    this.penguinService.chapterListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
+      if (res) {
+        this.chapterList = res;
+      }
+    });
     this.penguinService.stageListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res) {
         this.stageList = res;
-        this._generateChapterList();
       }
     });
     this.penguinService.stageResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -62,25 +66,6 @@ export class StageResultComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  private _generateChapterList() {
-    this.chapterList = new Array();
-    let chapterMap: any = {};
-    this.stageList.forEach(stage => {
-      const parsedStageCode = this.penguinService.parseStageCode(stage.code);
-      if (!chapterMap[parsedStageCode.first]) {
-        chapterMap[parsedStageCode.first] = new Array();
-      }
-      chapterMap[parsedStageCode.first].push(stage);
-    });
-    for (let key in chapterMap) {
-      let chapter: Chapter = {
-        name: '第' + key + '章',
-        stages: chapterMap[key]
-      }
-      this.chapterList.push(chapter);
-    }
-  }
-
   selectChapter(chapter: Chapter) {
     if (this.selectedService.selections.result_by_stage.selectedChapter === chapter) {
       return;
@@ -88,8 +73,9 @@ export class StageResultComponent implements OnInit {
     this.selectedService.selections.result_by_stage.selectedChapter = chapter;
     this.selectedService.selections.result_by_stage.selectedStage = null;
     this.selectedService.selections.result_by_stage.stageType = null;
-    this.selectedService.selections.result_by_stage.isSubStage = null;
     this.showTable = false;
+    this.stageList = null;
+    this.penguinService.getStagesInChapter(chapter.id).subscribe();
   }
 
   selectStage(stage: any) {
@@ -97,8 +83,7 @@ export class StageResultComponent implements OnInit {
       return;
     }
     this.selectedService.selections.result_by_stage.selectedStage = stage;
-    this.selectedService.selections.result_by_stage.isSubStage = this.selectedService.selections.result_by_stage.selectedStage.code.substring(0, 1) === 'S';
-    if (!this.selectedService.selections.result_by_stage.stageType || this.selectedService.selections.result_by_stage.isSubStage) {
+    if (!this.selectedService.selections.result_by_stage.stageType || this.selectedService.selections.result_by_stage.selectedStage.category === 'sub') {
       this.selectedService.selections.result_by_stage.stageType = 'normal';
     }
     this._refreshStageResult();
@@ -167,4 +152,16 @@ export class StageResultComponent implements OnInit {
 interface Chapter {
   name: string;
   stages: any;
+  id: number;
+  type: string;
+}
+
+interface Stage {
+  id: number;
+  code: string;
+  category: string;
+  apCost: number;
+  normalDrop: any;
+  specialDrop: any;
+  extraDrop: any;
 }

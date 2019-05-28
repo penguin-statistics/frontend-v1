@@ -11,7 +11,7 @@
         <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
           <div class="stage-button-container" *ngFor="let chapter of chapterList">
             <button type="button" class="btn btn-outline-primary"
-              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter.name === chapter.name}"
+              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter === chapter}"
               (click)="selectChapter(chapter)">
               {{chapter.name}}
             </button>
@@ -24,15 +24,13 @@
           <div class="drop-label">作战</div>
         </div>
         <div class="row standard-margin-top">
-          <div
-            *ngIf="!selectedService.selections.report.selectedChapter.stages || !selectedService.selections.report.selectedChapter.stages.length">
-            加载作战失败...
+          <div *ngIf="!stageList || !stageList.length">
+            企鹅读取中……
           </div>
           <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-            <div class="stage-button-container"
-              *ngFor="let stage of selectedService.selections.report.selectedChapter.stages">
+            <div class="stage-button-container" *ngFor="let stage of stageList">
               <button type="button" class="btn btn-outline-primary"
-                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage.code === stage.code}"
+                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage === stage}"
                 (click)="selectStage(stage)">
                 {{stage.code}}
               </button>
@@ -43,7 +41,7 @@
 
       <div *ngIf="selectedService.selections.report.selectedStage">
         <div class="row">
-          <div class="col-6 col-sm-4" *ngIf="!selectedService.selections.report.isSubStage">
+          <div class="col-6 col-sm-4" *ngIf="penguinService.showStageType && selectedService.selections.report.selectedStage.category !== 'sub'">
             <div class="row standard-margin-top">
               <div class="drop-label">类型</div>
             </div>
@@ -83,19 +81,68 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-6"
-            *ngIf="selectedService.selections.report.selectedStage.normalDrop && selectedService.selections.report.selectedStage.normalDrop.length !== 0">
+        <div class="row standard-margin-top" *ngIf="!detailedStage">
+          企鹅读取中……
+        </div>
+
+        <div *ngIf="detailedStage">
+          <div class="row">
+            <div class="col-6" *ngIf="detailedStage.normalDrop?.length">
+              <div class="row standard-margin-top">
+                <div class="drop-label">常规掉落</div>
+              </div>
+              <div class="row standard-margin-top">
+                <div class="materials-container d-flex justify-content-start flex-wrap">
+                  <div *ngFor="let drop of normalDrops" class="material-container">
+                    <div class="hover-pointer">
+                      <div class="material-img-container"
+                        [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                        (click)="addQuantity(drop.item, normalDrops, 1)"
+                        (contextmenu)="addQuantity(drop.item, normalDrops, -1)" [tooltip]="drop.item.name"
+                        placement="top" [delay]="300"></div>
+                    </div>
+                    <div class="material-drop-quantity-container">
+                      {{drop.quantity}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6" *ngIf="detailedStage.specialDrop?.length">
+              <div class="row standard-margin-top">
+                <div class="drop-label">特殊掉落</div>
+              </div>
+              <div class="row standard-margin-top">
+                <div class="materials-container d-flex justify-content-start flex-wrap">
+                  <div *ngFor="let drop of specialDrops" class="material-container">
+                    <div class="hover-pointer">
+                      <div class="material-img-container"
+                        [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                        (click)="addQuantity(drop.item, specialDrops, 1)"
+                        (contextmenu)="addQuantity(drop.item, specialDrops, -1)" [tooltip]="drop.item.name"
+                        placement="top" [delay]="300"></div>
+                    </div>
+                    <div class="material-drop-quantity-container">
+                      {{drop.quantity}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="detailedStage.extraDrop?.length">
             <div class="row standard-margin-top">
-              <div class="drop-label">常规掉落</div>
+              <div class="drop-label">额外掉落</div>
             </div>
             <div class="row standard-margin-top">
               <div class="materials-container d-flex justify-content-start flex-wrap">
-                <div *ngFor="let drop of normalDrops" class="material-container">
+                <div *ngFor="let drop of extraDrops" class="material-container">
                   <div class="hover-pointer">
                     <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
-                      (click)="addQuantity(drop.item, normalDrops, 1)"
-                      (contextmenu)="addQuantity(drop.item, normalDrops, -1)" [tooltip]="drop.item.name" placement="top"
+                      (click)="addQuantity(drop.item, extraDrops, 1)"
+                      (contextmenu)="addQuantity(drop.item, extraDrops, -1)" [tooltip]="drop.item.name" placement="top"
                       [delay]="300"></div>
                   </div>
                   <div class="material-drop-quantity-container">
@@ -106,57 +153,14 @@
             </div>
           </div>
 
-          <div class="col-6"
-            *ngIf="selectedService.selections.report.selectedStage.specialDrop && selectedService.selections.report.selectedStage.specialDrop.length !== 0">
-            <div class="row standard-margin-top">
-              <div class="drop-label">特殊掉落</div>
-            </div>
-            <div class="row standard-margin-top">
-              <div class="materials-container d-flex justify-content-start flex-wrap">
-                <div *ngFor="let drop of specialDrops" class="material-container">
-                  <div class="hover-pointer">
-                    <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
-                      (click)="addQuantity(drop.item, specialDrops, 1)"
-                      (contextmenu)="addQuantity(drop.item, specialDrops, -1)" [tooltip]="drop.item.name"
-                      placement="top" [delay]="300"></div>
-                  </div>
-                  <div class="material-drop-quantity-container">
-                    {{drop.quantity}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          *ngIf="selectedService.selections.report.selectedStage.extraDrop && selectedService.selections.report.selectedStage.extraDrop.length !== 0">
           <div class="row standard-margin-top">
-            <div class="drop-label">额外掉落</div>
+            <div class="d-none d-sm-none d-md-block">左键增加，右键减少</div>
           </div>
-          <div class="row standard-margin-top">
-            <div class="materials-container d-flex justify-content-start flex-wrap">
-              <div *ngFor="let drop of extraDrops" class="material-container">
-                <div class="hover-pointer">
-                  <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
-                    (click)="addQuantity(drop.item, extraDrops, 1)"
-                    (contextmenu)="addQuantity(drop.item, extraDrops, -1)" [tooltip]="drop.item.name" placement="top"
-                    [delay]="300"></div>
-                </div>
-                <div class="material-drop-quantity-container">
-                  {{drop.quantity}}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row standard-margin-top">
-          <div class="d-none d-sm-none d-md-block">左键增加，右键减少</div>
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-sm-12" *ngIf="selectedService.selections.report.selectedStage && allDrops">
+    <div class="col-lg-4 col-sm-12"
+      *ngIf="selectedService.selections.report.selectedStage && detailedStage && allDrops">
       <div class="d-lg-none">
         <hr />
       </div>
