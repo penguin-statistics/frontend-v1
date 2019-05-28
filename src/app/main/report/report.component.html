@@ -11,7 +11,7 @@
         <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
           <div class="stage-button-container" *ngFor="let chapter of chapterList">
             <button type="button" class="btn btn-outline-primary"
-              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter === chapter}"
+              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter.id === chapter.id}"
               (click)="selectChapter(chapter)">
               {{chapter.name}}
             </button>
@@ -30,7 +30,7 @@
           <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
             <div class="stage-button-container" *ngFor="let stage of stageList">
               <button type="button" class="btn btn-outline-primary"
-                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage === stage}"
+                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage.id === stage.id}"
                 (click)="selectStage(stage)">
                 {{stage.code}}
               </button>
@@ -191,6 +191,8 @@
             这是<strong>单次</strong>数据提交，请博士注意核对数目。
             <br />
             若无素材掉落，也请直接点击提交。
+            <br />
+            <strong>请注意，当前已加入赤金和经验书掉落汇报功能。</strong>
           </alert>
         </div>
       </div>

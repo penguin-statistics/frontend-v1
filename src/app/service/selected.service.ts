@@ -36,6 +36,8 @@ export class SelectedService {
 interface Chapter {
     name: string;
     stages: any;
+    id: number;
+    type: string;
 }
 
 interface StageSelection {

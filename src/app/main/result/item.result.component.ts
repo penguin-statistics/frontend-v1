@@ -36,10 +36,9 @@ export class ItemResultComponent implements OnInit {
                 this.itemList = res;
             }
         });
-        this.penguinService.stageListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.penguinService.chapterListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res) {
-                this.stageList = res;
-                this._generateChapterList();
+                this.chapterList = res;
             }
         });
         this.penguinService.itemResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -76,25 +75,6 @@ export class ItemResultComponent implements OnInit {
         this._refreshItemResult();
     }
 
-    private _generateChapterList() {
-        this.chapterList = new Array();
-        let chapterMap: any = {};
-        this.stageList.forEach(stage => {
-            const parsedStageCode = this.penguinService.parseStageCode(stage.code);
-            if (!chapterMap[parsedStageCode.first]) {
-                chapterMap[parsedStageCode.first] = new Array();
-            }
-            chapterMap[parsedStageCode.first].push(stage);
-        });
-        for (let key in chapterMap) {
-            let chapter: Chapter = {
-                name: '第' + key + '章',
-                stages: chapterMap[key]
-            }
-            this.chapterList.push(chapter);
-        }
-    }
-
     private _refreshItemResult() {
         this.isLoading = true;
         this.showTable = true;
@@ -105,12 +85,9 @@ export class ItemResultComponent implements OnInit {
     }
 
     redirectToStageResult(stage) {
-        let parsedStageCode = this.penguinService.parseStageCode(stage.code);
         for (let i = 0; i < this.chapterList.length; i++) {
-            const chapter = this.chapterList[i];
-            if (chapter.name === '第' + parsedStageCode.first + '章') {
-                this.selectedService.selections.result_by_stage.selectedChapter = chapter;
-                break;
+            if (stage.chapter === this.chapterList[i].id) {
+                this.selectedService.selections.result_by_stage.selectedChapter = this.chapterList[i];
             }
         }
         this.selectedService.selections.result_by_stage.selectedStage = stage;
@@ -188,4 +165,16 @@ export class ItemResultComponent implements OnInit {
 interface Chapter {
     name: string;
     stages: any;
+    id: number;
+    type: string;
+}
+
+interface Stage {
+    id: number;
+    code: string;
+    category: string;
+    apCost: number;
+    normalDrop: any;
+    specialDrop: any;
+    extraDrop: any;
 }

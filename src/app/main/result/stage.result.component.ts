@@ -54,6 +54,9 @@ export class StageResultComponent implements OnInit {
     });
     this.isLoading = true;
     this.showTable = false;
+    if (this.selectedService.selections.result_by_stage.selectedChapter != null) {
+      this.penguinService.getStagesInChapter(this.selectedService.selections.result_by_stage.selectedChapter.id).subscribe();
+    }
     if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter || !this.selectedService.selections.result_by_stage.stageType) {
       this.isLoading = false;
     } else {

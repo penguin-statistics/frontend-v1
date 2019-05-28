@@ -11,7 +11,7 @@
                 <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                     <div class="stage-button-container" *ngFor="let chapter of chapterList">
                         <button type="button" class="btn btn-outline-primary"
-                            [ngClass]="{'active': selectedService.selections.result_by_stage.selectedChapter && selectedService.selections.result_by_stage.selectedChapter === chapter}"
+                            [ngClass]="{'active': selectedService.selections.result_by_stage.selectedChapter && selectedService.selections.result_by_stage.selectedChapter.id === chapter.id}"
                             (click)="selectChapter(chapter)">
                             {{chapter.name}}
                         </button>
@@ -30,7 +30,7 @@
                     <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
                         <div class="stage-button-container" *ngFor="let stage of stageList">
                             <button type="button" class="btn btn-outline-primary"
-                                [ngClass]="{'active': selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage === stage}"
+                                [ngClass]="{'active': selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage.id === stage.id}"
                                 (click)="selectStage(stage)">
                                 {{stage.code}}
                             </button>
