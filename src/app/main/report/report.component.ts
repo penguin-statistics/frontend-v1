@@ -53,6 +53,10 @@ export class ReportComponent implements OnInit {
         this.clearDrops();
       }
     });
+
+    if (this.selectedService.selections.report.selectedChapter != null) {
+      this.penguinService.getStagesInChapter(this.selectedService.selections.report.selectedChapter.id).subscribe();
+    }
   }
 
   ngOnDestroy(): void {
