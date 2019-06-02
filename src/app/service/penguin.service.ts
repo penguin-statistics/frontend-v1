@@ -40,6 +40,8 @@ export class PenguinService {
 
     showStageType = false;
 
+    isPersonal = false;
+
     constructor(private http: HttpClient) {
         this.isTest = isDevMode();
         this.chapterListDataSource.next(null);
@@ -129,7 +131,7 @@ export class PenguinService {
                     return throwError(err);
                 } else {
                     setTimeout(() => {
-                        const fakeData = {"items":[{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_0.png","itemType":"material","name":"源岩","timePoint":0,"id":0,"materialCategory":"rock","rarity":0},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_1.png","itemType":"material","name":"固源岩","timePoint":0,"id":1,"materialCategory":"rock","rarity":1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_2.png","itemType":"material","name":"固源岩组","timePoint":0,"id":2,"materialCategory":"rock","rarity":2},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_12.png","itemType":"material","name":"代糖","timePoint":0,"id":12,"materialCategory":"sugar","rarity":0},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_13.png","itemType":"material","name":"糖","timePoint":0,"id":13,"materialCategory":"sugar","rarity":1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_14.png","itemType":"material","name":"糖组","timePoint":0,"id":14,"materialCategory":"sugar","rarity":2},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_15.png","itemType":"material","name":"糖聚块","timePoint":0,"id":15,"materialCategory":"sugar","rarity":3},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_16.png","itemType":"material","name":"异铁碎片","timePoint":0,"id":16,"materialCategory":"iron","rarity":0},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_32.png","itemType":"gold","name":"赤金","timePoint":1,"id":32,"rarity":3},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_33.png","itemType":"exp","name":"基础作战记录","timePoint":1,"id":33,"rarity":1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_34.png","itemType":"exp","name":"初级作战记录","timePoint":1,"id":34,"rarity":2},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_35.png","itemType":"exp","name":"中级作战记录","timePoint":1,"id":35,"rarity":3},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_36.png","itemType":"exp","name":"高级作战记录","timePoint":1,"id":36,"rarity":4},{"itemType":"furniture","name":"家具","timePoint":0,"id":-1,"rarity":-1},{"img":"https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_37.png","itemType":"event","name":"猎人金币","timePoint":0,"id":37,"rarity":4}]};
+                        const fakeData = { "items": [{ "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_0.png", "itemType": "material", "name": "源岩", "timePoint": 0, "id": 0, "materialCategory": "rock", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_1.png", "itemType": "material", "name": "固源岩", "timePoint": 0, "id": 1, "materialCategory": "rock", "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_2.png", "itemType": "material", "name": "固源岩组", "timePoint": 0, "id": 2, "materialCategory": "rock", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_12.png", "itemType": "material", "name": "代糖", "timePoint": 0, "id": 12, "materialCategory": "sugar", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_13.png", "itemType": "material", "name": "糖", "timePoint": 0, "id": 13, "materialCategory": "sugar", "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_14.png", "itemType": "material", "name": "糖组", "timePoint": 0, "id": 14, "materialCategory": "sugar", "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_15.png", "itemType": "material", "name": "糖聚块", "timePoint": 0, "id": 15, "materialCategory": "sugar", "rarity": 3 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_16.png", "itemType": "material", "name": "异铁碎片", "timePoint": 0, "id": 16, "materialCategory": "iron", "rarity": 0 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_32.png", "itemType": "gold", "name": "赤金", "timePoint": 1, "id": 32, "rarity": 3 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_33.png", "itemType": "exp", "name": "基础作战记录", "timePoint": 1, "id": 33, "rarity": 1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_34.png", "itemType": "exp", "name": "初级作战记录", "timePoint": 1, "id": 34, "rarity": 2 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_35.png", "itemType": "exp", "name": "中级作战记录", "timePoint": 1, "id": 35, "rarity": 3 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_36.png", "itemType": "exp", "name": "高级作战记录", "timePoint": 1, "id": 36, "rarity": 4 }, { "itemType": "furniture", "name": "家具", "timePoint": 0, "id": -1, "rarity": -1 }, { "img": "https://s3.ap-southeast-1.amazonaws.com/penguin-stats-material-image/material_37.png", "itemType": "event", "name": "猎人金币", "timePoint": 0, "id": 37, "rarity": 4 }] };
                         this.itemListDataSource.next(this._sortItemList(fakeData['items']));
                     }, 500);
                     return new Array();
@@ -139,7 +141,16 @@ export class PenguinService {
     }
 
     getItemResult(id): Observable<any> {
-        return this.http.get(this._api.itemResult + id).pipe(map((res) => {
+        let observable: Observable<any>;
+        if (this.isPersonal) {
+            observable = this.http.post(this._api.itemResult + id, {
+                stageTimes: JSON.parse(localStorage.getItem("stageTimes")),
+                dropMatrix: JSON.parse(localStorage.getItem("dropMatrix"))
+            });
+        } else {
+            observable = this.http.get(this._api.itemResult + id);
+        }
+        return observable.pipe(map((res) => {
             if (res) {
                 res = this._sortItemResult(res);
                 this.itemResultDataSource.next(res);
@@ -163,7 +174,16 @@ export class PenguinService {
     }
 
     getStageResult(id, type): Observable<any> {
-        return this.http.get(this._api.stageResult + id + "/" + type).pipe(map((res) => {
+        let observable: Observable<any>;
+        if (this.isPersonal) {
+            observable = this.http.post(this._api.stageResult + id + "/" + type, {
+                stageTimes: JSON.parse(localStorage.getItem("stageTimes")),
+                dropMatrix: JSON.parse(localStorage.getItem("dropMatrix"))
+            });
+        } else {
+            observable = this.http.get(this._api.stageResult + id + "/" + type);
+        }
+        return observable.pipe(map((res) => {
             if (res) {
                 res = this._sortStageResult(res);
                 this.stageResultDataSource.next(res);

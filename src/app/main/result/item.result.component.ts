@@ -160,6 +160,26 @@ export class ItemResultComponent implements OnInit {
         this.dataSource = [...this.rows];
     }
 
+    selectDataSource(isPersonal: boolean) {
+        if (this.penguinService.isPersonal === isPersonal) {
+            return;
+        }
+        if (!window.localStorage) {
+            alert("您的浏览器暂不支持本地数据，请升级或者换浏览器再试。");
+            return;
+        }
+        let localStageTimesStr = localStorage.getItem("stageTimes");
+        let localDropMatrixStr = localStorage.getItem("dropMatrix");
+        if (isPersonal && (!localStageTimesStr || !localDropMatrixStr)) {
+            alert("您当前还未上传过掉落数据。");
+            return;
+        }
+        this.penguinService.isPersonal = isPersonal;
+        if (this.selectedService.selections.result_by_item.selectedItem) {
+            this._refreshItemResult();
+        }
+    }
+
 }
 
 interface Chapter {

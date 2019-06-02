@@ -1,6 +1,19 @@
 <div class='body'>
     <div class="row">
         <div class="col-lg-12">
+            <div class="row d-flex justify-content-end align-items-center">
+                <div class="source-label">数据来源：</div>
+                <div id="result-source-buttons">
+                    <button type="button" class="btn btn-outline-danger"
+                        [ngClass]="{'active': !penguinService.isPersonal}" (click)="selectDataSource(false)">
+                        全平台
+                    </button>
+                    <button type="button" class="btn btn-outline-danger"
+                        [ngClass]="{'active': penguinService.isPersonal}" (click)="selectDataSource(true)">
+                        本地
+                    </button>
+                </div>
+            </div>
             <div class="row">
                 <div class="drop-label">章节</div>
             </div>

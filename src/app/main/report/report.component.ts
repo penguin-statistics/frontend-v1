@@ -17,6 +17,7 @@ export class ReportComponent implements OnInit {
   chapterList: Chapter[];
   stageList: Stage[];
   detailedStage: Stage;
+  itemList: any = [];
 
   normalDrops: DropDetail[] = new Array();
   specialDrops: DropDetail[] = new Array();
@@ -51,6 +52,11 @@ export class ReportComponent implements OnInit {
       if (res) {
         this.detailedStage = res;
         this.clearDrops();
+      }
+    });
+    this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
+      if (res) {
+        this.itemList = res;
       }
     });
 
@@ -163,6 +169,62 @@ export class ReportComponent implements OnInit {
         () => {
           this.isReporting = false;
         });
+
+    if (window.localStorage) {
+      this._handleLocalStorage(finalResult);
+    }
+  }
+
+  private _handleLocalStorage(drop) {
+    // handle stage times
+    let maxTimePoint = 0;
+    this.itemList.forEach(item => {
+      if (item.timePoint > maxTimePoint) {
+        maxTimePoint = item.timePoint;
+      }
+    });
+    maxTimePoint += 1;
+    let localStageTimesStr = localStorage.getItem("stageTimes");
+    if (!localStageTimesStr) {
+      localStageTimesStr = "{}";
+    }
+    let localStageTimes: any = JSON.parse(localStageTimesStr);
+    if (!localStageTimes[drop.stageID]) {
+      localStageTimes[drop.stageID] = new Array();
+    }
+    for (let stageID in localStageTimes) {
+      while (localStageTimes[stageID].length < maxTimePoint) {
+        localStageTimes[stageID].push(0);
+      }
+    }
+    for (let i = 0; i < localStageTimes[drop.stageID].length; i++) {
+      localStageTimes[drop.stageID][i] += 1;
+    }
+
+    // handle drop matrix
+    let localDropMatrixStr = localStorage.getItem("dropMatrix");
+    if (!localDropMatrixStr) {
+      localDropMatrixStr = "{}";
+    }
+    let localDropMatrix: any = JSON.parse(localDropMatrixStr);
+    if (!localDropMatrix[drop.stageID]) {
+      localDropMatrix[drop.stageID] = {};
+    }
+    drop.drops.forEach(d => {
+      if (!localDropMatrix[drop.stageID][d.itemID]) {
+        localDropMatrix[drop.stageID][d.itemID] = 0;
+      }
+      localDropMatrix[drop.stageID][d.itemID] += d.quantity;
+    });
+    if (drop.furnitureNum !== 0) {
+      if (!localDropMatrix[drop.stageID]['-1']) {
+        localDropMatrix[drop.stageID]['-1'] = 0;
+      }
+      localDropMatrix[drop.stageID]['-1'] += drop.furnitureNum;
+    }
+
+    localStorage.setItem("stageTimes", JSON.stringify(localStageTimes));
+    localStorage.setItem("dropMatrix", JSON.stringify(localDropMatrix));
   }
 
   private _updateAllDrops() {

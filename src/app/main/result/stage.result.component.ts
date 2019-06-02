@@ -58,6 +58,7 @@ export class StageResultComponent implements OnInit {
         this.isLoading = false;
       }
     });
+
     this.isLoading = true;
     this.showTable = false;
     if (this.selectedService.selections.result_by_stage.selectedChapter != null) {
@@ -155,6 +156,26 @@ export class StageResultComponent implements OnInit {
       }
     }
     this.dataSource = [...this.rows];
+  }
+
+  selectDataSource(isPersonal: boolean) {
+    if (this.penguinService.isPersonal === isPersonal) {
+      return;
+    }
+    if (!window.localStorage) {
+      alert("您的浏览器暂不支持本地数据，请升级或者换浏览器再试。");
+      return;
+    }
+    let localStageTimesStr = localStorage.getItem("stageTimes");
+    let localDropMatrixStr = localStorage.getItem("dropMatrix");
+    if (isPersonal && (!localStageTimesStr || !localDropMatrixStr)) {
+      alert("您当前还未上传过掉落数据。");
+      return;
+    }
+    this.penguinService.isPersonal = isPersonal;
+    if (this.selectedService.selections.result_by_stage.selectedStage && this.selectedService.selections.result_by_stage.selectedChapter && this.selectedService.selections.result_by_stage.stageType) {
+      this._refreshStageResult();
+    }
   }
 
 }
