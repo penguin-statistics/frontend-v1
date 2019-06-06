@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort } from '@angular/material';
+import { Stage } from 'src/app/interface/Stage';
+import { Chapter } from 'src/app/interface/Chapter';
+import { Item } from 'src/app/interface/Item';
 
 @Component({
     selector: 'app-result',
@@ -15,10 +18,10 @@ export class ItemResultComponent implements OnInit {
 
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    stageList: any = [];
+    stageList: Stage[] = [];
     rows: any;
     chapterList: Chapter[];
-    itemList: any = [];
+    itemList: Item[] = [];
     itemResult: any = null;
     isLoading: boolean = true;
     displayedColumns: string[] = ['code', 'apCost', 'times', 'quantity', 'rate', 'expectation'];
@@ -42,7 +45,7 @@ export class ItemResultComponent implements OnInit {
             }
         });
         this.penguinService.itemResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res && (this.penguinService.isTest || res.item.id === this.selectedService.selections.result_by_item.selectedItem.id)) {
+            if (res && (this.penguinService.isTest || res.item.itemId === this.selectedService.selections.result_by_item.selectedItem.itemId)) {
                 this.itemResult = res;
                 this._generateRows();
                 this.dataSource = [...this.rows];
@@ -81,17 +84,16 @@ export class ItemResultComponent implements OnInit {
         this.rows = new Array();
         this.dataSource = [...this.rows];
         this.itemResult = new Array();
-        this.penguinService.getItemResult(this.selectedService.selections.result_by_item.selectedItem.id).subscribe();
+        this.penguinService.getItemResult(this.selectedService.selections.result_by_item.selectedItem.itemId).subscribe();
     }
 
     redirectToStageResult(stage) {
         for (let i = 0; i < this.chapterList.length; i++) {
-            if (stage.chapter === this.chapterList[i].id) {
+            if (stage.zoneId === this.chapterList[i].zoneId) {
                 this.selectedService.selections.result_by_stage.selectedChapter = this.chapterList[i];
             }
         }
         this.selectedService.selections.result_by_stage.selectedStage = stage;
-        this.selectedService.selections.result_by_stage.stageType = stage.stageType;
         this.router.navigateByUrl('/result/stage');
     }
 
@@ -112,39 +114,20 @@ export class ItemResultComponent implements OnInit {
         });
     }
 
-    stageComparator = (a: any, b: any) => {
-        const t = a.code.localeCompare(b.code);
-        if (t !== 0) {
-            return t;
-        }
-        return a.stage.stageType === 'normal' ? -1 : 1;
-    };
-
     sortItemData($event) {
         this._lastSortEvent = $event;
         switch ($event.active) {
             case 'code': {
                 this.rows.sort((a, b) => {
-                    const parsedA = this.penguinService.parseStageCode(a.code);
-                    const parsedB = this.penguinService.parseStageCode(b.code);
                     let result = -1;
-
-                    if (a.category === b.category) {
-                        if (parsedA.first === parsedB.first) {
-                            if (isNaN(Number(parsedA.second)) || isNaN(Number(parsedB.second))) {
-                                result = parsedA.second.localeCompare(parsedB.second);
-                            } else {
-                                result = Number(parsedA.second) - Number(parsedB.second);
-                            }
-                        } else {
-                            if (isNaN(Number(parsedA.first)) || isNaN(Number(parsedB.first))) {
-                                result = parsedA.first.localeCompare(parsedB.first);
-                            } else {
-                                result = Number(parsedA.first) - Number(parsedB.first);
-                            }
-                        }
+                    if (a.stageId.startsWith('sub') && b.stageId.startsWith('sub')) {
+                        result = a.stageId.localeCompare(b.stageId);
+                    } else if (a.stageId.startsWith('sub')) {
+                        result = 1;
+                    } else if (b.stageId.startsWith('sub')) {
+                        result = -1;
                     } else {
-                        result = a.category === 'sub' ? 1 : -1;
+                        result = a.stageId.localeCompare(b.stageId);
                     }
                     return $event.direction === 'asc' ? result : -result;
                 });
@@ -180,21 +163,4 @@ export class ItemResultComponent implements OnInit {
         }
     }
 
-}
-
-interface Chapter {
-    name: string;
-    stages: any;
-    id: number;
-    type: string;
-}
-
-interface Stage {
-    id: number;
-    code: string;
-    category: string;
-    apCost: number;
-    normalDrop: any;
-    specialDrop: any;
-    extraDrop: any;
 }

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Chapter } from '../interface/Chapter';
+import { Stage } from '../interface/Stage';
+import { Item } from '../interface/Item';
 
 @Injectable({
     providedIn: 'root'
@@ -19,12 +22,10 @@ export class SelectedService {
         this.selections.report = {
             selectedChapter: null,
             selectedStage: null,
-            stageType: null,
         };
         this.selections.result_by_stage = {
             selectedChapter: null,
             selectedStage: null,
-            stageType: null,
         };
         this.selections.result_by_item = {
             selectedItem: null
@@ -33,19 +34,11 @@ export class SelectedService {
 
 }
 
-interface Chapter {
-    name: string;
-    stages: any;
-    id: number;
-    type: string;
-}
-
 interface StageSelection {
     selectedChapter: Chapter,
-    selectedStage: any,
-    stageType: string
+    selectedStage: Stage,
 }
 
 interface ItemSelection {
-    selectedItem: any
+    selectedItem: Item
 }

@@ -4,6 +4,9 @@ import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Chapter } from 'src/app/interface/Chapter';
+import { Stage } from 'src/app/interface/Stage';
+import { Item } from 'src/app/interface/Item';
 
 @Component({
   selector: 'app-report',
@@ -17,7 +20,7 @@ export class ReportComponent implements OnInit {
   chapterList: Chapter[];
   stageList: Stage[];
   detailedStage: Stage;
-  itemList: any = [];
+  itemList: Item[] = [];
 
   normalDrops: DropDetail[] = new Array();
   specialDrops: DropDetail[] = new Array();
@@ -62,7 +65,7 @@ export class ReportComponent implements OnInit {
 
     if (this.selectedService.selections.report.selectedChapter != null) {
       this.stageList = null;
-      this.penguinService.getStagesInChapter(this.selectedService.selections.report.selectedChapter.id).subscribe();
+      this.penguinService.getStagesInChapter(this.selectedService.selections.report.selectedChapter.zoneId).subscribe();
     }
   }
 
@@ -77,30 +80,24 @@ export class ReportComponent implements OnInit {
     }
     this.selectedService.selections.report.selectedChapter = chapter;
     this.selectedService.selections.report.selectedStage = null;
-    this.selectedService.selections.report.stageType = null;
     this.stageList = null;
-    this.penguinService.getStagesInChapter(chapter.id).subscribe();
+    this.penguinService.getStagesInChapter(chapter.zoneId).subscribe();
   }
 
-  selectStage(stage: any) {
+  selectStage(stage: Stage) {
     if (this.selectedService.selections.report.selectedStage === stage) {
       return;
     }
     this.selectedService.selections.report.selectedStage = stage;
-    this.selectedService.selections.report.stageType = 'normal';
     this.detailedStage = null;
-    this.penguinService.getStage(stage.id).subscribe();
-  }
-
-  selectStageType(stageType: string) {
-    this.selectedService.selections.report.stageType = stageType;
+    this.penguinService.getStage(stage.stageId).subscribe();
   }
 
   selectHasFurniture(furnitureNum: number) {
     this.furnitureNum = furnitureNum;
   }
 
-  addQuantity(item: any, drops: DropDetail[], quantity: number) {
+  addQuantity(item: Item, drops: DropDetail[], quantity: number) {
     for (let i = 0; i < drops.length; i++) {
       if (drops[i].item === item) {
         drops[i].quantity += quantity;
@@ -126,32 +123,31 @@ export class ReportComponent implements OnInit {
           quantity: 0
         });
       });
-      this.normalDrops.sort((a, b) => a.item.id - b.item.id);
+      this.normalDrops.sort((a, b) => a.item.sortId - b.item.sortId);
       this.detailedStage.specialDrop.forEach(drop => {
         this.specialDrops.push({
           item: drop,
           quantity: 0
         });
       });
-      this.specialDrops.sort((a, b) => a.item.id - b.item.id);
+      this.specialDrops.sort((a, b) => a.item.sortId - b.item.sortId);
       this.detailedStage.extraDrop.forEach(drop => {
         this.extraDrops.push({
           item: drop,
           quantity: 0
         });
       });
-      this.extraDrops.sort((a, b) => a.item.id - b.item.id);
+      this.extraDrops.sort((a, b) => a.item.sortId - b.item.sortId);
     }
   }
 
   submitDrops() {
     this.isReporting = true;
     let finalResult = {
-      stageID: this.selectedService.selections.report.selectedStage.id,
-      stageType: this.selectedService.selections.report.stageType,
+      stageId: this.selectedService.selections.report.selectedStage.stageId,
       furnitureNum: this.furnitureNum,
       drops: this.allDrops.map(drop => ({
-        itemID: drop.item.id,
+        itemId: drop.item.itemId,
         quantity: drop.quantity
       }))
     };
@@ -179,8 +175,8 @@ export class ReportComponent implements OnInit {
     // handle stage times
     let maxTimePoint = 0;
     this.itemList.forEach(item => {
-      if (item.timePoint > maxTimePoint) {
-        maxTimePoint = item.timePoint;
+      if (item['addTimePoint'] != null && item['addTimePoint'] > maxTimePoint) {
+        maxTimePoint = item['addTimePoint'];
       }
     });
     maxTimePoint += 1;
@@ -189,16 +185,16 @@ export class ReportComponent implements OnInit {
       localStageTimesStr = "{}";
     }
     let localStageTimes: any = JSON.parse(localStageTimesStr);
-    if (!localStageTimes[drop.stageID]) {
-      localStageTimes[drop.stageID] = new Array();
+    if (!localStageTimes[drop.stageId]) {
+      localStageTimes[drop.stageId] = new Array();
     }
-    for (let stageID in localStageTimes) {
-      while (localStageTimes[stageID].length < maxTimePoint) {
-        localStageTimes[stageID].push(0);
+    for (let stageId in localStageTimes) {
+      while (localStageTimes[stageId].length < maxTimePoint) {
+        localStageTimes[stageId].push(0);
       }
     }
-    for (let i = 0; i < localStageTimes[drop.stageID].length; i++) {
-      localStageTimes[drop.stageID][i] += 1;
+    for (let i = 0; i < localStageTimes[drop.stageId].length; i++) {
+      localStageTimes[drop.stageId][i] += 1;
     }
 
     // handle drop matrix
@@ -207,20 +203,20 @@ export class ReportComponent implements OnInit {
       localDropMatrixStr = "{}";
     }
     let localDropMatrix: any = JSON.parse(localDropMatrixStr);
-    if (!localDropMatrix[drop.stageID]) {
-      localDropMatrix[drop.stageID] = {};
+    if (!localDropMatrix[drop.stageId]) {
+      localDropMatrix[drop.stageId] = {};
     }
     drop.drops.forEach(d => {
-      if (!localDropMatrix[drop.stageID][d.itemID]) {
-        localDropMatrix[drop.stageID][d.itemID] = 0;
+      if (!localDropMatrix[drop.stageId][d.itemId]) {
+        localDropMatrix[drop.stageId][d.itemId] = 0;
       }
-      localDropMatrix[drop.stageID][d.itemID] += d.quantity;
+      localDropMatrix[drop.stageId][d.itemId] += d.quantity;
     });
     if (drop.furnitureNum !== 0) {
-      if (!localDropMatrix[drop.stageID]['-1']) {
-        localDropMatrix[drop.stageID]['-1'] = 0;
+      if (!localDropMatrix[drop.stageId]['furni']) {
+        localDropMatrix[drop.stageId]['furni'] = 0;
       }
-      localDropMatrix[drop.stageID]['-1'] += drop.furnitureNum;
+      localDropMatrix[drop.stageId]['furni'] += drop.furnitureNum;
     }
 
     localStorage.setItem("stageTimes", JSON.stringify(localStageTimes));
@@ -233,14 +229,14 @@ export class ReportComponent implements OnInit {
     let combinedDrops = this.normalDrops.concat(this.specialDrops).concat(this.extraDrops);
     combinedDrops.forEach(drop => {
       if (drop.quantity !== 0) {
-        if (dropDict[drop.item.id] === undefined) {
+        if (dropDict[drop.item.itemId] === undefined) {
           this.allDrops.push({
             item: drop.item,
             quantity: drop.quantity
           });
-          dropDict[drop.item.id] = this.allDrops.length - 1;
+          dropDict[drop.item.itemId] = this.allDrops.length - 1;
         } else {
-          this.allDrops[dropDict[drop.item.id]].quantity += drop.quantity;
+          this.allDrops[dropDict[drop.item.itemId]].quantity += drop.quantity;
         }
       }
     });
@@ -254,23 +250,6 @@ export class ReportComponent implements OnInit {
 }
 
 interface DropDetail {
-  item: any;
+  item: Item;
   quantity: number;
 };
-
-interface Chapter {
-  name: string;
-  stages: any;
-  id: number;
-  type: string;
-}
-
-interface Stage {
-  id: number;
-  code: string;
-  category: string;
-  apCost: number;
-  normalDrop: any;
-  specialDrop: any;
-  extraDrop: any;
-}

@@ -26,13 +26,13 @@
                         <div *ngFor="let item of itemList" class="material-container">
                             <div class="hover-pointer">
                                 <div class="material-img-container"
-                                    [ngClass]="{'material-glowing': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.id === item.id}"
-                                    [ngStyle]="{ 'background-image': 'url(' + item.img + ')'}"
-                                    (click)="selectItem(item)" *ngIf="item.img" [tooltip]="item.name" placement="top"
-                                    [delay]="300"></div>
+                                    [ngClass]="{'material-glowing': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.itemId === item.itemId}"
+                                    [ngStyle]="{ 'background-image': 'url(' + item.iconUrl + ')'}"
+                                    (click)="selectItem(item)" *ngIf="item.iconUrl" [tooltip]="item.name"
+                                    placement="top" [delay]="300"></div>
                                 <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
-                                    *ngIf="!item.img"
-                                    [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.id === item.id}">{{item.name}}</button>
+                                    *ngIf="!item.iconUrl"
+                                    [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.itemId === item.itemId}">{{item.name}}</button>
                             </div>
                         </div>
                     </div>
@@ -51,8 +51,8 @@
                         <ng-container matColumnDef="code">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>作战</th>
                             <td mat-cell *matCellDef="let row">
-                                <button class="url-button" (click)="redirectToStageResult(row.stage)">{{row.code}}<span
-                                        *ngIf="row.stage.stageType === 'assault'">突袭</span></button>
+                                <button class="url-button"
+                                    (click)="redirectToStageResult(row.stage)">{{row.code}}</button>
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="apCost">

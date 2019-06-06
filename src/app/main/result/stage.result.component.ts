@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort } from '@angular/material';
+import { Chapter } from 'src/app/interface/Chapter';
+import { Stage } from 'src/app/interface/Stage';
 
 @Component({
   selector: 'app-result',
@@ -47,7 +49,7 @@ export class StageResultComponent implements OnInit {
       }
     });
     this.penguinService.stageResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && (this.penguinService.isTest || this.selectedService.selections.result_by_stage.selectedStage && res.stage.id === this.selectedService.selections.result_by_stage.selectedStage.id && res.stageType === this.selectedService.selections.result_by_stage.stageType)) {
+      if (res && (this.penguinService.isTest || this.selectedService.selections.result_by_stage.selectedStage && res.stage.stageId === this.selectedService.selections.result_by_stage.selectedStage.stageId)) {
         this.stageResult = res;
         this._generateRows();
         this.dataSource = [...this.rows];
@@ -63,9 +65,9 @@ export class StageResultComponent implements OnInit {
     this.showTable = false;
     if (this.selectedService.selections.result_by_stage.selectedChapter != null) {
       this.stageList = null;
-      this.penguinService.getStagesInChapter(this.selectedService.selections.result_by_stage.selectedChapter.id).subscribe();
+      this.penguinService.getStagesInChapter(this.selectedService.selections.result_by_stage.selectedChapter.zoneId).subscribe();
     }
-    if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter || !this.selectedService.selections.result_by_stage.stageType) {
+    if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter) {
       this.isLoading = false;
     } else {
       this._refreshStageResult();
@@ -83,10 +85,9 @@ export class StageResultComponent implements OnInit {
     }
     this.selectedService.selections.result_by_stage.selectedChapter = chapter;
     this.selectedService.selections.result_by_stage.selectedStage = null;
-    this.selectedService.selections.result_by_stage.stageType = null;
     this.showTable = false;
     this.stageList = null;
-    this.penguinService.getStagesInChapter(chapter.id).subscribe();
+    this.penguinService.getStagesInChapter(chapter.zoneId).subscribe();
   }
 
   selectStage(stage: any) {
@@ -94,17 +95,6 @@ export class StageResultComponent implements OnInit {
       return;
     }
     this.selectedService.selections.result_by_stage.selectedStage = stage;
-    if (!this.selectedService.selections.result_by_stage.stageType || this.selectedService.selections.result_by_stage.selectedStage.category === 'sub') {
-      this.selectedService.selections.result_by_stage.stageType = 'normal';
-    }
-    this._refreshStageResult();
-  }
-
-  selectStageType(stageType: string) {
-    if (this.selectedService.selections.result_by_stage.stageType === stageType) {
-      return;
-    }
-    this.selectedService.selections.result_by_stage.stageType = stageType;
     this._refreshStageResult();
   }
 
@@ -114,7 +104,7 @@ export class StageResultComponent implements OnInit {
     this.rows = new Array();
     this.dataSource = [...this.rows];
     this.stageResult = new Array();
-    this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.id, this.selectedService.selections.result_by_stage.stageType).subscribe();
+    this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.stageId).subscribe();
   }
 
   redirectToItemResult(item) {
@@ -143,7 +133,18 @@ export class StageResultComponent implements OnInit {
       case 'material':
       case 'name': {
         this.rows.sort((a, b) => {
-          let result = a.item.id === -1 ? 1 : b.item.id === -1 ? -1 : a.item.id - b.item.id;
+          let result = 1;
+          if (a.item.name === '家具') {
+            result = 1;
+          } else if (b.item.name === '家具') {
+            result = -1;
+          } else if (a.item.name === '赤金') {
+            result = 1;
+          } else if (b.item.name === '赤金') {
+            result = -1;
+          } else {
+            result = a.item.sortId - b.item.sortId;
+          }
           return $event.direction === 'asc' ? result : -result;
         });
         break;
@@ -173,26 +174,9 @@ export class StageResultComponent implements OnInit {
       return;
     }
     this.penguinService.isPersonal = isPersonal;
-    if (this.selectedService.selections.result_by_stage.selectedStage && this.selectedService.selections.result_by_stage.selectedChapter && this.selectedService.selections.result_by_stage.stageType) {
+    if (this.selectedService.selections.result_by_stage.selectedStage && this.selectedService.selections.result_by_stage.selectedChapter) {
       this._refreshStageResult();
     }
   }
 
-}
-
-interface Chapter {
-  name: string;
-  stages: any;
-  id: number;
-  type: string;
-}
-
-interface Stage {
-  id: number;
-  code: string;
-  category: string;
-  apCost: number;
-  normalDrop: any;
-  specialDrop: any;
-  extraDrop: any;
 }

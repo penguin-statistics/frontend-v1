@@ -11,9 +11,9 @@
         <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
           <div class="stage-button-container" *ngFor="let chapter of chapterList">
             <button type="button" class="btn btn-outline-primary"
-              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter.id === chapter.id}"
+              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter.zoneId === chapter.zoneId}"
               (click)="selectChapter(chapter)">
-              {{chapter.name}}
+              {{chapter.zoneName}}
             </button>
           </div>
         </div>
@@ -30,7 +30,7 @@
           <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
             <div class="stage-button-container" *ngFor="let stage of stageList">
               <button type="button" class="btn btn-outline-primary"
-                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage.id === stage.id}"
+                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage.stageId === stage.stageId}"
                 (click)="selectStage(stage)">
                 {{stage.code}}
               </button>
@@ -41,26 +41,6 @@
 
       <div *ngIf="selectedService.selections.report.selectedStage">
         <div class="row">
-          <div class="col-6 col-sm-4"
-            *ngIf="penguinService.showStageType && selectedService.selections.report.selectedStage.category !== 'sub'">
-            <div class="row standard-margin-top">
-              <div class="drop-label">类型</div>
-            </div>
-            <div class="row standard-margin-top">
-              <div id="stage-type-buttons">
-                <button type="button" class="btn btn-outline-primary"
-                  [ngClass]="{'active': selectedService.selections.report.stageType === 'normal'}"
-                  (click)="selectStageType('normal')">
-                  普通
-                </button>
-                <button type="button" class="btn btn-outline-primary"
-                  [ngClass]="{'active': selectedService.selections.report.stageType === 'assault'}"
-                  (click)="selectStageType('assault')">
-                  突袭
-                </button>
-              </div>
-            </div>
-          </div>
           <div class="col-6 col-sm-4">
             <div *ngIf="selectedService.selections.report.selectedStage">
               <div class="row standard-margin-top">
@@ -97,18 +77,18 @@
                   <div *ngFor="let drop of normalDrops" class="material-container">
                     <div class="hover-pointer">
                       <div class="material-img-container"
-                        [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                        [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
                         (click)="addQuantity(drop.item, normalDrops, 1)"
                         (contextmenu)="addQuantity(drop.item, normalDrops, -1)" [tooltip]="drop.item.name"
                         placement="top" [delay]="300"></div>
                     </div>
-                    <div class="material-drop-quantity-container" *ngIf="drop.item.itemType !== 'event'">
+                    <div class="material-drop-quantity-container">
                       {{drop.quantity}}
                     </div>
-                    <div *ngIf="drop.item.itemType === 'event'">
+                    <!-- <div *ngIf="drop.item.itemType === 'event'">
                       <input type="number" class="form-control form-control-sm" [value]="drop.quantity"
                         (input)="changeValue(drop, $event.target.value)">
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -123,18 +103,18 @@
                   <div *ngFor="let drop of specialDrops" class="material-container">
                     <div class="hover-pointer">
                       <div class="material-img-container"
-                        [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                        [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
                         (click)="addQuantity(drop.item, specialDrops, 1)"
                         (contextmenu)="addQuantity(drop.item, specialDrops, -1)" [tooltip]="drop.item.name"
                         placement="top" [delay]="300"></div>
                     </div>
-                    <div class="material-drop-quantity-container" *ngIf="drop.item.itemType !== 'event'">
+                    <div class="material-drop-quantity-container">
                       {{drop.quantity}}
                     </div>
-                    <div *ngIf="drop.item.itemType === 'event'">
+                    <!-- <div *ngIf="drop.item.itemType === 'event'">
                       <input type="number" class="form-control form-control-sm" [value]="drop.quantity"
                         (input)="changeValue(drop, $event.target.value)">
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -149,18 +129,19 @@
               <div class="materials-container d-flex justify-content-start flex-wrap">
                 <div *ngFor="let drop of extraDrops" class="material-container">
                   <div class="hover-pointer">
-                    <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+                    <div class="material-img-container"
+                      [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
                       (click)="addQuantity(drop.item, extraDrops, 1)"
                       (contextmenu)="addQuantity(drop.item, extraDrops, -1)" [tooltip]="drop.item.name" placement="top"
                       [delay]="300"></div>
                   </div>
-                  <div class="material-drop-quantity-container" *ngIf="drop.item.itemType !== 'event'">
+                  <div class="material-drop-quantity-container">
                     {{drop.quantity}}
                   </div>
-                  <div *ngIf="drop.item.itemType === 'event'">
+                  <!-- <div *ngIf="drop.item.itemType === 'event'">
                     <input type="number" class="form-control form-control-sm" [value]="drop.quantity"
                       (input)="changeValue(drop, $event.target.value)">
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -182,8 +163,7 @@
           <h3>本次掉落总计</h3>
         </div>
         <div style="margin-left: 1rem;">
-          <h5>{{selectedService.selections.report.selectedStage.code}}<span
-              *ngIf="selectedService.selections.report.stageType === 'assault'">(突袭)</span></h5>
+          <h5>{{selectedService.selections.report.selectedStage.code}}</h5>
         </div>
       </div>
       <div class="row standard-margin-top" *ngIf="!allDrops.length">
@@ -191,7 +171,7 @@
       </div>
       <div class="row standard-margin-top" *ngIf="allDrops.length">
         <div *ngFor="let drop of allDrops" class="material-container">
-          <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.img + ')'}"
+          <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
             [tooltip]="drop.item.name" placement="top" [delay]="300"></div>
           <div class="material-drop-quantity-container">
             {{drop.quantity}}
