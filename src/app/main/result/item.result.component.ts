@@ -120,14 +120,14 @@ export class ItemResultComponent implements OnInit {
             case 'code': {
                 this.rows.sort((a, b) => {
                     let result = -1;
-                    if (a.stageId.startsWith('sub') && b.stageId.startsWith('sub')) {
-                        result = a.stageId.localeCompare(b.stageId);
-                    } else if (a.stageId.startsWith('sub')) {
+                    if (a.stage.stageId.startsWith('sub') && b.stage.stageId.startsWith('sub')) {
+                        result = a.stage.stageId.localeCompare(b.stage.stageId);
+                    } else if (a.stage.stageId.startsWith('sub')) {
                         result = 1;
-                    } else if (b.stageId.startsWith('sub')) {
+                    } else if (b.stage.stageId.startsWith('sub')) {
                         result = -1;
                     } else {
-                        result = a.stageId.localeCompare(b.stageId);
+                        result = a.stage.stageId.localeCompare(b.stage.stageId);
                     }
                     return $event.direction === 'asc' ? result : -result;
                 });

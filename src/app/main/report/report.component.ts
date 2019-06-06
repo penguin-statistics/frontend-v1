@@ -175,8 +175,8 @@ export class ReportComponent implements OnInit {
     // handle stage times
     let maxTimePoint = 0;
     this.itemList.forEach(item => {
-      if (item['addTimePoint'] != null && item['addTimePoint'] > maxTimePoint) {
-        maxTimePoint = item['addTimePoint'];
+      if (item['addTime'] != null && item['addTime'] > maxTimePoint) {
+        maxTimePoint = item['addTime'];
       }
     });
     maxTimePoint += 1;
