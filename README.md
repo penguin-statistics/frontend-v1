@@ -1,27 +1,27 @@
-# ArknightsStats
+# Penguin Statistics
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+<img src="https://penguin-stats.io/assets/logo.png" width="150" height="150">
 
-## Development server
+## 企鹅物流数据统计
+- [https://penguin-stats.io/](https://penguin-stats.io/)
+- 明日方舟素材掉落统计与分析
+- 根据人工汇报的掉落样本，生成各作战和各素材的统计结果，方便博士们对刷素材的效率进行参考
+- 更多功能敬请期待
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## 如何食用本repo
+此repo包含网站前端，项目由[Angular CLI](https://github.com/angular/angular-cli)生成。
 
-## Code scaffolding
+### 准备工作
+1. 安装npm
+2. 安装Angular CLI `npm install -g @angular/cli`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 运行在开发环境上
+1. 执行`npm install`获取相关依赖
+2. 执行`ng serve`
+3. 提示Compiled successfully后，通过[http://localhost:4200/](http://localhost:4200/)访问部署好的前端
 
-## Build
+### Build
+ 执行`ng build --prod --base-href=/`后，将`dist/`目录下的文件夹部署至服务器上即可。
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## 意见和建议
+各种想法欢迎提Issue，也可以通过[网站介绍页面](https://penguin-stats.io/ "网站介绍页面")下方的联系方式找到我和Penguin Stats的其他团队成员。
