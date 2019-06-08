@@ -19,32 +19,33 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
 
-import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ReportComponent,
-    StageResultComponent,
-    ItemResultComponent,
-    IntroComponent,
-    LogComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    TooltipModule.forRoot(),
-    ButtonsModule.forRoot(),
-    CollapseModule.forRoot(),
-    AlertModule.forRoot(),
-    MatTableModule,
-    MatSortModule,
-    MatCardModule,
-    MatProgressSpinnerModule
-  ],
-  providers: [PenguinService, SelectedService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ReportComponent,
+        StageResultComponent,
+        ItemResultComponent,
+        IntroComponent,
+        LogComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        TooltipModule.forRoot(),
+        ButtonsModule.forRoot(),
+        CollapseModule.forRoot(),
+        AlertModule.forRoot(),
+        MatTableModule,
+        MatSortModule,
+        MatCardModule,
+        MatProgressSpinnerModule,
+        MatSnackBarModule
+    ],
+    providers: [PenguinService, SelectedService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

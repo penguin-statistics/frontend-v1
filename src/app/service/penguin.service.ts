@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, isDevMode } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
     providedIn: 'root'
@@ -52,7 +53,7 @@ export class PenguinService {
         this.stageResultDataSource.next(null);
     }
 
-    getChapterList(): Observable<any> {
+    getChapterList(snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this._api.chapter).pipe(map((res) => {
             if (res) {
                 this.chapterListDataSource.next(res['zones']);
@@ -61,7 +62,11 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!this.isTest) {
-                    alert('未能获取章节列表。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+                    if (!snackBar) {
+                        alert('未能获取章节列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    } else {
+                        snackBar.open("未能获取章节列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    }
                     return throwError(err);
                 } else {
                     setTimeout(() => {
@@ -74,7 +79,7 @@ export class PenguinService {
         ));
     }
 
-    getStagesInChapter(id): Observable<any> {
+    getStagesInChapter(id: string, snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this._api.chapter + "/" + id + "/stage").pipe(map((res) => {
             if (res) {
                 this.stageListDataSource.next(this._sortStageList(res['stages']));
@@ -83,7 +88,11 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!this.isTest) {
-                    alert('未能获取作战列表。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+                    if (!snackBar) {
+                        alert('未能获取作战列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    } else {
+                        snackBar.open("未能获取作战列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    }
                     return throwError(err);
                 } else {
                     setTimeout(() => {
@@ -96,7 +105,7 @@ export class PenguinService {
         ));
     }
 
-    getStage(id): Observable<any> {
+    getStage(id: string, snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this._api.stage + "/" + id).pipe(map((res) => {
             if (res) {
                 this.stageDataSource.next(res);
@@ -105,7 +114,11 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!this.isTest) {
-                    alert('未能获取掉落列表。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+                    if (!snackBar) {
+                        alert('未能获取掉落列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    } else {
+                        snackBar.open("未能获取掉落列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    }
                     return throwError(err);
                 } else {
                     setTimeout(() => {
@@ -118,7 +131,7 @@ export class PenguinService {
         ));
     }
 
-    updateItemList(): Observable<any> {
+    updateItemList(snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this._api.item).pipe(map((res) => {
             if (res) {
                 this.itemListDataSource.next(this._sortItemList(res['items']));
@@ -127,7 +140,11 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!this.isTest) {
-                    alert('未能获取素材列表。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+                    if (!snackBar) {
+                        alert('未能获取素材列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    } else {
+                        snackBar.open("未能获取素材列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    }
                     return throwError(err);
                 } else {
                     setTimeout(() => {
@@ -140,7 +157,7 @@ export class PenguinService {
         ));
     }
 
-    getItemResult(id): Observable<any> {
+    getItemResult(id: string, snackBar: MatSnackBar = null): Observable<any> {
         let observable: Observable<any>;
         if (this.isPersonal) {
             observable = this.http.post(this._api.itemResult + id, {
@@ -159,7 +176,11 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!this.isTest) {
-                    alert('获取结果失败。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+                    if (!snackBar) {
+                        alert('获取结果失败。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    } else {
+                        snackBar.open("获取结果失败。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    }
                     return throwError(err);
                 } else {
                     setTimeout(() => {
@@ -173,7 +194,7 @@ export class PenguinService {
         ));
     }
 
-    getStageResult(id): Observable<any> {
+    getStageResult(id: string, snackBar: MatSnackBar = null): Observable<any> {
         let observable: Observable<any>;
         if (this.isPersonal) {
             observable = this.http.post(this._api.stageResult + id, {
@@ -192,7 +213,11 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!this.isTest) {
-                    alert('获取结果失败。\n' + err.message + "\n如果可以的话希望能将以上信息提供给作者，谢谢！");
+                    if (!snackBar) {
+                        alert('获取结果失败。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    } else {
+                        snackBar.open("获取结果失败。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    }
                     return throwError(err);
                 } else {
                     setTimeout(() => {

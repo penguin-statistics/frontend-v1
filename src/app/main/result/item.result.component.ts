@@ -4,7 +4,7 @@ import { SelectedService } from 'src/app/service/selected.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatSort } from '@angular/material';
+import { MatSort, MatSnackBar } from '@angular/material';
 import { Stage } from 'src/app/interface/Stage';
 import { Chapter } from 'src/app/interface/Chapter';
 import { Item } from 'src/app/interface/Item';
@@ -31,7 +31,7 @@ export class ItemResultComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router) { }
+    constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router, private _snackBar: MatSnackBar) { }
 
     ngOnInit() {
         this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -84,7 +84,7 @@ export class ItemResultComponent implements OnInit {
         this.rows = new Array();
         this.dataSource = [...this.rows];
         this.itemResult = new Array();
-        this.penguinService.getItemResult(this.selectedService.selections.result_by_item.selectedItem.itemId).subscribe();
+        this.penguinService.getItemResult(this.selectedService.selections.result_by_item.selectedItem.itemId, this._snackBar).subscribe();
     }
 
     redirectToStageResult(stage) {

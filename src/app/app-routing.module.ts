@@ -8,30 +8,30 @@ import { ItemResultComponent } from './main/result/item.result.component';
 import { LogComponent } from './main/log/log.component';
 
 const routes: Routes = [
-  {
-    path: '', component: IntroComponent
-  },
-  {
-    path: 'intro', component: IntroComponent
-  },
-  {
-    path: 'report', component: ReportComponent
-  },
-  {
-    path: 'result', component: null,
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'stage' },
-      { path: 'stage', component: StageResultComponent },
-      { path: 'item', component: ItemResultComponent }
-    ]
-  },
-  {
-    path: 'log', component: LogComponent
-  }
+    {
+        path: '', component: IntroComponent
+    },
+    {
+        path: 'intro', component: IntroComponent
+    },
+    {
+        path: 'report', component: ReportComponent
+    },
+    {
+        path: 'result', component: null,
+        children: [
+            { path: '', pathMatch: 'full', redirectTo: 'stage' },
+            { path: 'stage', component: StageResultComponent },
+            { path: 'item', component: ItemResultComponent }
+        ]
+    },
+    {
+        path: 'log', component: LogComponent
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
