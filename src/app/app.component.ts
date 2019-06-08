@@ -31,6 +31,14 @@ export class AppComponent {
         this._convertOldLocalStorage();
     }
 
+    ngOnInit() {
+        if (!this.penguinService.isTest) {
+            if (location.protocol === 'http:' && location.hostname != 'localhost') {
+                window.location.href = location.href.replace('http', 'https');
+            }
+        }
+    }
+
     collapseNav() {
         this.renderer.setElementClass(this.el.nativeElement.querySelector('#navbarNavAltMarkup'), 'show', false);
     }

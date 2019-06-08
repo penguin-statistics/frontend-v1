@@ -164,13 +164,13 @@ export class StageResultComponent implements OnInit {
             return;
         }
         if (!window.localStorage) {
-            alert("您的浏览器暂不支持本地数据，请升级或者换浏览器再试。");
+            this._snackBar.open("您的浏览器暂不支持本地数据，请升级或者换浏览器再试。", "x", { duration: 2000 });
             return;
         }
         let localStageTimesStr = localStorage.getItem("stageTimes");
         let localDropMatrixStr = localStorage.getItem("dropMatrix");
         if (isPersonal && (!localStageTimesStr || !localDropMatrixStr)) {
-            alert("您当前还未上传过掉落数据。");
+            this._snackBar.open("您当前还未上传过掉落数据。", "x", { duration: 2000 });
             return;
         }
         this.penguinService.isPersonal = isPersonal;
