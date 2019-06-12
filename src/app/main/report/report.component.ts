@@ -153,7 +153,7 @@ export class ReportComponent implements OnInit {
             }))
         };
 
-        this.http.post("/PenguinStats/api/report", finalResult)
+        this.http.post(this.penguinService.origin + this.penguinService.api.report, finalResult)
             .subscribe(
                 (val) => {
                     this._snackBar.open("上传成功。", "", { duration: 2000 });

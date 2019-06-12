@@ -9,12 +9,15 @@ import { MatSnackBar } from '@angular/material';
 })
 export class PenguinService {
 
-    private _api = {
+    public origin: string;
+
+    public api: any = {
         chapter: "/PenguinStats/api/zone",
         stage: "/PenguinStats/api/stage",
         item: "/PenguinStats/api/item",
         stageResult: "/PenguinStats/api/result/stage/",
-        itemResult: "/PenguinStats/api/result/item/"
+        itemResult: "/PenguinStats/api/result/item/",
+        report: "/PenguinStats/api/report"
     };
 
     private chapterListDataSource = new BehaviorSubject<any>(null);
@@ -51,10 +54,15 @@ export class PenguinService {
         this.itemListDataSource.next(null);
         this.itemResultDataSource.next(null);
         this.stageResultDataSource.next(null);
+        if (location.port !== '80' && location.port !== '443') {
+            this.origin = location.origin.replace(location.port, '8080');
+        } else {
+            this.origin = '';
+        }
     }
 
     getChapterList(snackBar: MatSnackBar = null): Observable<any> {
-        return this.http.get(this._api.chapter).pipe(map((res) => {
+        return this.http.get(this.origin + this.api.chapter).pipe(map((res) => {
             if (res) {
                 this.chapterListDataSource.next(res['zones']);
             }
@@ -80,7 +88,7 @@ export class PenguinService {
     }
 
     getStagesInChapter(id: string, snackBar: MatSnackBar = null): Observable<any> {
-        return this.http.get(this._api.chapter + "/" + id + "/stage").pipe(map((res) => {
+        return this.http.get(this.origin + this.api.chapter + "/" + id + "/stage").pipe(map((res) => {
             if (res) {
                 this.stageListDataSource.next(this._sortStageList(res['stages']));
             }
@@ -106,7 +114,7 @@ export class PenguinService {
     }
 
     getStage(id: string, snackBar: MatSnackBar = null): Observable<any> {
-        return this.http.get(this._api.stage + "/" + id).pipe(map((res) => {
+        return this.http.get(this.origin + this.api.stage + "/" + id).pipe(map((res) => {
             if (res) {
                 this.stageDataSource.next(res);
             }
@@ -132,7 +140,7 @@ export class PenguinService {
     }
 
     updateItemList(snackBar: MatSnackBar = null): Observable<any> {
-        return this.http.get(this._api.item).pipe(map((res) => {
+        return this.http.get(this.origin + this.api.item).pipe(map((res) => {
             if (res) {
                 this.itemListDataSource.next(this._sortItemList(res['items']));
             }
@@ -160,12 +168,12 @@ export class PenguinService {
     getItemResult(id: string, snackBar: MatSnackBar = null): Observable<any> {
         let observable: Observable<any>;
         if (this.isPersonal) {
-            observable = this.http.post(this._api.itemResult + id, {
+            observable = this.http.post(this.origin + this.api.itemResult + id, {
                 stageTimes: JSON.parse(localStorage.getItem("stageTimes")),
                 dropMatrix: JSON.parse(localStorage.getItem("dropMatrix"))
             });
         } else {
-            observable = this.http.get(this._api.itemResult + id);
+            observable = this.http.get(this.origin + this.api.itemResult + id);
         }
         return observable.pipe(map((res) => {
             if (res) {
@@ -197,12 +205,12 @@ export class PenguinService {
     getStageResult(id: string, snackBar: MatSnackBar = null): Observable<any> {
         let observable: Observable<any>;
         if (this.isPersonal) {
-            observable = this.http.post(this._api.stageResult + id, {
+            observable = this.http.post(this.origin + this.api.stageResult + id, {
                 stageTimes: JSON.parse(localStorage.getItem("stageTimes")),
                 dropMatrix: JSON.parse(localStorage.getItem("dropMatrix"))
             });
         } else {
-            observable = this.http.get(this._api.stageResult + id);
+            observable = this.http.get(this.origin + this.api.stageResult + id);
         }
         return observable.pipe(map((res) => {
             if (res) {
