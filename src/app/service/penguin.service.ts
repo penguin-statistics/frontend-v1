@@ -54,10 +54,10 @@ export class PenguinService {
         this.itemListDataSource.next(null);
         this.itemResultDataSource.next(null);
         this.stageResultDataSource.next(null);
-        if (location.port !== '80' && location.port !== '443') {
+        if (location.hostname === 'localhost') {
             this.origin = location.origin.replace(location.port, '8080');
         } else {
-            this.origin = '';
+            this.origin = location.origin;
         }
     }
 
