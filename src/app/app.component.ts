@@ -29,6 +29,7 @@ export class AppComponent {
         } else {
             this.navbar_img = '../assets/navbar/croissant.png';
         }
+        this._checkLocalStorage();
         this._convertOldLocalStorage();
     }
 
@@ -42,6 +43,23 @@ export class AppComponent {
 
     collapseNav() {
         this.renderer.setElementClass(this.el.nativeElement.querySelector('#navbarNavAltMarkup'), 'show', false);
+    }
+
+    private _checkLocalStorage() {
+        try {
+            let localStageTimesStr = localStorage.getItem("stageTimes");
+            if (localStageTimesStr) {
+                JSON.parse(localStageTimesStr);
+            }
+            let localDropMatrixStr = localStorage.getItem("dropMatrix");
+            if (localDropMatrixStr) {
+                JSON.parse(localDropMatrixStr);
+            }
+        } catch (error) {
+            localStorage.removeItem("stageTimes");
+            localStorage.removeItem("dropMatrix");
+            this._snackBar.open("您的本地数据出现异常，已清空。", "x", { duration: 2000 });
+        }
     }
 
     private _convertOldLocalStorage() {
