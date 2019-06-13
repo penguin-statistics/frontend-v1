@@ -1,43 +1,10 @@
 <div class='body'>
   <div class="row">
     <div class="col-lg-8 col-sm-12">
-      <div class="row">
-        <div class="drop-label">章节</div>
-      </div>
-      <div class="row standard-margin-top">
-        <div *ngIf="!chapterList || !chapterList.length">
-          企鹅读取中……
-        </div>
-        <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-          <div class="stage-button-container" *ngFor="let chapter of chapterList">
-            <button type="button" class="btn btn-outline-primary"
-              [ngClass]="{'active': selectedService.selections.report.selectedChapter && selectedService.selections.report.selectedChapter.zoneId === chapter.zoneId}"
-              (click)="selectChapter(chapter)">
-              {{chapter.zoneName}}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="selectedService.selections.report.selectedChapter">
-        <div class="row standard-margin-top">
-          <div class="drop-label">作战</div>
-        </div>
-        <div class="row standard-margin-top">
-          <div *ngIf="!stageList || !stageList.length">
-            企鹅读取中……
-          </div>
-          <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-            <div class="stage-button-container" *ngFor="let stage of stageList">
-              <button type="button" class="btn btn-outline-primary"
-                [ngClass]="{'active': selectedService.selections.report.selectedStage && selectedService.selections.report.selectedStage.stageId === stage.stageId}"
-                (click)="selectStage(stage)">
-                {{stage.code}}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-stage-selector [chapter]="selectedService.selections.report.selectedChapter"
+        [stage]="selectedService.selections.report.selectedStage" (chapterChange)="onChapterChange($event)"
+        (stageChange)="onStageChange($event)" [chapterFilter]="reportStageFilter">
+      </app-stage-selector>
 
       <div *ngIf="selectedService.selections.report.selectedStage">
         <div class="row">
@@ -62,13 +29,13 @@
           </div>
         </div>
 
-        <div class="row standard-margin-top" *ngIf="!detailedStage">
+        <div class="row standard-margin-top" *ngIf="!itemMap">
           企鹅读取中……
         </div>
 
-        <div *ngIf="detailedStage">
+        <div *ngIf="itemMap">
           <div class="row">
-            <div class="col-6" *ngIf="detailedStage.normalDrop?.length">
+            <div class="col-6" *ngIf="selectedService.selections.report.selectedStage.normalDrop?.length">
               <div class="row standard-margin-top">
                 <div class="drop-label">常规掉落</div>
               </div>
@@ -94,7 +61,7 @@
               </div>
             </div>
 
-            <div class="col-6" *ngIf="detailedStage.specialDrop?.length">
+            <div class="col-6" *ngIf="selectedService.selections.report.selectedStage.specialDrop?.length">
               <div class="row standard-margin-top">
                 <div class="drop-label">特殊掉落</div>
               </div>
@@ -121,7 +88,7 @@
             </div>
           </div>
 
-          <div *ngIf="detailedStage.extraDrop?.length">
+          <div *ngIf="selectedService.selections.report.selectedStage.extraDrop?.length">
             <div class="row standard-margin-top">
               <div class="drop-label">额外掉落</div>
             </div>
@@ -153,8 +120,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-sm-12"
-      *ngIf="selectedService.selections.report.selectedStage && detailedStage && allDrops">
+    <div class="col-lg-4 col-sm-12" *ngIf="selectedService.selections.report.selectedStage && allDrops">
       <div class="d-lg-none">
         <hr />
       </div>

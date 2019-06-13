@@ -4,4 +4,6 @@ export interface Chapter {
     zoneId: string;
     type: string;
     zoneIndex: number;
+    openTime: number;
+    closeTime: number;
 };

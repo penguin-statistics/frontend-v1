@@ -11,6 +11,7 @@ import { IntroComponent } from './main/intro/intro.component';
 import { ItemResultComponent } from './main/result/item.result.component';
 import { StageResultComponent } from './main/result/stage.result.component';
 import { LogComponent } from './main/log/log.component';
+import { StageSelectorComponent } from './main/stage-selector/stage-selector.component';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -28,7 +29,8 @@ import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule,
         StageResultComponent,
         ItemResultComponent,
         IntroComponent,
-        LogComponent
+        LogComponent,
+        StageSelectorComponent
     ],
     imports: [
         BrowserModule,

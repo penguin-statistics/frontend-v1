@@ -5,9 +5,13 @@ import { SelectedService } from 'src/app/service/selected.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Chapter } from 'src/app/interface/Chapter';
-import { Stage } from 'src/app/interface/Stage';
 import { Item } from 'src/app/interface/Item';
 import { MatSnackBar } from '@angular/material';
+
+interface DropDetail {
+    item: Item;
+    quantity: number;
+};
 
 @Component({
     selector: 'app-report',
@@ -18,10 +22,8 @@ export class ReportComponent implements OnInit {
 
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    chapterList: Chapter[];
-    stageList: Stage[];
-    detailedStage: Stage;
     itemList: Item[] = [];
+    itemMap: any;
 
     normalDrops: DropDetail[] = new Array();
     specialDrops: DropDetail[] = new Array();
@@ -30,44 +32,30 @@ export class ReportComponent implements OnInit {
     isReporting: boolean = false;
     furnitureNum: number = 0;
 
+    reportStageFilter: (chapter: Chapter) => boolean = chapter => {
+        const timestamp = Number(new Date());
+        if (chapter.openTime && chapter.openTime > timestamp) {
+            return false;
+        }
+        if (chapter.closeTime && chapter.closeTime < timestamp) {
+            return false;
+        }
+        return true;
+    }
+
     constructor(private http: HttpClient, public penguinService: PenguinService, public selectedService: SelectedService, private _snackBar: MatSnackBar) { }
 
     ngOnInit() {
-        this.penguinService.chapterListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res) {
-                this.chapterList = res.filter(chapter => {
-                    const timestamp = Number(new Date());
-                    if (chapter.openTime && chapter.openTime > timestamp) {
-                        return false;
-                    }
-                    if (chapter.closeTime && chapter.closeTime < timestamp) {
-                        return false;
-                    }
-                    return true;
-                });
-            }
-        });
-        this.penguinService.stageListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res) {
-                this.stageList = res;
-            }
-        });
-        this.penguinService.stageData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res) {
-                this.detailedStage = res;
-                this.clearDrops();
-            }
-        });
         this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res) {
                 this.itemList = res;
             }
         });
-
-        if (this.selectedService.selections.report.selectedChapter != null) {
-            this.stageList = null;
-            this.penguinService.getStagesInChapter(this.selectedService.selections.report.selectedChapter.zoneId, this._snackBar).subscribe();
-        }
+        this.penguinService.itemMapData.pipe(takeUntil(this.destroy$)).subscribe(res => {
+            if (res) {
+                this.itemMap = res;
+            }
+        });
     }
 
     ngOnDestroy(): void {
@@ -75,23 +63,44 @@ export class ReportComponent implements OnInit {
         this.destroy$.unsubscribe();
     }
 
-    selectChapter(chapter: Chapter) {
-        if (this.selectedService.selections.report.selectedChapter === chapter) {
-            return;
-        }
-        this.selectedService.selections.report.selectedChapter = chapter;
-        this.selectedService.selections.report.selectedStage = null;
-        this.stageList = null;
-        this.penguinService.getStagesInChapter(chapter.zoneId, this._snackBar).subscribe();
+    onChapterChange($event) {
+        this.selectedService.selections.report.selectedChapter = $event;
     }
 
-    selectStage(stage: Stage) {
-        if (this.selectedService.selections.report.selectedStage === stage) {
-            return;
+    onStageChange($event) {
+        this.selectedService.selections.report.selectedStage = $event;
+        this.clearDrops();
+    }
+
+    clearDrops() {
+        this.normalDrops = new Array();
+        this.specialDrops = new Array();
+        this.extraDrops = new Array();
+        this.allDrops = new Array();
+        this.furnitureNum = 0;
+        if (this.itemMap && this.selectedService.selections.report.selectedStage) {
+            this.selectedService.selections.report.selectedStage.normalDrop.forEach(itemId => {
+                this.normalDrops.push({
+                    item: this.itemMap[itemId],
+                    quantity: 0
+                })
+            });
+            this.selectedService.selections.report.selectedStage.specialDrop.forEach(itemId => {
+                this.specialDrops.push({
+                    item: this.itemMap[itemId],
+                    quantity: 0
+                })
+            });
+            this.selectedService.selections.report.selectedStage.extraDrop.forEach(itemId => {
+                this.extraDrops.push({
+                    item: this.itemMap[itemId],
+                    quantity: 0
+                })
+            });
+            this.normalDrops.sort((a, b) => a.item.sortId - b.item.sortId);
+            this.specialDrops.sort((a, b) => a.item.sortId - b.item.sortId);
+            this.extraDrops.sort((a, b) => a.item.sortId - b.item.sortId);
         }
-        this.selectedService.selections.report.selectedStage = stage;
-        this.detailedStage = null;
-        this.penguinService.getStage(stage.stageId, this._snackBar).subscribe();
     }
 
     selectHasFurniture(furnitureNum: number) {
@@ -109,37 +118,6 @@ export class ReportComponent implements OnInit {
         }
         this._updateAllDrops();
         return false;
-    }
-
-    clearDrops() {
-        this.normalDrops = new Array();
-        this.specialDrops = new Array();
-        this.extraDrops = new Array();
-        this.allDrops = new Array();
-        this.furnitureNum = 0;
-        if (this.detailedStage) {
-            this.detailedStage.normalDrop.forEach(drop => {
-                this.normalDrops.push({
-                    item: drop,
-                    quantity: 0
-                });
-            });
-            this.normalDrops.sort((a, b) => a.item.sortId - b.item.sortId);
-            this.detailedStage.specialDrop.forEach(drop => {
-                this.specialDrops.push({
-                    item: drop,
-                    quantity: 0
-                });
-            });
-            this.specialDrops.sort((a, b) => a.item.sortId - b.item.sortId);
-            this.detailedStage.extraDrop.forEach(drop => {
-                this.extraDrops.push({
-                    item: drop,
-                    quantity: 0
-                });
-            });
-            this.extraDrops.sort((a, b) => a.item.sortId - b.item.sortId);
-        }
     }
 
     submitDrops() {
@@ -243,14 +221,9 @@ export class ReportComponent implements OnInit {
         });
     }
 
-    changeValue(drop, value) {
-        drop.quantity = Number(value);
-        this._updateAllDrops();
-    }
+    // changeValue(drop, value) {
+    //     drop.quantity = Number(value);
+    //     this._updateAllDrops();
+    // }
 
 }
-
-interface DropDetail {
-    item: Item;
-    quantity: number;
-};

@@ -15,8 +15,9 @@ export class AppComponent {
 
     public constructor(private titleService: Title, public penguinService: PenguinService, private el: ElementRef, private renderer: Renderer, private _snackBar: MatSnackBar) {
         this.titleService.setTitle('Penguin Statistics - 明日方舟素材掉落统计');
-        this.penguinService.getChapterList(this._snackBar).subscribe();
-        this.penguinService.updateItemList(this._snackBar).subscribe();
+        this.penguinService.getAllChapters(this._snackBar).subscribe();
+        this.penguinService.getAllStages(this._snackBar).subscribe();
+        this.penguinService.getAllItems(this._snackBar).subscribe();
         this.penguinService.isCollapsed = true;
         const r = Math.random();
         if (r < 0.25) {
