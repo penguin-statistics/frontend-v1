@@ -87,24 +87,6 @@ export class PenguinService {
         ));
     }
 
-    getStagesInChapter(id: string, snackBar: MatSnackBar = null): Observable<any> {
-        return this.http.get(this.origin + this.api.chapter + "/" + id + "/stage").pipe(map((res) => {
-            if (res) {
-                this.stageListDataSource.next(this._sortStageList(res['stages']));
-            }
-            return res['stages'];
-        })).pipe(catchError(
-            (err, caught) => {
-                if (!snackBar) {
-                    alert('未能获取作战列表。可将以下信息提供给作者以便改进本网站：' + err.message);
-                } else {
-                    snackBar.open("未能获取作战列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
-                }
-                return throwError(err);
-            }
-        ));
-    }
-
     getAllStages(snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this.origin + this.api.stage).pipe(map((res) => {
             if (res) {
@@ -198,21 +180,20 @@ export class PenguinService {
         ));
     }
 
-    private _sortStageList(stageList) {
-        if (stageList) {
-            stageList.sort((a, b) => {
-                if (a.stageId.startsWith('sub') && b.stageId.startsWith('sub')) {
-                    return a.stageId.localeCompare(b.stageId);
-                } else if (a.stageId.startsWith('sub')) {
-                    return 1;
-                } else if (b.stageId.startsWith('sub')) {
-                    return -1;
-                } else {
-                    return a.stageId.localeCompare(b.stageId);
-                }
-            });
-            return stageList;
-        }
+    private _convertStageListToMap(stages: Stage[]): any {
+        let result: any = {};
+        stages.forEach(stage => {
+            result[stage.stageId] = stage;
+        });
+        return result;
+    }
+
+    private _convertItemListToMap(items: Item[]): any {
+        let result: any = {};
+        items.forEach(item => {
+            result[item.itemId] = item;
+        });
+        return result;
     }
 
     private _sortItemList(itemList) {
@@ -256,22 +237,6 @@ export class PenguinService {
                 return -1;
             }
             return b.quantity - a.quantity;
-        });
-        return result;
-    }
-
-    private _convertStageListToMap(stages: Stage[]): any {
-        let result: any = {};
-        stages.forEach(stage => {
-            result[stage.stageId] = stage;
-        });
-        return result;
-    }
-
-    private _convertItemListToMap(items: Item[]): any {
-        let result: any = {};
-        items.forEach(item => {
-            result[item.itemId] = item;
         });
         return result;
     }

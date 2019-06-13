@@ -7,8 +7,8 @@
   </div>
   <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
     <div class="stage-button-container" *ngFor="let oneChapter of chapterList">
-      <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': oneChapter && oneChapter === chapter}"
-        (click)="selectChapter(oneChapter)">
+      <button type="button" class="btn btn-outline-primary"
+        [ngClass]="{'active': chapter && oneChapter.zoneId === chapter.zoneId}" (click)="selectChapter(oneChapter)">
         {{oneChapter.zoneName}}
       </button>
     </div>
@@ -25,8 +25,8 @@
     </div>
     <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
       <div class="stage-button-container" *ngFor="let oneStage of stageList">
-        <button type="button" class="btn btn-outline-primary" [ngClass]="{'active': oneStage && oneStage === stage}"
-          (click)="selectStage(oneStage)">
+        <button type="button" class="btn btn-outline-primary"
+          [ngClass]="{'active': stage && oneStage.stageId === stage.stageId}" (click)="selectStage(oneStage)">
           {{oneStage.code}}
         </button>
       </div>

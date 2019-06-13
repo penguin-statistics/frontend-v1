@@ -45,7 +45,7 @@ export class ItemResultComponent implements OnInit {
             }
         });
         this.penguinService.itemResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res && (this.penguinService.isTest || res.item.itemId === this.selectedService.selections.result_by_item.selectedItem.itemId)) {
+            if (res && (res.item.itemId === this.selectedService.selections.result_by_item.selectedItem.itemId)) {
                 this.itemResult = res;
                 this._generateRows();
                 this.dataSource = [...this.rows];

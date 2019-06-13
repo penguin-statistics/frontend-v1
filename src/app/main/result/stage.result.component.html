@@ -14,53 +14,20 @@
           </button>
         </div>
       </div>
-      <div class="row">
-        <div class="drop-label">章节</div>
-      </div>
-      <div class="row standard-margin-top">
-        <div *ngIf="!chapterList || !chapterList.length">
-          企鹅读取中……
-        </div>
-        <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-          <div class="stage-button-container" *ngFor="let chapter of chapterList">
-            <button type="button" class="btn btn-outline-primary"
-              [ngClass]="{'active': selectedService.selections.result_by_stage.selectedChapter && selectedService.selections.result_by_stage.selectedChapter.zoneId === chapter.zoneId}"
-              (click)="selectChapter(chapter)">
-              {{chapter.zoneName}}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="selectedService.selections.result_by_stage.selectedChapter">
-        <div class="row standard-margin-top">
-          <div class="drop-label">作战</div>
-        </div>
-        <div class="row standard-margin-top">
-          <div *ngIf="!stageList || !stageList.length">
-            企鹅读取中……
-          </div>
-          <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-            <div class="stage-button-container" *ngFor="let stage of stageList">
-              <button type="button" class="btn btn-outline-primary"
-                [ngClass]="{'active': selectedService.selections.result_by_stage.selectedStage && selectedService.selections.result_by_stage.selectedStage.stageId === stage.stageId}"
-                (click)="selectStage(stage)">
-                {{stage.code}}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-stage-selector [chapter]="selectedService.selections.result_by_stage.selectedChapter"
+        [stage]="selectedService.selections.result_by_stage.selectedStage" (chapterChange)="onChapterChange($event)"
+        (stageChange)="onStageChange($event)" [chapterFilter]="resultStageFilter">
+      </app-stage-selector>
       <div class="row result-label" *ngIf="selectedService.selections.result_by_stage.selectedStage">
         {{selectedService.selections.result_by_stage.selectedStage.code}}
       </div>
       <div class="row result-tip" *ngIf="!isLoading && stageResult && showTable">
         （左右滑动查看完整数据）
       </div>
-      <div class="row" style="margin-top: 1rem;" *ngIf="showTable">
+      <div class="row" style="margin-top: 1rem;">
         <div class="col-12" [ngClass]="{'table-responsive': !isLoading}">
           <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
-            (matSortChange)="sortStageData($event)">
+            (matSortChange)="sortStageData($event)" [style.visibility]="showTable ? 'visible' : 'hidden'">
             <ng-container matColumnDef="material">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>素材</th>
               <td mat-cell *matCellDef="let row">

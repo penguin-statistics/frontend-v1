@@ -21,35 +21,29 @@ export class StageResultComponent implements OnInit {
     stageList: Stage[];
     stageResult: any = null;
     rows: any;
-    isLoading: boolean = true;
     displayedColumns: string[] = ['material', 'name', 'times', 'quantity', 'rate', 'expectation'];
     dataSource: any;
+
+    isLoading: boolean = true;
     showTable: boolean = false;
+
     private _lastSortEvent: any = null;
+
+    resultStageFilter: (chapter: Chapter) => boolean = chapter => {
+        const timestamp = Number(new Date());
+        if (chapter.openTime && chapter.openTime > timestamp) {
+            return false;
+        }
+        return true;
+    };
 
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router, private _snackBar: MatSnackBar) { }
 
     ngOnInit() {
-        this.penguinService.chapterListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res) {
-                this.chapterList = res.filter(chapter => {
-                    const timestamp = Number(new Date());
-                    if (chapter.openTime && chapter.openTime > timestamp) {
-                        return false;
-                    }
-                    return true;
-                });
-            }
-        });
-        this.penguinService.stageListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res) {
-                this.stageList = res;
-            }
-        });
         this.penguinService.stageResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
-            if (res && (this.penguinService.isTest || this.selectedService.selections.result_by_stage.selectedStage && res.stage.stageId === this.selectedService.selections.result_by_stage.selectedStage.stageId)) {
+            if (res && (this.selectedService.selections.result_by_stage.selectedStage && res.stage.stageId === this.selectedService.selections.result_by_stage.selectedStage.stageId)) {
                 this.stageResult = res;
                 this._generateRows();
                 this.dataSource = [...this.rows];
@@ -58,15 +52,9 @@ export class StageResultComponent implements OnInit {
                     this.sortStageData(this._lastSortEvent);
                 }
                 this.isLoading = false;
+                this.showTable = true;
             }
         });
-
-        this.isLoading = true;
-        this.showTable = false;
-        if (this.selectedService.selections.result_by_stage.selectedChapter != null) {
-            this.stageList = null;
-            this.penguinService.getStagesInChapter(this.selectedService.selections.result_by_stage.selectedChapter.zoneId, this._snackBar).subscribe();
-        }
         if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter) {
             this.isLoading = false;
         } else {
@@ -79,32 +67,26 @@ export class StageResultComponent implements OnInit {
         this.destroy$.unsubscribe();
     }
 
-    selectChapter(chapter: Chapter) {
-        if (this.selectedService.selections.result_by_stage.selectedChapter === chapter) {
-            return;
-        }
-        this.selectedService.selections.result_by_stage.selectedChapter = chapter;
-        this.selectedService.selections.result_by_stage.selectedStage = null;
+    onChapterChange($event) {
+        this.selectedService.selections.result_by_stage.selectedChapter = $event;
         this.showTable = false;
-        this.stageList = null;
-        this.penguinService.getStagesInChapter(chapter.zoneId, this._snackBar).subscribe();
+        this.isLoading = false;
     }
 
-    selectStage(stage: any) {
-        if (this.selectedService.selections.result_by_stage.selectedStage === stage) {
-            return;
-        }
-        this.selectedService.selections.result_by_stage.selectedStage = stage;
+    onStageChange($event) {
+        this.selectedService.selections.result_by_stage.selectedStage = $event;
         this._refreshStageResult();
     }
 
     private _refreshStageResult() {
-        this.isLoading = true;
-        this.showTable = true;
         this.rows = new Array();
         this.dataSource = [...this.rows];
         this.stageResult = new Array();
-        this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.stageId, this._snackBar).subscribe();
+        if (this.selectedService.selections.result_by_stage.selectedStage) {
+            this.isLoading = true;
+            this.showTable = false;
+            this.penguinService.getStageResult(this.selectedService.selections.result_by_stage.selectedStage.stageId, this._snackBar).subscribe();
+        }
     }
 
     redirectToItemResult(item) {
