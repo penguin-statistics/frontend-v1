@@ -41,7 +41,7 @@
               </div>
               <div class="row standard-margin-top">
                 <div class="materials-container d-flex justify-content-start flex-wrap">
-                  <div *ngFor="let drop of normalDrops" class="material-container">
+                  <div *ngFor="let drop of normalDrops; trackBy: trackByDropItemId" class="material-container">
                     <div class="hover-pointer">
                       <div class="material-img-container"
                         [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
@@ -67,7 +67,7 @@
               </div>
               <div class="row standard-margin-top">
                 <div class="materials-container d-flex justify-content-start flex-wrap">
-                  <div *ngFor="let drop of specialDrops" class="material-container">
+                  <div *ngFor="let drop of specialDrops; trackBy: trackByDropItemId" class="material-container">
                     <div class="hover-pointer">
                       <div class="material-img-container"
                         [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
@@ -94,7 +94,7 @@
             </div>
             <div class="row standard-margin-top">
               <div class="materials-container d-flex justify-content-start flex-wrap">
-                <div *ngFor="let drop of extraDrops" class="material-container">
+                <div *ngFor="let drop of extraDrops; trackBy: trackByDropItemId" class="material-container">
                   <div class="hover-pointer">
                     <div class="material-img-container"
                       [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
@@ -136,7 +136,7 @@
         <div style="font-size: 1rem;">无素材掉落</div>
       </div>
       <div class="row standard-margin-top" *ngIf="allDrops.length">
-        <div *ngFor="let drop of allDrops" class="material-container">
+        <div *ngFor="let drop of allDrops; trackBy: trackByDropItemId" class="material-container">
           <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
             [tooltip]="drop.item.name" placement="top" [delay]="300"></div>
           <div class="material-drop-quantity-container">

@@ -41,7 +41,7 @@ export class ReportComponent implements OnInit {
             return false;
         }
         return true;
-    }
+    };
 
     constructor(private http: HttpClient, public penguinService: PenguinService, public selectedService: SelectedService, private _snackBar: MatSnackBar) { }
 
@@ -219,6 +219,10 @@ export class ReportComponent implements OnInit {
                 }
             }
         });
+    }
+
+    trackByDropItemId(index: number, drop: DropDetail) {
+        return drop.item.itemId;
     }
 
     // changeValue(drop, value) {
