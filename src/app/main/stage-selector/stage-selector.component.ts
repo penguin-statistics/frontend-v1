@@ -4,6 +4,7 @@ import { Stage } from 'src/app/interface/Stage';
 import { PenguinService } from 'src/app/service/penguin.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, combineLatest } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
     selector: 'app-stage-selector',
@@ -24,7 +25,7 @@ export class StageSelectorComponent implements OnInit {
     stageList: Stage[];
     stageMap: any;
 
-    constructor(public penguinService: PenguinService) { }
+    constructor(public penguinService: PenguinService, public updates: SwUpdate) { }
 
     ngOnInit() {
         combineLatest(this.penguinService.chapterListData, this.penguinService.stageMapData).pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -47,6 +48,8 @@ export class StageSelectorComponent implements OnInit {
             this._updateStageList(chapter);
             this.chapterChange.emit(this.chapter);
             this.selectStage(null);
+            this.updates.checkForUpdate();
+            console.log("ha");
         }
     }
 

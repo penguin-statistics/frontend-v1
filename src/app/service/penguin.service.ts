@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { Stage } from '../interface/Stage';
 import { Item } from '../interface/Item';
+import { SwUpdate } from '@angular/service-worker';
 
 @Injectable({
     providedIn: 'root'
@@ -51,7 +52,7 @@ export class PenguinService {
 
     isPersonal = false;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, updates: SwUpdate) {
         this.isTest = isDevMode();
 
         this.chapterListDataSource.next(null);
@@ -67,6 +68,18 @@ export class PenguinService {
         } else {
             this.origin = location.origin;
         }
+
+        updates.available.subscribe(event => {
+            console.log('Current version is', event.current);
+            console.log('Available version is', event.available);
+        });
+        updates.activated.subscribe(event => {
+            console.log('Old version was', event.previous);
+            console.log('New version is', event.current);
+        });
+        updates.checkForUpdate().then(res => {
+            console.log("4");
+        });
     }
 
     getAllChapters(snackBar: MatSnackBar = null): Observable<any> {

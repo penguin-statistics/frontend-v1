@@ -21,6 +21,8 @@ import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
 
 import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
@@ -45,7 +47,8 @@ import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule,
         MatSortModule,
         MatCardModule,
         MatProgressSpinnerModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [PenguinService, SelectedService],
     bootstrap: [AppComponent]
