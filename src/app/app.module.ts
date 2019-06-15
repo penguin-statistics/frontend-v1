@@ -12,6 +12,7 @@ import { ItemResultComponent } from './main/result/item.result.component';
 import { StageResultComponent } from './main/result/stage.result.component';
 import { LogComponent } from './main/log/log.component';
 import { StageSelectorComponent } from './main/stage-selector/stage-selector.component';
+import { DataSourceComponent } from './component/data-source/data-source.component';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -30,7 +31,8 @@ import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule,
         ItemResultComponent,
         IntroComponent,
         LogComponent,
-        StageSelectorComponent
+        StageSelectorComponent,
+        DataSourceComponent
     ],
     imports: [
         BrowserModule,
