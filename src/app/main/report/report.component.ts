@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
@@ -18,7 +18,7 @@ interface DropDetail {
     templateUrl: './report.component.html',
     styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
 
     destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -56,6 +56,9 @@ export class ReportComponent implements OnInit {
                 this.itemMap = res;
             }
         });
+        if (this.selectedService.selections.report.selectedStage && this.selectedService.selections.report.selectedChapter) {
+            this.clearDrops();
+        }
     }
 
     ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Chapter } from 'src/app/interface/Chapter';
 import { Stage } from 'src/app/interface/Stage';
 import { PenguinService } from 'src/app/service/penguin.service';
@@ -10,7 +10,7 @@ import { Subject, combineLatest } from 'rxjs';
     templateUrl: './stage-selector.component.html',
     styleUrls: ['./stage-selector.component.scss']
 })
-export class StageSelectorComponent implements OnInit {
+export class StageSelectorComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() chapter: Chapter;
     @Input() stage: Stage;
@@ -31,35 +31,40 @@ export class StageSelectorComponent implements OnInit {
             if (res && res[0] && res[1]) {
                 this.chapterList = res[0].filter(this.chapterFilter);
                 this.stageMap = res[1];
+                if (this.chapter) {
+                    this._updateStageList(this.chapter);
+                }
             }
         });
-        if (this.chapter) {
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.chapter && !changes.chapter.firstChange) {
             this._updateStageList(this.chapter);
         }
-        if (this.stage) {
-            this.stageChange.emit(this.stage);
-        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
     }
 
     selectChapter(chapter: Chapter) {
         if (chapter !== this.chapter) {
-            this.chapter = chapter;
-            this._updateStageList(chapter);
-            this.chapterChange.emit(this.chapter);
-            this.selectStage(null);
+            this.chapterChange.emit(chapter);
+            this.stageChange.emit(null);
         }
     }
 
     selectStage(stage: Stage) {
         if (stage !== this.stage) {
-            this.stage = stage;
-            this.stageChange.emit(this.stage);
+            this.stageChange.emit(stage);
         }
     }
 
     private _updateStageList(chapter: Chapter) {
         this.stageList = new Array();
-        if (chapter) {
+        if (chapter && this.stageMap) {
             chapter.stages.forEach(stageId => {
                 this.stageList.push(this.stageMap[stageId]);
             });

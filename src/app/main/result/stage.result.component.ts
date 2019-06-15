@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort, MatSnackBar } from '@angular/material';
 import { Chapter } from 'src/app/interface/Chapter';
@@ -39,9 +40,35 @@ export class StageResultComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router, private _snackBar: MatSnackBar) { }
+    constructor(public penguinService: PenguinService,
+        public selectedService: SelectedService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private _snackBar: MatSnackBar,
+        private location: Location) {
+    }
 
     ngOnInit() {
+        combineLatest(this.route.paramMap, this.penguinService.stageMapData, this.penguinService.chapterListData).pipe(takeUntil(this.destroy$)).subscribe(res => {
+            if (res && res[0] && res[1] && res[2]) {
+                const paramStageId = res[0].get("stageId");
+                if (paramStageId !== null) {
+                    const stage = res[1][paramStageId];
+                    if (stage) {
+                        for (let i = 0; i < res[2].length; i++) {
+                            if (res[2][i].zoneId === stage.zoneId) {
+                                this.selectedService.selections.result_by_stage.selectedChapter = res[2][i];
+                                this.selectedService.selections.result_by_stage.selectedStage = stage;
+                                this._refreshStageResult();
+                                break;
+                            }
+                        }
+                    }
+                    const url = this.router.createUrlTree(['../'], { relativeTo: this.route }).toString();
+                    this.location.go(url);
+                }
+            }
+        });
         this.penguinService.stageResultData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res && (this.selectedService.selections.result_by_stage.selectedStage && res.stage.stageId === this.selectedService.selections.result_by_stage.selectedStage.stageId)) {
                 this.stageResult = res;
