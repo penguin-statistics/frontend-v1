@@ -11,7 +11,7 @@ import { IntroComponent } from './main/intro/intro.component';
 import { ItemResultComponent } from './main/result/item.result.component';
 import { StageResultComponent } from './main/result/stage.result.component';
 import { LogComponent } from './main/log/log.component';
-import { StageSelectorComponent } from './main/stage-selector/stage-selector.component';
+import { StageSelectorComponent } from './component/stage-selector/stage-selector.component';
 import { DataSourceComponent } from './component/data-source/data-source.component';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
