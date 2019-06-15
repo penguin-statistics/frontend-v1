@@ -23,7 +23,8 @@ const routes: Routes = [
             { path: '', pathMatch: 'full', redirectTo: 'stage' },
             { path: 'stage', component: StageResultComponent },
             { path: 'stage/:stageId', component: StageResultComponent },
-            { path: 'item', component: ItemResultComponent }
+            { path: 'item', component: ItemResultComponent },
+            { path: 'item/:itemId', component: ItemResultComponent }
         ]
     },
     {

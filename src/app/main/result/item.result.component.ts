@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort, MatSnackBar } from '@angular/material';
 import { Stage } from 'src/app/interface/Stage';
@@ -31,9 +32,28 @@ export class ItemResultComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public penguinService: PenguinService, public selectedService: SelectedService, private router: Router, private _snackBar: MatSnackBar) { }
+    constructor(public penguinService: PenguinService,
+        public selectedService: SelectedService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private _snackBar: MatSnackBar,
+        private location: Location) { }
 
     ngOnInit() {
+        combineLatest(this.route.paramMap, this.penguinService.itemMapData).pipe(takeUntil(this.destroy$)).subscribe(res => {
+            if (res && res[0] && res[1]) {
+                const paramItemId = res[0].get("itemId");
+                if (paramItemId !== null) {
+                    const item = res[1][paramItemId];
+                    if (item) {
+                        this.selectedService.selections.result_by_item.selectedItem = item;
+                        this._refreshItemResult();
+                    }
+                    const url = this.router.createUrlTree(['../'], { relativeTo: this.route }).toString();
+                    this.location.go(url);
+                }
+            }
+        });
         this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res) {
                 this.itemList = res;
