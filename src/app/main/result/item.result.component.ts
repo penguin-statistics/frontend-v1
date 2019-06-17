@@ -9,6 +9,7 @@ import { MatSort, MatSnackBar } from '@angular/material';
 import { Stage } from 'src/app/interface/Stage';
 import { Chapter } from 'src/app/interface/Chapter';
 import { Item } from 'src/app/interface/Item';
+import { GoogleAnalyticsEventsService } from 'src/app/service/google-analytics-events-service';
 
 @Component({
     selector: 'app-result',
@@ -34,6 +35,7 @@ export class ItemResultComponent implements OnInit {
 
     constructor(public penguinService: PenguinService,
         public selectedService: SelectedService,
+        public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
         private route: ActivatedRoute,
         private router: Router,
         private _snackBar: MatSnackBar,
@@ -74,6 +76,7 @@ export class ItemResultComponent implements OnInit {
                     this.sortItemData(this._lastSortEvent);
                 }
                 this.isLoading = false;
+                this.googleAnalyticsEventsService.emitEvent("result", "fetch", this.selectedService.selections.result_by_item.selectedItem.itemId, 1);
             }
         });
         this.isLoading = true;

@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatSort, MatSnackBar } from '@angular/material';
 import { Chapter } from 'src/app/interface/Chapter';
 import { Stage } from 'src/app/interface/Stage';
+import { GoogleAnalyticsEventsService } from 'src/app/service/google-analytics-events-service';
 
 @Component({
     selector: 'app-result',
@@ -42,6 +43,7 @@ export class StageResultComponent implements OnInit {
 
     constructor(public penguinService: PenguinService,
         public selectedService: SelectedService,
+        public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
         private route: ActivatedRoute,
         private router: Router,
         private _snackBar: MatSnackBar,
@@ -80,6 +82,7 @@ export class StageResultComponent implements OnInit {
                 }
                 this.isLoading = false;
                 this.showTable = true;
+                this.googleAnalyticsEventsService.emitEvent("result", "fetch", this.selectedService.selections.result_by_stage.selectedStage.stageId, 1);
             }
         });
         if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter) {

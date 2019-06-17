@@ -3,6 +3,9 @@ import { Title } from '@angular/platform-browser';
 import { PenguinService } from './service/penguin.service';
 import { Converter } from './util/converter';
 import { MatSnackBar } from '@angular/material';
+import { Router, NavigationEnd } from '@angular/router';
+
+declare let ga: Function;
 
 @Component({
     selector: 'app-root',
@@ -13,12 +16,26 @@ export class AppComponent {
 
     navbar_img: string;
 
-    public constructor(private titleService: Title, public penguinService: PenguinService, private el: ElementRef, private renderer: Renderer, private _snackBar: MatSnackBar) {
+    public constructor(private titleService: Title,
+        public penguinService: PenguinService,
+        private el: ElementRef,
+        private renderer: Renderer,
+        private _snackBar: MatSnackBar,
+        public router: Router) {
+
+        this.router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                ga('set', 'page', event.urlAfterRedirects);
+                ga('send', 'pageview');
+            }
+        });
+
         this.titleService.setTitle('Penguin Statistics - 明日方舟素材掉落统计');
         this.penguinService.getAllChapters(this._snackBar).subscribe();
         this.penguinService.getAllStages(this._snackBar).subscribe();
         this.penguinService.getAllItems(this._snackBar).subscribe();
         this.penguinService.isCollapsed = true;
+
         const r = Math.random();
         if (r < 0.25) {
             this.navbar_img = '../assets/navbar/exia.png';
@@ -29,6 +46,7 @@ export class AppComponent {
         } else {
             this.navbar_img = '../assets/navbar/croissant.png';
         }
+
         this._checkLocalStorage();
         this._convertOldLocalStorage();
     }

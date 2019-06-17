@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Chapter } from 'src/app/interface/Chapter';
 import { Item } from 'src/app/interface/Item';
 import { MatSnackBar } from '@angular/material';
+import { GoogleAnalyticsEventsService } from 'src/app/service/google-analytics-events-service';
 
 interface DropDetail {
     item: Item;
@@ -43,7 +44,11 @@ export class ReportComponent implements OnInit, OnDestroy {
         return true;
     };
 
-    constructor(private http: HttpClient, public penguinService: PenguinService, public selectedService: SelectedService, private _snackBar: MatSnackBar) { }
+    constructor(private http: HttpClient,
+        public penguinService: PenguinService,
+        public selectedService: SelectedService,
+        public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
+        private _snackBar: MatSnackBar) { }
 
     ngOnInit() {
         this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -138,6 +143,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             .subscribe(
                 (val) => {
                     this._snackBar.open("上传成功。", "", { duration: 2000 });
+                    this.googleAnalyticsEventsService.emitEvent("report", "submit_single", this.selectedService.selections.report.selectedStage.stageId, 1);
                     this.clearDrops();
                 },
                 error => {

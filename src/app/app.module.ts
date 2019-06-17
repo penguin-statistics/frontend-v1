@@ -20,6 +20,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
+import { GoogleAnalyticsEventsService } from './service/google-analytics-events-service';
 
 import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 
@@ -49,7 +50,7 @@ import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule,
         MatProgressSpinnerModule,
         MatSnackBarModule
     ],
-    providers: [PenguinService, SelectedService],
+    providers: [PenguinService, SelectedService, GoogleAnalyticsEventsService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
