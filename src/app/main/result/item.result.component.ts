@@ -76,7 +76,14 @@ export class ItemResultComponent implements OnInit {
                     this.sortItemData(this._lastSortEvent);
                 }
                 this.isLoading = false;
-                this.googleAnalyticsEventsService.emitEvent("result", "fetch", this.selectedService.selections.result_by_item.selectedItem.itemId, 1);
+
+                let eventAction = "fetch";
+                if (this.penguinService.isPersonal) {
+                    eventAction += "_personal";
+                } else {
+                    eventAction += "_universal";
+                }
+                this.googleAnalyticsEventsService.emitEvent("result", eventAction, this.selectedService.selections.result_by_item.selectedItem.itemId, 1);
             }
         });
         this.isLoading = true;

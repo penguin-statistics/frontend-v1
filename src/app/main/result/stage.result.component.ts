@@ -82,7 +82,14 @@ export class StageResultComponent implements OnInit {
                 }
                 this.isLoading = false;
                 this.showTable = true;
-                this.googleAnalyticsEventsService.emitEvent("result", "fetch", this.selectedService.selections.result_by_stage.selectedStage.stageId, 1);
+
+                let eventAction = "fetch";
+                if (this.penguinService.isPersonal) {
+                    eventAction += "_personal";
+                } else {
+                    eventAction += "_universal";
+                }
+                this.googleAnalyticsEventsService.emitEvent("result", eventAction, this.selectedService.selections.result_by_stage.selectedStage.stageId, 1);
             }
         });
         if (!this.selectedService.selections.result_by_stage.selectedStage || !this.selectedService.selections.result_by_stage.selectedChapter) {
