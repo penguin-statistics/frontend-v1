@@ -136,7 +136,9 @@ export class ReportComponent implements OnInit, OnDestroy {
             drops: this.allDrops.map(drop => ({
                 itemId: drop.item.itemId,
                 quantity: drop.quantity
-            }))
+            })),
+            source: "penguin-stats.io",
+            version: this.penguinService.version
         };
 
         this.http.post(this.penguinService.origin + this.penguinService.api.report, finalResult)
