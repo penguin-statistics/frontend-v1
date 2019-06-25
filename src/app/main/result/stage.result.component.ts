@@ -133,7 +133,11 @@ export class StageResultComponent implements OnInit {
 
     private _generateRows() {
         this.rows = new Array();
-        this.stageResult.drops.forEach(drop => {
+        for (let i = 0; i < this.stageResult.drops.length; i++) {
+            let drop = this.stageResult.drops[i];
+            if (drop.quantity === 0) {
+                continue;
+            }
             const rate = drop.quantity / drop.times * 100;
             const expectation = drop.times / drop.quantity * this.stageResult.stage.apCost;
             this.rows.push({
@@ -143,7 +147,7 @@ export class StageResultComponent implements OnInit {
                 rate: +rate.toFixed(2),
                 expectation: +expectation.toFixed(2)
             });
-        });
+        }
     }
 
     sortStageData($event) {

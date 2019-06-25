@@ -129,7 +129,11 @@ export class ItemResultComponent implements OnInit {
 
     private _generateRows() {
         this.rows = new Array();
-        this.itemResult.drops.forEach(drop => {
+        for (let i = 0; i < this.itemResult.drops.length; i++) {
+            let drop = this.itemResult.drops[i];
+            if (drop.quantity === 0) {
+                continue;
+            }
             const rate = drop.quantity / drop.times * 100;
             const expectation = drop.times / drop.quantity * drop.stage.apCost;
             this.rows.push({
@@ -141,7 +145,7 @@ export class ItemResultComponent implements OnInit {
                 stage: drop.stage,
                 apCost: drop.stage.apCost
             });
-        });
+        }
     }
 
     sortItemData($event) {
