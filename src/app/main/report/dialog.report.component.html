@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>警告</h1>
+<div mat-dialog-content>
+    <p>您的本次汇报与现有数据差距较大，继续提交可能导致此次汇报被判定为异常，无法进入全部统计数据中。</p>
+    <p>如果您认为这是误判，欢迎<button class="url-button" (click)="redirectToHomepage()">联系作者</button>（最好附上掉落截图），确认后会尽快修正。</p>
+    <p>确定要继续吗？</p>
+</div>
+<div class="row">
+    <div class="col-6 col-sm-8"></div>
+    <div class="col-6 col-sm-4">
+        <div mat-dialog-actions class="dialog-button-group">
+            <button type="button" class="btn btn-outline-danger btn-sm" (click)="onConfirmClick()">确认</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="onBackClick()">返回</button>
+        </div>
+    </div>
+</div>

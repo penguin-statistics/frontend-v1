@@ -19,7 +19,8 @@ export class PenguinService {
         item: "/PenguinStats/api/item",
         stageResult: "/PenguinStats/api/result/stage/",
         itemResult: "/PenguinStats/api/result/item/",
-        report: "/PenguinStats/api/report"
+        report: "/PenguinStats/api/report",
+        limitation: "/PenguinStats/api/limitation"
     };
 
     private chapterListDataSource = new BehaviorSubject<any>(null);
@@ -43,6 +44,9 @@ export class PenguinService {
     private stageResultDataSource = new BehaviorSubject<any>(null);
     stageResultData = this.stageResultDataSource.asObservable();
 
+    private limitationMapDataSource = new BehaviorSubject<any>(null);
+    limitationMapData = this.limitationMapDataSource.asObservable();
+
     isCollapsed = true;
 
     isTest = false;
@@ -51,7 +55,7 @@ export class PenguinService {
 
     isPersonal = false;
 
-    version = "v1.0.0";
+    version = "v1.1.0";
 
     constructor(private http: HttpClient) {
         this.isTest = isDevMode();
@@ -63,6 +67,7 @@ export class PenguinService {
         this.itemMapDataSource.next(null);
         this.itemResultDataSource.next(null);
         this.stageResultDataSource.next(null);
+        this.limitationMapDataSource.next(null);
 
         if (location.hostname === 'localhost') {
             this.origin = location.origin.replace(location.port, '8080');
@@ -92,7 +97,7 @@ export class PenguinService {
     getAllStages(snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this.origin + this.api.stage).pipe(map((res) => {
             if (res) {
-                this.stageMapDataSource.next(this._convertStageListToMap(res['stages']));
+                this.stageMapDataSource.next(this._convertListToMap(res['stages'], 'stageId'));
             }
             return res;
         })).pipe(catchError(
@@ -111,7 +116,7 @@ export class PenguinService {
         return this.http.get(this.origin + this.api.item).pipe(map((res) => {
             if (res) {
                 this.itemListDataSource.next(this._sortItemList(res['items']));
-                this.itemMapDataSource.next(this._convertItemListToMap(res['items']));
+                this.itemMapDataSource.next(this._convertListToMap(res['items'], 'itemId'));
             }
             return res['items'];
         })).pipe(catchError(
@@ -120,6 +125,24 @@ export class PenguinService {
                     alert('未能获取素材列表。可将以下信息提供给作者以便改进本网站：' + err.message);
                 } else {
                     snackBar.open("未能获取素材列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                }
+                return throwError(err);
+            }
+        ));
+    }
+
+    getLimitations(snackBar: MatSnackBar = null): Observable<any> {
+        return this.http.get(this.origin + this.api.limitation).pipe(map((res) => {
+            if (res) {
+                this.limitationMapDataSource.next(this._convertListToMap(res['limitations'], 'name'));
+            }
+            return res['limitations'];
+        })).pipe(catchError(
+            (err, caught) => {
+                if (!snackBar) {
+                    alert('未能获取汇报设置。可将以下信息提供给作者以便改进本网站：' + err.message);
+                } else {
+                    snackBar.open("未能获取汇报设置。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
                 }
                 return throwError(err);
             }
@@ -182,18 +205,10 @@ export class PenguinService {
         ));
     }
 
-    private _convertStageListToMap(stages: Stage[]): any {
+    private _convertListToMap(list: any[], key: string): any {
         let result: any = {};
-        stages.forEach(stage => {
-            result[stage.stageId] = stage;
-        });
-        return result;
-    }
-
-    private _convertItemListToMap(items: Item[]): any {
-        let result: any = {};
-        items.forEach(item => {
-            result[item.itemId] = item;
+        list.forEach(item => {
+            result[item[key]] = item;
         });
         return result;
     }

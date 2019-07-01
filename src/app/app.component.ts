@@ -34,6 +34,7 @@ export class AppComponent {
         this.penguinService.getAllChapters(this._snackBar).subscribe();
         this.penguinService.getAllStages(this._snackBar).subscribe();
         this.penguinService.getAllItems(this._snackBar).subscribe();
+        this.penguinService.getLimitations(this._snackBar).subscribe();
         this.penguinService.isCollapsed = true;
 
         const r = Math.random();

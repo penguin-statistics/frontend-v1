@@ -22,12 +22,14 @@ import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
 import { GoogleAnalyticsEventsService } from './service/google-analytics-events-service';
 
-import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
+import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule } from '@angular/material';
+import { ReportWarningDialogComponent } from './main/report/dialog.report.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ReportComponent,
+        ReportWarningDialogComponent,
         StageResultComponent,
         ItemResultComponent,
         IntroComponent,
@@ -48,9 +50,11 @@ import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule,
         MatSortModule,
         MatCardModule,
         MatProgressSpinnerModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatDialogModule
     ],
     providers: [PenguinService, SelectedService, GoogleAnalyticsEventsService],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [ReportWarningDialogComponent]
 })
 export class AppModule { }

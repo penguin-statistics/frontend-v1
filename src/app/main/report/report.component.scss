@@ -40,3 +40,18 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.url-button {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.dialog-button-group {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}

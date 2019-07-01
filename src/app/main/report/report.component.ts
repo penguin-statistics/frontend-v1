@@ -6,8 +6,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Chapter } from 'src/app/interface/Chapter';
 import { Item } from 'src/app/interface/Item';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { GoogleAnalyticsEventsService } from 'src/app/service/google-analytics-events-service';
+import { Limitation, ItemQuantityBounds, Bounds } from 'src/app/util/limitation';
+import { ReportWarningDialogComponent } from './dialog.report.component';
 
 interface DropDetail {
     item: Item;
@@ -26,12 +28,15 @@ export class ReportComponent implements OnInit, OnDestroy {
     itemList: Item[] = [];
     itemMap: any;
 
+    limitationMap: any;
+
     normalDrops: DropDetail[] = new Array();
     specialDrops: DropDetail[] = new Array();
     extraDrops: DropDetail[] = new Array();
     allDrops: DropDetail[] = new Array();
     isReporting: boolean = false;
     furnitureNum: number = 0;
+    checkDrops: boolean = true;
 
     reportStageFilter: (chapter: Chapter) => boolean = chapter => {
         const timestamp = Number(new Date());
@@ -48,7 +53,8 @@ export class ReportComponent implements OnInit, OnDestroy {
         public penguinService: PenguinService,
         public selectedService: SelectedService,
         public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
-        private _snackBar: MatSnackBar) { }
+        private _snackBar: MatSnackBar,
+        public dialog: MatDialog) { }
 
     ngOnInit() {
         this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -59,6 +65,11 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.penguinService.itemMapData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res) {
                 this.itemMap = res;
+            }
+        });
+        this.penguinService.limitationMapData.pipe(takeUntil(this.destroy$)).subscribe(res => {
+            if (res) {
+                this.limitationMap = res;
             }
         });
         if (this.selectedService.selections.report.selectedStage && this.selectedService.selections.report.selectedChapter) {
@@ -91,19 +102,19 @@ export class ReportComponent implements OnInit, OnDestroy {
                 this.normalDrops.push({
                     item: this.itemMap[itemId],
                     quantity: 0
-                })
+                });
             });
             this.selectedService.selections.report.selectedStage.specialDrop.forEach(itemId => {
                 this.specialDrops.push({
                     item: this.itemMap[itemId],
                     quantity: 0
-                })
+                });
             });
             this.selectedService.selections.report.selectedStage.extraDrop.forEach(itemId => {
                 this.extraDrops.push({
                     item: this.itemMap[itemId],
                     quantity: 0
-                })
+                });
             });
             this.normalDrops.sort((a, b) => a.item.sortId - b.item.sortId);
             this.specialDrops.sort((a, b) => a.item.sortId - b.item.sortId);
@@ -141,23 +152,94 @@ export class ReportComponent implements OnInit, OnDestroy {
             version: this.penguinService.version
         };
 
-        this.http.post(this.penguinService.origin + this.penguinService.api.report, finalResult)
-            .subscribe(
-                (val) => {
-                    this._snackBar.open("上传成功。", "", { duration: 2000 });
-                    this.googleAnalyticsEventsService.emitEvent("report", "submit_single", this.selectedService.selections.report.selectedStage.stageId, 1);
-                    this.clearDrops();
-                },
-                error => {
-                    this._snackBar.open("上传失败。可将以下信息提供给作者以便改进本网站：" + error.message, "x");
-                    this.isReporting = false;
-                },
-                () => {
-                    this.isReporting = false;
-                });
+        if (this.checkDrops && !this._checkDrops(finalResult)) {
+            this.googleAnalyticsEventsService.emitEvent("report", "show_warning", this.selectedService.selections.report.selectedStage.stageId, 1);
+            this._openDialog();
+            this.isReporting = false;
+        } else {
+            this.http.post(this.penguinService.origin + this.penguinService.api.report, finalResult)
+                .subscribe(
+                    (val) => {
+                        this._snackBar.open("上传成功。", "", { duration: 2000 });
+                        this.googleAnalyticsEventsService.emitEvent("report", "submit_single", this.selectedService.selections.report.selectedStage.stageId, 1);
+                        this.clearDrops();
+                        if (!this.checkDrops) {
+                            this.googleAnalyticsEventsService.emitEvent("report", "ignore_warning", this.selectedService.selections.report.selectedStage.stageId, 1);
+                        }
+                        this.checkDrops = true;
+                    },
+                    error => {
+                        this._snackBar.open("上传失败。可将以下信息提供给作者以便改进本网站：" + error.message, "x");
+                        this.isReporting = false;
+                        this.checkDrops = true;
+                    },
+                    () => {
+                        this.isReporting = false;
+                        this.checkDrops = true;
+                    });
+            if (window.localStorage) {
+                this._handleLocalStorage(finalResult);
+            }
+        }
+    }
 
-        if (window.localStorage) {
-            this._handleLocalStorage(finalResult);
+    private _openDialog(): void {
+        const dialogRef = this.dialog.open(ReportWarningDialogComponent, {
+            width: '500px',
+            data: {}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.checkDrops = false;
+                this.submitDrops();
+            }
+        });
+    }
+
+    private _checkDrops(finalResult: any): boolean {
+        try {
+            if (!this.limitationMap) {
+                return true; // check from back-end instead
+            }
+            const limitation: Limitation = this.limitationMap[finalResult.stageId];
+            if (!limitation) {
+                return true; // check from back-end instead
+            }
+            if (limitation.itemTypeBounds) {
+                let typeBounds: Bounds = new Bounds(limitation.itemTypeBounds.lower, limitation.itemTypeBounds.upper, limitation.itemTypeBounds.exceptions);
+                if (!typeBounds.isValid(finalResult.drops.length)) {
+                    return false;
+                }
+            }
+            if (finalResult.furnitureNum) {
+                finalResult.drops.push({
+                    itemId: 'furni',
+                    quantity: finalResult.furnitureNum
+                });
+            }
+            let dropsMap: any = {};
+            finalResult.drops.forEach(drop => {
+                dropsMap[drop.itemId] = drop;
+            });
+            const itemQuantityBounds: ItemQuantityBounds[] = limitation.itemQuantityBounds;
+            if (itemQuantityBounds !== null) {
+                for (let i = 0; i < itemQuantityBounds.length; i++) {
+                    const oneBounds: ItemQuantityBounds = itemQuantityBounds[i];
+                    const drop = dropsMap[oneBounds.itemId];
+                    let quantity = !drop ? 0 : drop.quantity;
+                    if (oneBounds.bounds) {
+                        let bounds: Bounds = new Bounds(oneBounds.bounds.lower, oneBounds.bounds.upper, oneBounds.bounds.exceptions);
+                        if (!bounds.isValid(quantity)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            return true; // check from back-end instead
         }
     }
 
