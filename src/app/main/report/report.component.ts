@@ -212,16 +212,16 @@ export class ReportComponent implements OnInit, OnDestroy {
                     return false;
                 }
             }
-            if (finalResult.furnitureNum) {
-                finalResult.drops.push({
-                    itemId: 'furni',
-                    quantity: finalResult.furnitureNum
-                });
-            }
             let dropsMap: any = {};
             finalResult.drops.forEach(drop => {
                 dropsMap[drop.itemId] = drop;
             });
+            if (finalResult.furnitureNum) {
+                dropsMap['furni'] = {
+                    itemId: 'furni',
+                    quantity: finalResult.furnitureNum
+                };
+            }
             const itemQuantityBounds: ItemQuantityBounds[] = limitation.itemQuantityBounds;
             if (itemQuantityBounds !== null) {
                 for (let i = 0; i < itemQuantityBounds.length; i++) {
