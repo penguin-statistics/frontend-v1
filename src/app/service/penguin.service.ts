@@ -55,7 +55,7 @@ export class PenguinService {
 
     isPersonal = false;
 
-    version = "v1.1.0";
+    version = "v1.1.1";
 
     constructor(private http: HttpClient) {
         this.isTest = isDevMode();
@@ -79,7 +79,7 @@ export class PenguinService {
     getAllChapters(snackBar: MatSnackBar = null): Observable<any> {
         return this.http.get(this.origin + this.api.chapter).pipe(map((res) => {
             if (res) {
-                this.chapterListDataSource.next(res['zones']);
+                this.chapterListDataSource.next(this._sortChapterList(res['zones']));
             }
             return res['zones'];
         })).pipe(catchError(
@@ -211,6 +211,23 @@ export class PenguinService {
             result[item[key]] = item;
         });
         return result;
+    }
+
+    private _sortChapterList(chapterList) {
+        if (chapterList) {
+            chapterList.sort((a, b) => {
+                if (a.type === b.type) {
+                    return a.zoneId.localeCompare(b.zoneId);
+                } else if (a.type === 'MAINLINE') {
+                    return -1;
+                } else if (b.type === 'MAINLINE') {
+                    return 1;
+                } else {
+                    return a.zoneId.localeCompare(b.zoneId);
+                }
+            });
+            return chapterList;
+        }
     }
 
     private _sortItemList(itemList) {
