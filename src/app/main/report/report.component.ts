@@ -189,9 +189,10 @@ export class ReportComponent implements OnInit, OnDestroy {
                         this.isReporting = false;
                         this.checkDrops = true;
                     });
-            if (window.localStorage) {
-                this._handleLocalStorage(finalResult);
-            }
+            // Temporarily disable this
+            // if (window.localStorage) {
+            //     this._handleLocalStorage(finalResult);
+            // }
         }
     }
 

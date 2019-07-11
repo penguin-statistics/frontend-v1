@@ -36,6 +36,9 @@ export class DataSourceComponent implements OnInit {
       this._snackBar.open("您当前还未上传过掉落数据。", "x", { duration: 2000 });
       return;
     }
+    if (isPersonal) {
+      this._snackBar.open("由于即将更新本地上传管理功能，此处的本地数据可以正常显示，但暂时不会更新。如有不便，敬请谅解。", "x", { duration: 4000 });
+    }
     this.penguinService.isPersonal = isPersonal;
     this.refreshResult.emit();
   }
