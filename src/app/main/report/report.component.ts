@@ -10,6 +10,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { GoogleAnalyticsEventsService } from 'src/app/service/google-analytics-events-service';
 import { Limitation, ItemQuantityBounds, Bounds } from 'src/app/util/limitation';
 import { ReportWarningDialogComponent } from './dialog.report.component';
+import { ActivatedRoute } from '@angular/router';
 
 interface DropDetail {
     item: Item;
@@ -38,6 +39,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     furnitureNum: number = 0;
     checkDrops: boolean = true;
 
+    mode: string = null;
+
     reportStageFilter: (chapter: Chapter) => boolean = chapter => {
         const timestamp = Number(new Date());
         if (chapter.openTime && chapter.openTime > timestamp) {
@@ -54,7 +57,8 @@ export class ReportComponent implements OnInit, OnDestroy {
         public selectedService: SelectedService,
         public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
         private _snackBar: MatSnackBar,
-        public dialog: MatDialog) { }
+        public dialog: MatDialog,
+        private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.penguinService.itemListData.pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -70,6 +74,14 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.penguinService.limitationMapData.pipe(takeUntil(this.destroy$)).subscribe(res => {
             if (res) {
                 this.limitationMap = res;
+            }
+        });
+        this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(res => {
+            if (res) {
+                this.mode = res.get("mode");
+                if (this.mode) {
+                    console.log("You have entered " + this.mode + " mode.");
+                }
             }
         });
         if (this.selectedService.selections.report.selectedStage && this.selectedService.selections.report.selectedChapter) {
@@ -148,7 +160,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                 itemId: drop.item.itemId,
                 quantity: drop.quantity
             })),
-            source: "penguin-stats.io",
+            source: this.mode !== 'internal' ? "penguin-stats.io" : "penguin-stats.io(internal)",
             version: this.penguinService.version
         };
 

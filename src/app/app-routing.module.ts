@@ -18,6 +18,9 @@ const routes: Routes = [
         path: 'report', component: ReportComponent
     },
     {
+        path: 'report/:mode', component: ReportComponent
+    },
+    {
         path: 'result', component: null,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'stage' },
