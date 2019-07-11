@@ -212,6 +212,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     private _checkDrops(finalResult: any): boolean {
         try {
+            if (this.mode === 'internal') {
+                return true;
+            }
             if (!this.limitationMap) {
                 return true; // check from back-end instead
             }
