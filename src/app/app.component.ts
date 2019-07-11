@@ -5,7 +5,7 @@ import { Converter } from './util/converter';
 import { MatSnackBar } from '@angular/material';
 import { Router, NavigationEnd } from '@angular/router';
 
-declare let gtag: Function;
+declare let ga: Function;
 
 @Component({
     selector: 'app-root',
@@ -25,9 +25,8 @@ export class AppComponent {
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                gtag('config', 'UA-142226262-1', {
-                    'page_path': event.urlAfterRedirects
-                });
+                ga('set', 'page', event.urlAfterRedirects);
+                ga('send', 'pageview');
             }
         });
 
