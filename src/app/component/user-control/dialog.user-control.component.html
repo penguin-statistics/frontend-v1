@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+    <form>
+        <div class="form-group">
+            <input class="form-control" id="inputUserID" placeholder="请输入用户ID" [(ngModel)]="userID"
+                [ngModelOptions]="{standalone: true}">
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-6 col-sm-8"></div>
+    <div class="col-6 col-sm-4">
+        <div mat-dialog-actions class="dialog-button-group">
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="onBackClick()">返回</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="onConfirmClick()">确认</button>
+        </div>
+    </div>
+</div>

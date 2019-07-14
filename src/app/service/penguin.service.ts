@@ -20,7 +20,8 @@ export class PenguinService {
         stageResult: "/PenguinStats/api/result/stage/",
         itemResult: "/PenguinStats/api/result/item/",
         report: "/PenguinStats/api/report",
-        limitation: "/PenguinStats/api/limitation"
+        limitation: "/PenguinStats/api/limitation",
+        user: "/PenguinStats/api/user"
     };
 
     private chapterListDataSource = new BehaviorSubject<any>(null);
@@ -55,7 +56,7 @@ export class PenguinService {
 
     isPersonal = false;
 
-    version = "v1.2.1";
+    version = "v1.2.2";
 
     constructor(private http: HttpClient) {
         this.isTest = isDevMode();

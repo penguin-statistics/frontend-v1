@@ -4,6 +4,8 @@ import { PenguinService } from './service/penguin.service';
 import { Converter } from './util/converter';
 import { MatSnackBar } from '@angular/material';
 import { Router, NavigationEnd } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 declare let ga: Function;
 
@@ -21,7 +23,9 @@ export class AppComponent {
         private el: ElementRef,
         private renderer: Renderer,
         private _snackBar: MatSnackBar,
-        public router: Router) {
+        public router: Router,
+        private cookieService: CookieService) {
+
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {

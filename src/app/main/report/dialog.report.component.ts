@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'dialog-overview-example-dialog',
+    selector: 'report-warning-dialog',
     templateUrl: 'dialog.report.component.html',
     styleUrls: ['./report.component.scss']
 })

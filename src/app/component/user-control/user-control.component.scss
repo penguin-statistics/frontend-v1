@@ -1,0 +1,17 @@
+@import "../../app.component.scss";
+
+.log-in-out-button {
+  margin-left: 20px;
+}
+
+.help-icon-container {
+  margin-left: 5px;
+}
+
+.help-icon {
+  color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

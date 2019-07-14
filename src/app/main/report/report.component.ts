@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { PenguinService } from 'src/app/service/penguin.service';
 import { SelectedService } from 'src/app/service/selected.service';
@@ -11,6 +11,7 @@ import { GoogleAnalyticsEventsService } from 'src/app/service/google-analytics-e
 import { Limitation, ItemQuantityBounds, Bounds } from 'src/app/util/limitation';
 import { ReportWarningDialogComponent } from './dialog.report.component';
 import { ActivatedRoute } from '@angular/router';
+import { UserControlComponent } from 'src/app/component/user-control/user-control.component';
 
 interface DropDetail {
     item: Item;
@@ -23,6 +24,9 @@ interface DropDetail {
     styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit, OnDestroy {
+
+    @ViewChild(UserControlComponent)
+    private userControlComponent: UserControlComponent;
 
     destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -139,6 +143,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     addQuantity(item: Item, drops: DropDetail[], quantity: number) {
+        if (this.isReporting) {
+            return false;
+        }
         for (let i = 0; i < drops.length; i++) {
             if (drops[i].item === item) {
                 drops[i].quantity += quantity;
@@ -179,6 +186,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                             this.googleAnalyticsEventsService.emitEvent("report", "ignore_warning", this.selectedService.selections.report.selectedStage.stageId, 1);
                         }
                         this.checkDrops = true;
+                        this.userControlComponent.refresh();
                     },
                     error => {
                         this._snackBar.open("上传失败。可将以下信息提供给作者以便改进本网站：" + error.message, "x");

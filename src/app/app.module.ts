@@ -13,6 +13,7 @@ import { StageResultComponent } from './main/result/stage.result.component';
 import { LogComponent } from './main/log/log.component';
 import { StageSelectorComponent } from './component/stage-selector/stage-selector.component';
 import { DataSourceComponent } from './component/data-source/data-source.component';
+import { UserControlComponent } from './component/user-control/user-control.component';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -21,9 +22,13 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { SelectedService } from './service/selected.service';
 import { PenguinService } from './service/penguin.service';
 import { GoogleAnalyticsEventsService } from './service/google-analytics-events-service';
+import { CookieService } from 'ngx-cookie-service';
 
 import { MatTableModule, MatSortModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { ReportWarningDialogComponent } from './main/report/dialog.report.component';
+import { UserControlDialogComponent } from './component/user-control/dialog.user-control.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -35,12 +40,15 @@ import { ReportWarningDialogComponent } from './main/report/dialog.report.compon
         IntroComponent,
         LogComponent,
         StageSelectorComponent,
-        DataSourceComponent
+        DataSourceComponent,
+        UserControlComponent,
+        UserControlDialogComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
+        FormsModule,
         BrowserAnimationsModule,
         TooltipModule.forRoot(),
         ButtonsModule.forRoot(),
@@ -51,10 +59,11 @@ import { ReportWarningDialogComponent } from './main/report/dialog.report.compon
         MatCardModule,
         MatProgressSpinnerModule,
         MatSnackBarModule,
-        MatDialogModule
+        MatDialogModule,
+        MatIconModule
     ],
-    providers: [PenguinService, SelectedService, GoogleAnalyticsEventsService],
+    providers: [PenguinService, SelectedService, GoogleAnalyticsEventsService, CookieService],
     bootstrap: [AppComponent],
-    entryComponents: [ReportWarningDialogComponent]
+    entryComponents: [ReportWarningDialogComponent, UserControlDialogComponent]
 })
 export class AppModule { }
