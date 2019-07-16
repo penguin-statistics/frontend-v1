@@ -53,7 +53,6 @@ export class UserControlComponent implements OnInit {
                         this.googleAnalyticsEventsService.emitEvent("login", this.userID ? 'login_switch' : 'login', "login_success", 1);
                         this._snackBar.open("登录成功", "", { duration: 2000 });
                         this.userID = val['userID'];
-                        this.cookieService.set("userID", this.userID);
                         this.loginSuccess.emit(this.userID);
                     },
                     error => {
