@@ -3,8 +3,6 @@ import { Injectable, isDevMode } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
-import { Stage } from '../interface/Stage';
-import { Item } from '../interface/Item';
 
 @Injectable({
     providedIn: 'root'
@@ -56,7 +54,7 @@ export class PenguinService {
 
     isPersonal = false;
 
-    version = "v1.2.2";
+    version = "v1.3.0";
 
     constructor(private http: HttpClient) {
         this.isTest = isDevMode();
@@ -153,10 +151,14 @@ export class PenguinService {
     getItemResult(id: string, snackBar: MatSnackBar = null): Observable<any> {
         let observable: Observable<any>;
         if (this.isPersonal) {
-            observable = this.http.post(this.origin + this.api.itemResult + id, {
-                stageTimes: JSON.parse(localStorage.getItem("stageTimes")),
-                dropMatrix: JSON.parse(localStorage.getItem("dropMatrix"))
-            });
+            let payload: any = {};
+            const stageTimesStr = localStorage.getItem("stageTimes");
+            const dropMatrixStr = localStorage.getItem("dropMatrix");
+            if (stageTimesStr && dropMatrixStr) {
+                payload.stageTimes = JSON.parse(stageTimesStr);
+                payload.dropMatrix = JSON.parse(dropMatrixStr);
+            }
+            observable = this.http.post(this.origin + this.api.itemResult + id, payload);
         } else {
             observable = this.http.get(this.origin + this.api.itemResult + id);
         }
@@ -181,10 +183,14 @@ export class PenguinService {
     getStageResult(id: string, snackBar: MatSnackBar = null): Observable<any> {
         let observable: Observable<any>;
         if (this.isPersonal) {
-            observable = this.http.post(this.origin + this.api.stageResult + id, {
-                stageTimes: JSON.parse(localStorage.getItem("stageTimes")),
-                dropMatrix: JSON.parse(localStorage.getItem("dropMatrix"))
-            });
+            let payload: any = {};
+            const stageTimesStr = localStorage.getItem("stageTimes");
+            const dropMatrixStr = localStorage.getItem("dropMatrix");
+            if (stageTimesStr && dropMatrixStr) {
+                payload.stageTimes = JSON.parse(stageTimesStr);
+                payload.dropMatrix = JSON.parse(dropMatrixStr);
+            }
+            observable = this.http.post(this.origin + this.api.stageResult + id, payload);
         } else {
             observable = this.http.get(this.origin + this.api.stageResult + id);
         }
