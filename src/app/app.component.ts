@@ -53,7 +53,6 @@ export class AppComponent {
         }
 
         this._checkLocalStorage();
-        this._convertOldLocalStorage();
     }
 
     ngOnInit() {
@@ -73,56 +72,19 @@ export class AppComponent {
             let localStageTimesStr = localStorage.getItem("stageTimes");
             if (localStageTimesStr) {
                 JSON.parse(localStageTimesStr);
+            } else {
+                localStorage.setItem("stageTimes", "{}");
             }
             let localDropMatrixStr = localStorage.getItem("dropMatrix");
             if (localDropMatrixStr) {
                 JSON.parse(localDropMatrixStr);
+            } else {
+                localStorage.setItem("dropMatrix", "{}");
             }
         } catch (error) {
-            localStorage.removeItem("stageTimes");
-            localStorage.removeItem("dropMatrix");
+            localStorage.setItem("stageTimes", "{}");
+            localStorage.setItem("dropMatrix", "{}");
             this._snackBar.open("您的本地数据出现异常，已清空。", "x", { duration: 2000 });
-        }
-    }
-
-    private _convertOldLocalStorage() {
-        let localStageTimesStr = localStorage.getItem("stageTimes");
-        if (localStageTimesStr) {
-            let localStageTimes: any = JSON.parse(localStageTimesStr);
-            let convertedStageTimes: any = {};
-            for (let stageId in localStageTimes) {
-                if (Converter.stageIdMap[stageId]) {
-                    convertedStageTimes[Converter.stageIdMap[stageId]] = localStageTimes[stageId];
-                } else {
-                    convertedStageTimes[stageId] = localStageTimes[stageId];
-                }
-            }
-            localStorage.setItem("stageTimes", JSON.stringify(convertedStageTimes));
-        }
-
-        let localDropMatrixStr = localStorage.getItem("dropMatrix");
-        if (localDropMatrixStr) {
-            let localDropMatrix: any = JSON.parse(localDropMatrixStr);
-            let convertedDropMatrix: any = {};
-            for (let stageId in localDropMatrix) {
-                let subMap = localDropMatrix[stageId];
-                let convertedSubMap: any = {};
-                for (let itemId in subMap) {
-                    if (Converter.itemIdMap[itemId]) {
-                        convertedSubMap[Converter.itemIdMap[itemId]] = subMap[itemId];
-                    } else if (itemId === '-1') {
-                        convertedSubMap['furni'] = subMap[itemId];
-                    } else {
-                        convertedSubMap[itemId] = subMap[itemId];
-                    }
-                }
-                if (Converter.stageIdMap[stageId]) {
-                    convertedDropMatrix[Converter.stageIdMap[stageId]] = convertedSubMap;
-                } else {
-                    convertedDropMatrix[stageId] = convertedSubMap;
-                }
-            }
-            localStorage.setItem("dropMatrix", JSON.stringify(convertedDropMatrix));
         }
     }
 
