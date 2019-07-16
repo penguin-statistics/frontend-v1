@@ -188,4 +188,10 @@ export class StageResultComponent implements OnInit {
             this._refreshStageResult();
         }
     }
+
+    onLoginSuccess(userID: string) {
+        if (this.penguinService.isPersonal) {
+            this.onRefreshResult();
+        }
+    }
 }

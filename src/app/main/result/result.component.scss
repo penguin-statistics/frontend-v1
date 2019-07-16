@@ -58,6 +58,10 @@
   padding-bottom: 0.4rem;
 }
 
+.result-table-container {
+  margin-top: 1rem;
+}
+
 table {
   width: 100%;
 }
@@ -69,6 +73,12 @@ table {
 }
 
 @media screen and (max-width: 500px) {
+  .result-table-container {
+    position: absolute;
+    left: -10%;
+    width: 117%;
+  }
+
   .table-responsive {
     display: block;
     width: 100%;

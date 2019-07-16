@@ -182,4 +182,10 @@ export class ItemResultComponent implements OnInit {
             this._refreshItemResult();
         }
     }
+
+    onLoginSuccess(userID: string) {
+        if (this.penguinService.isPersonal) {
+            this.onRefreshResult();
+        }
+    }
 }

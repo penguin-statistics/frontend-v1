@@ -1,7 +1,25 @@
 <div class='body'>
   <div class="row">
+    <div class="col-lg-12 d-none d-sm-block">
+      <div class="d-flex justify-content-between">
+        <user-control (loginSuccess)="onLoginSuccess($event)"></user-control>
+        <app-data-source (refreshResult)="onRefreshResult()"></app-data-source>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 d-block d-sm-none">
+      <app-data-source (refreshResult)="onRefreshResult()"></app-data-source>
+    </div>
+  </div>
+  <div class="row standard-margin-top">
+    <div class="col-12 d-block d-sm-none">
+      <user-control (loginSuccess)="onLoginSuccess($event)"></user-control>
+    </div>
+  </div>
+
+  <div class="row standard-margin-top">
     <div class="col-lg-12">
-      <app-data-source (refreshResult)=onRefreshResult()></app-data-source>
       <app-stage-selector [chapter]="selectedService.selections.result_by_stage.selectedChapter"
         [stage]="selectedService.selections.result_by_stage.selectedStage" (chapterChange)="onChapterChange($event)"
         (stageChange)="onStageChange($event)" [chapterFilter]="resultStageFilter">
@@ -12,7 +30,7 @@
       <div class="row result-tip" *ngIf="!isLoading && stageResult && showTable">
         （左右滑动查看完整数据）
       </div>
-      <div class="row" style="margin-top: 1rem;">
+      <div class="result-table-container">
         <div class="col-12" [ngClass]="{'table-responsive': !isLoading}">
           <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
             (matSortChange)="sortStageData($event)" [style.visibility]="showTable ? 'visible' : 'hidden'">
