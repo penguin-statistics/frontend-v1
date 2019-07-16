@@ -1,4 +1,4 @@
-<div class="row d-flex justify-content-end align-items-center">
+<div class="row d-flex align-items-center">
   <div class="source-label">数据来源：</div>
   <div id="result-source-buttons">
     <button type="button" class="btn btn-outline-danger" [ngClass]="{'active': !penguinService.isPersonal}"
@@ -7,7 +7,7 @@
     </button>
     <button type="button" class="btn btn-outline-danger" [ngClass]="{'active': penguinService.isPersonal}"
       (click)="selectDataSource(true)">
-      本地
+      个人
     </button>
   </div>
 </div>
