@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReportWarningDialogComponent } from './main/report/dialog.report.component';
 import { UserControlDialogComponent } from './component/user-control/dialog.user-control.component';
 import { FormsModule } from '@angular/forms';
+import { ItemImageComponent } from './component/item-image/item-image.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { FormsModule } from '@angular/forms';
         StageSelectorComponent,
         DataSourceComponent,
         UserControlComponent,
-        UserControlDialogComponent
+        UserControlDialogComponent,
+        ItemImageComponent
     ],
     imports: [
         BrowserModule,
