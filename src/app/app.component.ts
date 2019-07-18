@@ -42,13 +42,13 @@ export class AppComponent {
 
         const r = Math.random();
         if (r < 0.25) {
-            this.navbar_img = '../assets/navbar/exia.png';
+            this.navbar_img = 'https://cdn.penguin-stats.io/penguin_stats_logo_exia.png';
         } else if (r < 0.5) {
-            this.navbar_img = '../assets/navbar/texas.png';
+            this.navbar_img = 'https://cdn.penguin-stats.io/penguin_stats_logo_texas.png';
         } else if (r < 0.75) {
-            this.navbar_img = '../assets/navbar/sora.png';
+            this.navbar_img = 'https://cdn.penguin-stats.io/penguin_stats_logo_sora.png';
         } else {
-            this.navbar_img = '../assets/navbar/croissant.png';
+            this.navbar_img = 'https://cdn.penguin-stats.io/penguin_stats_logo_croissant.png';
         }
 
         this._checkLocalStorage();
