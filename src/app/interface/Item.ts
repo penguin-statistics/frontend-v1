@@ -4,4 +4,5 @@ export interface Item {
     sortId: number;
     name: string;
     rarity: number;
+    spriteCoord: number[];
 };

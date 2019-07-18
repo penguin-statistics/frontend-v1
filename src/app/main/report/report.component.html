@@ -42,12 +42,10 @@
               <div class="row standard-margin-top">
                 <div class="materials-container d-flex justify-content-start flex-wrap">
                   <div *ngFor="let drop of normalDrops; trackBy: trackByDropItemId" class="material-container">
-                    <div class="hover-pointer">
-                      <div class="material-img-container"
-                        [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
+                    <div class="hover-pointer" [tooltip]="drop.item.name" placement="top" [delay]="200">
+                      <item-image [spriteCoord]="drop.item.spriteCoord" [width]="60" [height]="60"
                         (click)="addQuantity(drop.item, normalDrops, 1)"
-                        (contextmenu)="addQuantity(drop.item, normalDrops, -1)" [tooltip]="drop.item.name"
-                        placement="top" [delay]="300"></div>
+                        (contextmenu)="addQuantity(drop.item, normalDrops, -1)"></item-image>
                     </div>
                     <div class="material-drop-quantity-container">
                       {{drop.quantity}}
@@ -68,12 +66,11 @@
               <div class="row standard-margin-top">
                 <div class="materials-container d-flex justify-content-start flex-wrap">
                   <div *ngFor="let drop of specialDrops; trackBy: trackByDropItemId" class="material-container">
-                    <div class="hover-pointer">
-                      <div class="material-img-container"
-                        [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
+                    <div class="hover-pointer" [tooltip]="drop.item.name" placement="top" [delay]="200">
+                      <item-image [spriteCoord]="drop.item.spriteCoord" [width]="60" [height]="60"
                         (click)="addQuantity(drop.item, specialDrops, 1)"
-                        (contextmenu)="addQuantity(drop.item, specialDrops, -1)" [tooltip]="drop.item.name"
-                        placement="top" [delay]="300"></div>
+                        (contextmenu)="addQuantity(drop.item, specialDrops, -1)">
+                      </item-image>
                     </div>
                     <div class="material-drop-quantity-container">
                       {{drop.quantity}}
@@ -95,12 +92,11 @@
             <div class="row standard-margin-top">
               <div class="materials-container d-flex justify-content-start flex-wrap">
                 <div *ngFor="let drop of extraDrops; trackBy: trackByDropItemId" class="material-container">
-                  <div class="hover-pointer">
-                    <div class="material-img-container"
-                      [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
+                  <div class="hover-pointer" [tooltip]="drop.item.name" placement="top" [delay]="200">
+                    <item-image [spriteCoord]="drop.item.spriteCoord" [width]="60" [height]="60"
                       (click)="addQuantity(drop.item, extraDrops, 1)"
-                      (contextmenu)="addQuantity(drop.item, extraDrops, -1)" [tooltip]="drop.item.name" placement="top"
-                      [delay]="300"></div>
+                      (contextmenu)="addQuantity(drop.item, extraDrops, -1)">
+                    </item-image>
                   </div>
                   <div class="material-drop-quantity-container">
                     {{drop.quantity}}
@@ -137,8 +133,10 @@
       </div>
       <div class="row standard-margin-top" *ngIf="allDrops.length">
         <div *ngFor="let drop of allDrops; trackBy: trackByDropItemId" class="material-container">
-          <div class="material-img-container" [ngStyle]="{ 'background-image': 'url(' + drop.item.iconUrl + ')'}"
-            [tooltip]="drop.item.name" placement="top" [delay]="300"></div>
+          <div [tooltip]="drop.item.name" placement="top" [delay]="300">
+            <item-image [spriteCoord]="drop.item.spriteCoord" [width]="60" [height]="60">
+            </item-image>
+          </div>
           <div class="material-drop-quantity-container">
             {{drop.quantity}}
           </div>

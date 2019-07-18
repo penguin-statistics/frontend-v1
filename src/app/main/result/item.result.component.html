@@ -28,16 +28,19 @@
           企鹅读取中……
         </div>
         <div class="stage-buttons d-flex justify-content-start flex-wrap align-content-between">
-          <div class="materials-container d-flex justify-content-start flex-wrap">
+          <div class="materials-container d-flex justify-content-start flex-wrap align-items-center">
             <div *ngFor="let item of itemList" class="material-container">
-              <div class="hover-pointer">
-                <div class="material-img-container"
+              <div class="hover-pointer" *ngIf="item.spriteCoord?.length === 2">
+                <div
                   [ngClass]="{'material-glowing': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.itemId === item.itemId}"
-                  [ngStyle]="{ 'background-image': 'url(' + item.iconUrl + ')'}" (click)="selectItem(item)"
-                  *ngIf="item.iconUrl" [tooltip]="item.name" placement="top" [delay]="300"></div>
-                <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)" *ngIf="!item.iconUrl"
-                  [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.itemId === item.itemId}">{{item.name}}</button>
+                  [tooltip]="item.name" placement="top" [delay]="300" (click)="selectItem(item)">
+                  <item-image [spriteCoord]="item.spriteCoord" [width]="60" [height]="60">
+                  </item-image>
+                </div>
               </div>
+              <button type="button" class="btn btn-outline-primary" (click)="selectItem(item)"
+                *ngIf="item.spriteCoord?.length !== 2"
+                [ngClass]="{'active': selectedService.selections.result_by_item.selectedItem && selectedService.selections.result_by_item.selectedItem.itemId === item.itemId}">{{item.name}}</button>
             </div>
           </div>
         </div>

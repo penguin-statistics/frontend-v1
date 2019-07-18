@@ -37,10 +37,12 @@
             <ng-container matColumnDef="material">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>素材</th>
               <td mat-cell *matCellDef="let row">
-                <div class="material-container-for-stage-result" style="margin: 0;" *ngIf="row.item.iconUrl">
-                  <div class="material-img-container hover-pointer"
-                    [ngStyle]="{ 'background-image': 'url(' + row.item.iconUrl + ')'}"
-                    (click)="redirectToItemResult(row.item)"></div>
+                <div class="material-container-for-stage-result" style="margin: 0;"
+                  *ngIf="row.item.spriteCoord?.length === 2">
+                  <div class="hover-pointer" (click)="redirectToItemResult(row.item)">
+                    <item-image [spriteCoord]="row.item.spriteCoord" [width]="60" [height]="60">
+                    </item-image>
+                  </div>
                 </div>
               </td>
             </ng-container>
