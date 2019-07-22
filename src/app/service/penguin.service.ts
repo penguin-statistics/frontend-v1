@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class PenguinService {
 
-    public origin: string;
+    public origin: string = '';
 
     public api: any = {
         chapter: "/PenguinStats/api/zone",
@@ -68,11 +68,11 @@ export class PenguinService {
         this.stageResultDataSource.next(null);
         this.limitationMapDataSource.next(null);
 
-        if (location.hostname === 'localhost') {
-            this.origin = location.origin.replace(location.port, '8080');
-        } else {
-            this.origin = location.origin;
-        }
+        // if (location.hostname === 'localhost') {
+        //     this.origin = location.origin.replace(location.port, '8080');
+        // } else {
+        //     this.origin = location.origin;
+        // }
     }
 
     getAllChapters(snackBar: MatSnackBar = null): Observable<any> {

@@ -1,0 +1,6 @@
+{
+	"/PenguinStats/api": {
+		"target": "https://penguin-stats.io",
+		"secure": false
+	}
+}
