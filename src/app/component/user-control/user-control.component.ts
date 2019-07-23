@@ -46,9 +46,7 @@ export class UserControlComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.http.post(this.penguinService.origin + this.penguinService.api.user, {
-                    userID: result
-                }).subscribe(
+                this.http.post(this.penguinService.origin + this.penguinService.api.user, result).subscribe(
                     (val) => {
                         this.googleAnalyticsEventsService.emitEvent("login", this.userID ? 'login_switch' : 'login', "login_success", 1);
                         this._snackBar.open("登录成功", "", { duration: 2000 });
