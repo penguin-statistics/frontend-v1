@@ -7,14 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberComponent implements OnInit {
 
+    owner: any;
     profiles: any = [];
 
     constructor() { }
 
     ngOnInit() {
-        this.profiles.push({
+        this.owner = {
             name: "AlvISs_红白",
-            responsibility: "站长",
+            responsibility: "前端 后端 运维",
             avatar: "hongbai.jpg",
             socials: {
                 weibo: "https://www.weibo.com/u/6434065694",
@@ -22,15 +23,7 @@ export class MemberComponent implements OnInit {
                 github: "https://github.com/AlvISsReimu",
                 qq: "498704999"
             }
-        });
-        this.profiles.push({
-            name: "Nemunemu",
-            responsibility: "客服",
-            avatar: "nemunemu.jpg",
-            socials: {
-                weibo: "https://www.weibo.com/nemunemu"
-            }
-        });
+        };
         this.profiles.push({
             name: "🦀",
             responsibility: "ArkPlanner作者",
@@ -56,6 +49,14 @@ export class MemberComponent implements OnInit {
             }
         });
         this.profiles.push({
+            name: "路夏早苗",
+            responsibility: "前端",
+            avatar: "sanae.jpeg",
+            socials: {
+                github: "https://github.com/RokaSanae"
+            }
+        });
+        this.profiles.push({
             name: "Einzithy.D",
             responsibility: "统计分析",
             avatar: "j.png",
@@ -64,19 +65,19 @@ export class MemberComponent implements OnInit {
             }
         });
         this.profiles.push({
+            name: "Nemunemu",
+            responsibility: "客服",
+            avatar: "nemunemu.jpg",
+            socials: {
+                weibo: "https://www.weibo.com/nemunemu"
+            }
+        });
+        this.profiles.push({
             name: "侠",
             responsibility: "logo画师",
             avatar: "xia.png",
             socials: {
                 weibo: "https://www.weibo.com/u/2290638732"
-            }
-        });
-        this.profiles.push({
-            name: "路夏早苗",
-            responsibility: "前端",
-            avatar: "sanae.jpeg",
-            socials: {
-                github: "https://github.com/RokaSanae"
             }
         });
         this.profiles.push({

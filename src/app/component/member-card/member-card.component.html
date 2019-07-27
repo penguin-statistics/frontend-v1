@@ -1,0 +1,28 @@
+<div class="profile-box">
+  <div class="user-avatar">
+    <img [src]="'https://penguin-stats.s3-ap-southeast-1.amazonaws.com/avatar/' + profile.avatar" width="80"
+      [alt]="profile.name" />
+  </div>
+  <div class="profile-details d-flex flex-column flex-wrap justify-content-between">
+    <div class="d-flex flex-row flex-wrap">
+      <span class="name">{{profile.name}}</span>
+      <span class="social-icon-container">
+        <a *ngIf="profile.socials.qq" class="social-icon-link" [popover]="profile.socials.qq" [outsideClick]="true"
+          style="cursor: pointer;">
+          <img src="https://penguin-stats.s3-ap-southeast-1.amazonaws.com/social/qq.svg" alt="QQ" width="20px">
+        </a>
+        <a *ngIf="profile.socials.weibo" [href]="profile.socials.weibo" class="social-icon-link">
+          <img src="https://penguin-stats.s3-ap-southeast-1.amazonaws.com/social/weibo.svg" alt="新浪微博" width="20px">
+        </a>
+        <a *ngIf="profile.socials.twitter" [href]="profile.socials.twitter" class="social-icon-link">
+          <img src="https://penguin-stats.s3-ap-southeast-1.amazonaws.com/social/twitter.svg" alt="Twitter"
+            width="20px">
+        </a>
+        <a *ngIf="profile.socials.github" [href]="profile.socials.github" class="social-icon-link">
+          <img src="https://penguin-stats.s3-ap-southeast-1.amazonaws.com/social/github.svg" alt="Github" width="20px">
+        </a>
+      </span>
+    </div>
+    <div class="description">{{profile.responsibility}}</div>
+  </div>
+</div>

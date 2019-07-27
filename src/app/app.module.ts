@@ -30,6 +30,7 @@ import { ReportWarningDialogComponent } from './main/report/dialog.report.compon
 import { UserControlDialogComponent } from './component/user-control/dialog.user-control.component';
 import { FormsModule } from '@angular/forms';
 import { ItemImageComponent } from './component/item-image/item-image.component';
+import { MemberCardComponent } from './component/member-card/member-card.component';
 import { FooterComponent } from './main/footer/footer.component';
 import { HeaderComponent } from './main/header/header.component';
 import { MemberComponent } from './main/member/member.component';
@@ -38,6 +39,7 @@ import { ContactComponent } from './main/contact/contact.component';
 import { DonateComponent } from './main/donate/donate.component';
 import { LinksComponent } from './main/links/links.component';
 import { CommonModule } from '@angular/common';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
     declarations: [
@@ -53,6 +55,7 @@ import { CommonModule } from '@angular/common';
         UserControlComponent,
         UserControlDialogComponent,
         ItemImageComponent,
+        MemberCardComponent,
         FooterComponent,
         HeaderComponent,
         MemberComponent,
@@ -72,6 +75,7 @@ import { CommonModule } from '@angular/common';
         ButtonsModule.forRoot(),
         CollapseModule.forRoot(),
         AlertModule.forRoot(),
+        PopoverModule.forRoot(),
         MatTableModule,
         MatSortModule,
         MatCardModule,
