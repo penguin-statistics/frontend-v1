@@ -1,0 +1,28 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/" (click)="collapseNav()">
+    <img [src]="navbar_img" width="30" height="30" class="d-inline-block align-top nav-icon" alt="">
+    企鹅物流数据统计
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup" [ngClass]="{'show': !penguinService.isCollapsed}">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/report']" [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{exact:true}" (click)="collapseNav()">掉落汇报<span
+            class="sr-only">(current)</span></a></li>
+      <li class="nav-item"><a class="nav-link disabled">批量上传</a></li>
+      <li class="nav-item"><a class="nav-item nav-link" [routerLink]="['/result/stage']" [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{exact:false}" (click)="collapseNav()">统计结果（按作战）</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/result/item']" [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{exact:false}" (click)="collapseNav()">统计结果（按素材）</a></li>
+      <li class="nav-item"><a class="nav-link" style="cursor: pointer;" (click)="redirectToPlanner()">
+          <span>刷图规划</span>
+          <!-- <span class="badge badge-pill badge-danger"
+            style="font-size: 0.4rem; position: relative; top: -0.7rem;">NEW</span> -->
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

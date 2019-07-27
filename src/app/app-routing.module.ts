@@ -6,6 +6,11 @@ import { IntroComponent } from './main/intro/intro.component';
 import { StageResultComponent } from './main/result/stage.result.component';
 import { ItemResultComponent } from './main/result/item.result.component';
 import { LogComponent } from './main/log/log.component';
+import { MemberComponent } from './main/member/member.component';
+import { JoinComponent } from './main/join/join.component';
+import { ContactComponent } from './main/contact/contact.component';
+import { DonateComponent } from './main/donate/donate.component';
+import { LinksComponent } from './main/links/links.component';
 
 const routes: Routes = [
     {
@@ -32,6 +37,21 @@ const routes: Routes = [
     },
     {
         path: 'log', component: LogComponent
+    },
+    {
+        path: 'member', component: MemberComponent
+    },
+    {
+        path: 'join', component: JoinComponent
+    },
+    {
+        path: 'contact', component: ContactComponent
+    },
+    {
+        path: 'donate', component: DonateComponent
+    },
+    {
+        path: 'links', component: LinksComponent
     }
 ];
 

@@ -1,13 +1,14 @@
-.body {
-  padding: 3% 10% 10% 10%;
+.header-container {
+  max-width: 100vw;
+}
+
+.router-outlet-container {
+  flex: 1 0 auto;
   margin-top: 56px;
+  padding: 3% 10% 3% 10%;
 }
 
-.nav-icon {
-  border-radius: 50%;
-  margin-right: 0.5rem;
-}
-
-.hover-pointer:hover {
-  cursor: pointer;
+.footer-container {
+  flex-shrink: 0;
+  padding-top: 30px;
 }

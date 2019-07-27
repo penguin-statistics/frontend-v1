@@ -1,0 +1,21 @@
+<div class="row join-container">
+  <div class="col-12">
+    <div class="row d-flow flow-row">
+      <div *ngFor="let link of links" class="card" style="width: 20%; min-width: 170px; margin: 2.5%;">
+        <div class="card-body">
+          <h5 class="card-title">{{link.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">by {{link.author}}</h6>
+          <div class="card-text d-flex flex-row flex-wrap">
+            <div *ngFor="let feature of link.features" style="margin: 0 2px 0 2px;">
+              <span style="font-weight: 400;" class="badge"
+                [ngClass]="{'badge-primary': feature.color === 'blue','badge-secondary': feature.color === 'grey','badge-success': feature.color === 'green','badge-info': feature.color === 'cyan','badge-light': feature.color === 'white','badge-dark': feature.color === 'black', 'badge-warning': feature.color === 'yellow'}">{{feature.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent" style="text-align: center;">
+          <a href="{{link.url}}" class="card-link">进入网站</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

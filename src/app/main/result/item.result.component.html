@@ -53,8 +53,7 @@
       </div>
       <div class="result-table-container" *ngIf="showTable">
         <div class="col-12" [ngClass]="{'table-responsive': !isLoading}">
-          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
-            (matSortChange)="sortItemData($event)">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortItemData($event)">
             <ng-container matColumnDef="code">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>作战</th>
               <td mat-cell *matCellDef="let row">

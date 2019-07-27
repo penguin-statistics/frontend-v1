@@ -30,6 +30,14 @@ import { ReportWarningDialogComponent } from './main/report/dialog.report.compon
 import { UserControlDialogComponent } from './component/user-control/dialog.user-control.component';
 import { FormsModule } from '@angular/forms';
 import { ItemImageComponent } from './component/item-image/item-image.component';
+import { FooterComponent } from './main/footer/footer.component';
+import { HeaderComponent } from './main/header/header.component';
+import { MemberComponent } from './main/member/member.component';
+import { JoinComponent } from './main/join/join.component';
+import { ContactComponent } from './main/contact/contact.component';
+import { DonateComponent } from './main/donate/donate.component';
+import { LinksComponent } from './main/links/links.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -44,12 +52,20 @@ import { ItemImageComponent } from './component/item-image/item-image.component'
         DataSourceComponent,
         UserControlComponent,
         UserControlDialogComponent,
-        ItemImageComponent
+        ItemImageComponent,
+        FooterComponent,
+        HeaderComponent,
+        MemberComponent,
+        JoinComponent,
+        ContactComponent,
+        DonateComponent,
+        LinksComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
+        CommonModule,
         FormsModule,
         BrowserAnimationsModule,
         TooltipModule.forRoot(),

@@ -30,10 +30,10 @@
       <div class="row result-tip" *ngIf="!isLoading && stageResult && showTable">
         （左右滑动查看完整数据）
       </div>
-      <div class="result-table-container">
+      <div class="row result-table-container">
         <div class="col-12" [ngClass]="{'table-responsive': !isLoading}">
-          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
-            (matSortChange)="sortStageData($event)" [style.visibility]="showTable ? 'visible' : 'hidden'">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortStageData($event)"
+            [style.visibility]="showTable ? 'visible' : 'hidden'">
             <ng-container matColumnDef="material">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>素材</th>
               <td mat-cell *matCellDef="let row">
