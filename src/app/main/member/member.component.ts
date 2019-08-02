@@ -112,6 +112,14 @@ export class MemberComponent implements OnInit {
                 github: "https://github.com/AsahiLuna"
             }
         });
+        this.profiles.push({
+            name: "冰糖雪梨橙#9594",
+            responsibility: null,
+            avatar: "wish.png",
+            socials: {
+                github: "https://github.com/jdgjxxchy"
+            }
+        });
     }
 
 }
