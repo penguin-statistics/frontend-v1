@@ -17,10 +17,11 @@ export class Bounds {
             return false;
         }
         if (this.exceptions) {
-            this.exceptions.forEach(ex => {
-                if (num === ex)
+            for (let i = 0; i < this.exceptions.length; i++) {
+                if (num === this.exceptions[i]) {
                     return false;
-            });
+                }
+            }
         }
         return true;
     }

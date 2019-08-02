@@ -54,7 +54,7 @@ export class PenguinService {
 
     isPersonal = false;
 
-    version = "v1.4.5";
+    version = "v1.4.6";
 
     constructor(private http: HttpClient) {
         this.isTest = isDevMode();
