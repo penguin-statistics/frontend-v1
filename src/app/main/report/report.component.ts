@@ -176,7 +176,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             this._openDialog();
             this.isReporting = false;
         } else {
-            this.http.post(this.penguinService.origin + this.penguinService.api.report, finalResult)
+            this.http.post(this.penguinService.origin + this.penguinService.api.report, finalResult, { responseType: 'text' })
                 .subscribe(
                     (val) => {
                         this._snackBar.open("上传成功。", "", { duration: 2000 });

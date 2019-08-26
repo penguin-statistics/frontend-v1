@@ -38,4 +38,9 @@ export class HeaderComponent implements OnInit {
         window.location.href = "https://planner.penguin-stats.io/";
     }
 
+    redirectToNewVersion() {
+        this.googleAnalyticsEventsService.emitEvent("redirect", "visit", "NewVersion", 1);
+        window.location.href = "https://penguin-stats.io/";
+    }
+
 }
