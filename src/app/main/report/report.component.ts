@@ -189,7 +189,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                         this.userControlComponent.refresh();
                     },
                     error => {
-                        this._snackBar.open("上传失败。可将以下信息提供给作者以便改进本网站：" + error.message, "x");
+                        this._snackBar.open("上传失败：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。" + `(${error.message})`, "x");
                         this.isReporting = false;
                         this.checkDrops = true;
                     },

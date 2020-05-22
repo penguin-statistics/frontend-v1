@@ -19,13 +19,13 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         const r = Math.random();
         if (r < 0.25) {
-            this.navbar_img = 'https://penguin-stats.s3-ap-southeast-1.amazonaws.com/penguin_stats_logo_exia.png';
+            this.navbar_img = 'https://penguin-stats.s3.amazonaws.com/logos/penguin_stats_logo_exia.png';
         } else if (r < 0.5) {
-            this.navbar_img = 'https://penguin-stats.s3-ap-southeast-1.amazonaws.com/penguin_stats_logo_texas.png';
+            this.navbar_img = 'https://penguin-stats.s3.amazonaws.com/logos/penguin_stats_logo_texas.png';
         } else if (r < 0.75) {
-            this.navbar_img = 'https://penguin-stats.s3-ap-southeast-1.amazonaws.com/penguin_stats_logo_sora.png';
+            this.navbar_img = 'https://penguin-stats.s3.amazonaws.com/logos/penguin_stats_logo_sora.png';
         } else {
-            this.navbar_img = 'https://penguin-stats.s3-ap-southeast-1.amazonaws.com/penguin_stats_logo_croissant.png';
+            this.navbar_img = 'https://penguin-stats.s3.amazonaws.com/logos/penguin_stats_logo_croissant.png';
         }
     }
 

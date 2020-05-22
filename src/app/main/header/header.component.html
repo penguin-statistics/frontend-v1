@@ -9,24 +9,16 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup" [ngClass]="{'show': !penguinService.isCollapsed}">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" [routerLink]="['/report']" [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{exact:true}" (click)="collapseNav()">掉落汇报<span
-            class="sr-only">(current)</span></a></li>
+        <li class="nav-item"><a class="nav-link" style="cursor: pointer;" (click)="redirectToNewVersion()">
+            <span>前往新版网站</span>
+
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="external-link-square-alt" class="svg-inline--fa fa-external-link-square-alt fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z"></path></svg>
+        </a>
+        </li>
+      <li class="nav-item"><a class="nav-link disabled">掉落汇报</a></li>
       <li class="nav-item"><a class="nav-link disabled">批量上传</a></li>
-      <li class="nav-item"><a class="nav-item nav-link" [routerLink]="['/result/stage']" [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{exact:false}" (click)="collapseNav()">统计结果（按作战）</a></li>
-      <li class="nav-item"><a class="nav-link" [routerLink]="['/result/item']" [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{exact:false}" (click)="collapseNav()">统计结果（按素材）</a></li>
-      <li class="nav-item"><a class="nav-link" style="cursor: pointer;" (click)="redirectToPlanner()">
-          <span>刷图规划</span>
-          <!-- <span class="badge badge-pill badge-danger"
-            style="font-size: 0.4rem; position: relative; top: -0.7rem;">NEW</span> -->
-        </a>
-      </li>
-      <li class="nav-item"><a class="nav-link" style="cursor: pointer;" (click)="redirectToNewVersion()">
-          <span>新版入口</span>
-        </a>
-      </li>
+      <li class="nav-item"><a class="nav-link disabled">统计结果（按作战）</a></li>
+      <li class="nav-item"><a class="nav-link disabled">统计结果（按素材）</a></li>
     </ul>
   </div>
 </nav>

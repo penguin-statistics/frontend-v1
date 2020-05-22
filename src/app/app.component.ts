@@ -68,4 +68,9 @@ export class AppComponent {
         }
     }
 
+    public goNewVersion() {
+        this.googleAnalyticsEventsService.emitEvent("update", "exec_update", "by:alert", 1)
+        window.location.href = "https://penguin-stats.io";
+    }
+
 }

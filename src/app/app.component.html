@@ -1,6 +1,12 @@
 <div class="d-flex flex-column" style="min-height: 100%;">
   <app-header class="header-container"></app-header>
   <div class="router-outlet-container">
+      <div class="alert alert-danger" role="alert">
+          <strong class="h6">
+              此旧版网站已停止维护，所有功能将不再支持。请
+              <button type="button" class="btn btn-primary" (click)="goNewVersion()">前往使用新版网站</button>
+          </strong>
+      </div>
     <router-outlet></router-outlet>
   </div>
   <app-footer class="footer-container"></app-footer>
