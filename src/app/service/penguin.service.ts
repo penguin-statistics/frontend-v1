@@ -84,9 +84,9 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!snackBar) {
-                    alert('未能获取章节列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    alert('未能获取章节列表：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`);
                 } else {
-                    snackBar.open("未能获取章节列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    snackBar.open('未能获取章节列表：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`, "x");
                 }
                 return throwError(err);
             }
@@ -102,9 +102,9 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!snackBar) {
-                    alert('未能获取作战列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    alert('未能获取作战列表：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`);
                 } else {
-                    snackBar.open("未能获取作战列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    snackBar.open('未能获取作战列表：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`, "x");
                 }
                 return throwError(err);
             }
@@ -121,9 +121,9 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!snackBar) {
-                    alert('未能获取素材列表。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    alert('未能获取素材列表：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`);
                 } else {
-                    snackBar.open("未能获取素材列表。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    snackBar.open('未能获取素材列表：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`, "x");
                 }
                 return throwError(err);
             }
@@ -139,9 +139,9 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!snackBar) {
-                    alert('未能获取汇报设置。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    alert('未能获取汇报设置：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`);
                 } else {
-                    snackBar.open("未能获取汇报设置。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    snackBar.open('未能获取汇报设置：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`, "x");
                 }
                 return throwError(err);
             }
@@ -171,9 +171,9 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!snackBar) {
-                    alert('获取结果失败。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    alert('获取结果失败：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`);
                 } else {
-                    snackBar.open("获取结果失败。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    snackBar.open('获取结果失败：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`, "x");
                 }
                 return throwError(err);
             }
@@ -203,9 +203,9 @@ export class PenguinService {
         })).pipe(catchError(
             (err, caught) => {
                 if (!snackBar) {
-                    alert('获取结果失败。可将以下信息提供给作者以便改进本网站：' + err.message);
+                    alert('获取结果失败：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`);
                 } else {
-                    snackBar.open("获取结果失败。可将以下信息提供给作者以便改进本网站：" + err.message, "x");
+                    snackBar.open('获取结果失败：此旧版网站已经停止维护。请使用页面顶部链接前往新版网站。' + `(${err.message})`, "x");
                 }
                 return throwError(err);
             }
